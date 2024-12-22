@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet"
+		href="css/style.css"
+	>
+	<link rel="stylesheet"
+		type="text/css"
+		href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&amp;family=Raleway:ital,wght@0,100;0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,700"
+	>
+</head>
+<body>
+
+<form>
+
+	<div class="fieldset-header">Frequentie</div>
+	<fieldset class="radio-freq">
+
+		<div class="radio-freq">
+			<input id="maandelijks"
+				type="radio"
+				name="frequentie"
+				checked
+			>
+			<label for="maandelijks">
+				<span class="title">Maandelijks</span>
+				<span class="hart-svg">
+            <svg class="heart-svg-inline"
+				clip-rule="evenodd"
+				fill-rule="evenodd"
+				stroke-linejoin="round"
+				stroke-miterlimit="2"
+				viewBox="0 0 24 24"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+              <path d="m12 5.72c-2.624-4.517-10-3.198-10 2.461 0 3.725 4.345 7.727 9.303 12.54.194.189.446.283.697.283s.503-.094.697-.283c4.977-4.831 9.303-8.814 9.303-12.54 0-5.678-7.396-6.944-10-2.461z"
+				  fill-rule="nonzero"
+			  />
+            </svg>
+          </span>
+			</label>
+		</div>
+
+		<div class="radio-freq">
+			<input id="eenmalig"
+				type="radio"
+				name="frequentie"
+			>
+			<label for="eenmalig">
+				<span class="title">Eenmalig</span>
+			</label>
+		</div>
+	</fieldset>
+
+	<div class="fieldset-header">Bestemming</div>
+	<fieldset class="destination">
+		<div class="radio-wrapper">
+			<input id="waarnodig"
+				type="radio"
+				name="bestemming"
+				checked
+			>
+			<label for="waarnodig">
+				<span class="title">Waar mijn hulp het hardst nodig is</span>
+			</label>
+		</div>
+
+		<div class="radio-wrapper">
+			<input id="project"
+				type="radio"
+				name="bestemming"
+			>
+			<label for="project">
+				<span class="title">Zelf een project kiezen</span>
+				<select name="projectcode">
+					<option value="FR000">FR000 - Algemene Donatie</option>
+					<option value="FR102">FR102 - Awakening the Nations</option>
+					<option value="FR104">FR104 - Until All Nations Sing</option>
+					<option value="FR107">FR107 - Gebedshuis Amersfoort (GA) - Arjan Krijtenburg</option>
+					<option value="FR108">FR108 - Call to Intimacy</option>
+					<option value="FR109">FR109 - Justice House Of Prayer (JHOP) - Johan en Hannah den Hartogh</option>
+					<option value="FR113">FR113 - For the Lamb’s Reward - Daniel Henrietta</option>
+					<option value="FR120">FR120 - European Prayer Project</option>
+					<option value="FR124">FR124 - Re-discovering Jesus - Elisha and Vimbai Nyandoro</option>
+					<option value="FR127">FR127 - Hut van David - Joanne Boiten</option>
+					<option value="FR128">FR128 - Life4Israel - Daniel en Riwkah Keijzer</option>
+					<option value="FR132">FR132 - Missiewerk Congo</option>
+					<option value="FR136">FR136 - Korinthe Ministries</option>
+					<option value="FR137">FR137 - Soul Balm - Songs by Erika</option>
+					<option value="FR138">FR138 - Gebedswerk Zuilen</option>
+					<option value="FR139">FR139 - Health for the Nations</option>
+					<option value="FR141">FR141 - Showing Jesus Love</option>
+					<option value="FR142">FR142 - Serving the City</option>
+					<option value="FR146">FR146 - For Such A Time as This</option>
+					<option value="FR149">FR149 - De Bloeiplaats | Modernday Monastery</option>
+					<option value="FR153">FR153 - Deeper into Jesus</option>
+					<option value="FR154">FR154 - Spirit Move</option>
+					<option value="FR155">FR155 - F5life</option>
+					<option value="FR157">FR157 - Mahanaim Cyprus</option>
+					<option value="FR159">FR159 - Keyboard &amp; The Sword</option>
+					<option value="FR160">FR160 - Discipelschap in beweging</option>
+					<option value="FR161">FR161 - Oil upon His feet</option>
+					<option value="FR162">FR162 - Bijbelonderwijs Amsterdam</option>
+					<option value="FR201">FR201 - Grace Mission - India</option>
+					<option value="FR202">FR202 - Taungoo Mission Center - Myanmar</option>
+					<option value="FR203">FR203 - Village Mission - India</option>
+					<option value="FR205">FR205 - Bijbelclub Kosovo</option>
+					<option value="FR230">FR230 - Help een kind</option>
+					<option value="FR301">FR301 - Projectreizen</option>
+					<option value="FR350">FR350 - Crisishulp Oekraïne</option>
+					<option value="FR360">FR360 - Crisishulp Aardbeving</option>
+					<option value="FR401">FR401 - Gebed en Zending</option>
+					<option value="FR430">FR430 - Sponsoring Paraguay</option>
+					<option value="FR501">FR501 - Prepare the Way - Verhoef</option>
+					<option value="FR555">FR555 - Samen de winter door</option>
+				</select>
+			</label>
+		</div>
+	</fieldset>
+
+	<div class="fieldset-header">Bedrag</div>
+	<fieldset class="amount">
+		<div class="radio-wrapper">
+			<input id="10-euro"
+				type="radio"
+				name="bedrag"
+			>
+			<label for="10-euro">
+				<span class="title">&#8364; 10</span>
+			</label>
+		</div>
+
+		<div class="radio-wrapper">
+			<input id="25-euro"
+				type="radio"
+				name="bedrag"
+				checked
+			>
+			<label for="25-euro">
+				<span class="title">&#8364; 25</span>
+			</label>
+		</div>
+
+		<div class="radio-wrapper">
+			<input id="50-euro"
+				type="radio"
+				name="bedrag"
+			>
+			<label for="50-euro">
+				<span class="title">&#8364; 50</span>
+			</label>
+		</div>
+
+		<div class="radio-wrapper">
+			<input id="100-euro"
+				type="radio"
+				name="bedrag"
+			>
+			<label for="100-euro">
+				<span class="title">&#8364; 100</span>
+			</label>
+		</div>
+
+		<div class="radio-wrapper radio-duo">
+			<input id="anders"
+				type="radio"
+				name="bedrag"
+			>
+			<label for="anders">
+				<span class="title">ander bedrag...</span>
+			</label>
+			<input id="bedrag"
+				type="number"
+				min="5"
+				placeholder="&#8364; ...."
+			/>
+		</div>
+	</fieldset>
+
+
+	<div class="fieldset-header">Valuta</div>
+	<fieldset class="radio-freq">
+
+		<div class="radio-freq">
+			<input id="maandelijks"
+				type="radio"
+				name="frequentie"
+				checked
+			>
+			<label for="maandelijks">
+				<span class="title">In euro's (€)</span>
+				</span>
+			</label>
+		</div>
+
+		<div class="radio-freq">
+			<input id="eenmalig"
+				type="radio"
+				name="frequentie"
+			>
+			<label for="eenmalig">
+				<span class="title">In dollars ($)</span>
+			</label>
+		</div>
+	</fieldset>
+
+</form>
+</body>
+</html>

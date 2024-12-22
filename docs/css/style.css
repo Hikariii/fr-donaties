@@ -1,0 +1,159 @@
+html {
+	font-family: sans-serif;
+	-webkit-text-size-adjust: 100%;
+}
+
+body {
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-attachment: fixed;
+	background-image: url(../img/newgrace_kids.jpg);
+}
+
+
+
+h3 {
+	margin: 1.5em auto .3em;
+	color: #96431d;
+	font-family: Lato, serif;
+	font-weight: 400;
+	font-style: normal;
+	font-size: 27px;
+	line-height: 1em;
+	letter-spacing: 1.3px;
+	text-transform: none;
+}
+
+form {
+	max-width: 800px;
+	background: #fff;
+	margin: 3em auto;
+
+}
+
+fieldset.radio-freq {
+	display: flex;
+	align-items: baseline;
+	flex-wrap: wrap;
+}
+div.radio-freq {
+	min-width: 150px;
+	margin: 5px 0;
+}
+.heart-svg-inline {
+	position: relative;
+	transform: translateY(15%);
+	display: inline-block;
+	/* without a custom viewbox we have a square aspect ratio as default */
+	height: 1em;
+	width: 1em;
+}
+
+.fieldset-header {
+	text-align: center;
+}
+
+fieldset {
+	border: none;
+	background-color: #e3e3e3;
+	margin: 10px;
+}
+
+fieldset.amount {
+	display: flex;
+	align-items: baseline;
+	flex-wrap: wrap;
+}
+fieldset.amount .radio-duo {
+	display: flex;
+}
+.radio-wrapper {
+	display: inline-block;
+}
+
+.radio-wrapper label {
+	background: #fff;
+	margin: 5px;
+	padding: 11px;
+	border: none;
+	border-radius: 6px;
+	cursor: pointer;
+	display: inline-block;
+	box-sizing: border-box;
+	text-align: left;
+	box-shadow: 0 0 0 1px #d8dee4;
+	transition: all 0.2s ease;
+}
+
+.radio-wrapper label select {
+	width: 250px;
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	margin-top: 5px;
+}
+
+fieldset.destination .radio-wrapper label {
+	width: 270px;
+	height: 65px;
+	text-align: center;
+}
+
+.radio-wrapper label:hover {
+	background: #f5f6f8;
+}
+
+.radio-wrapper input[type="radio"] {
+	clip: rect(0, 0, 0, 0);
+	border-width: 0;
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+.radio-wrapper input[type="number"] {
+	background: #fff;
+	margin: 5px;
+	padding: 11px;
+	border: none;
+	border-radius: 6px;
+	cursor: pointer;
+	box-sizing: border-box;
+	text-align: left;
+	box-shadow: 0 0 0 1px #d8dee4;
+	transition: all 0.2s ease;
+	font-size: medium;
+	box-shadow: 0 0 0 1.5px #675dff;
+}
+
+.radio-wrapper input[type="radio"]:checked ~ label {
+	box-shadow: 0 0 0 1.5px #675dff;
+	color: #533afd;
+}
+
+.radio-wrapper input[type="radio"] ~ label select {
+	display: none;
+}
+.radio-wrapper input[type="radio"] ~ input[type="number"] {
+	display: none;
+}
+
+.radio-wrapper input[type="radio"]:checked ~ input[type="number"] {
+	display: inline-block;
+}
+.radio-wrapper input[type="radio"]:checked ~ label select {
+	display: inline-block;
+}
+
+.radio-wrapper input[type="radio"]:focus ~ label {
+	box-shadow: 0 0 0 1.5px #675dff, 0 0 0 4px rgba(1, 150, 237, .36);
+}
+.radio-wrapper input ~ label .title {
+	font-weight: 600;
+	margin-bottom: .5em;
+}
