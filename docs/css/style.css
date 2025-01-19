@@ -29,17 +29,34 @@ form {
 	max-width: 800px;
 	background: #fff;
 	margin: 3em auto;
-
+}
+@media only screen and (max-width: 768px) {
+	form {
+		max-width: 100%;
+		margin: 0;
+	}
 }
 
-fieldset.radio-freq {
-	display: flex;
-	align-items: baseline;
-	flex-wrap: wrap;
+fieldset {
+	border: none;
+	background-color: #e3e3e3;
+	margin: 10px;
+}
+
+.fieldset-header {
+	text-align: center;
+}
+
+/*
+ Frequentie fieldset
+*/
+fieldset.frequency {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 div.radio-freq {
 	min-width: 150px;
-	margin: 5px 0;
+	margin: 5px 5px;
 }
 .heart-svg-inline {
 	position: relative;
@@ -50,40 +67,21 @@ div.radio-freq {
 	width: 1em;
 }
 
-.fieldset-header {
+
+/*
+ Bestemming fieldset
+*/
+fieldset.destination {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	align-items: center;
+	justify-items: center;
+}
+
+fieldset.destination .radio-wrapper label {
+	width: 280px;
+	height: 70px;
 	text-align: center;
-}
-
-fieldset {
-	border: none;
-	background-color: #e3e3e3;
-	margin: 10px;
-}
-
-fieldset.amount {
-	display: flex;
-	align-items: baseline;
-	flex-wrap: wrap;
-}
-fieldset.amount .radio-duo {
-	display: flex;
-}
-.radio-wrapper {
-	display: inline-block;
-}
-
-.radio-wrapper label {
-	background: #fff;
-	margin: 5px;
-	padding: 11px;
-	border: none;
-	border-radius: 6px;
-	cursor: pointer;
-	display: inline-block;
-	box-sizing: border-box;
-	text-align: left;
-	box-shadow: 0 0 0 1px #d8dee4;
-	transition: all 0.2s ease;
 }
 
 .radio-wrapper label select {
@@ -94,26 +92,23 @@ fieldset.amount .radio-duo {
 	margin-top: 5px;
 }
 
-fieldset.destination .radio-wrapper label {
-	width: 270px;
-	height: 65px;
-	text-align: center;
+.radio-wrapper input[type="radio"] ~ label select {
+	display: none;
+}
+.radio-wrapper input[type="radio"]:checked ~ label select {
+	display: inline-block;
 }
 
-.radio-wrapper label:hover {
-	background: #f5f6f8;
+/*
+ Bedrag fieldset
+*/
+fieldset.amount {
+	display: flex;
+	align-items: baseline;
+	flex-wrap: wrap;
 }
-
-.radio-wrapper input[type="radio"] {
-	clip: rect(0, 0, 0, 0);
-	border-width: 0;
-	height: 1px;
-	margin: -1px;
-	overflow: hidden;
-	padding: 0;
-	position: absolute;
-	white-space: nowrap;
-	width: 1px;
+fieldset.amount .radio-duo {
+	display: flex;
 }
 
 .radio-wrapper input[type="number"] {
@@ -125,20 +120,11 @@ fieldset.destination .radio-wrapper label {
 	cursor: pointer;
 	box-sizing: border-box;
 	text-align: left;
-	box-shadow: 0 0 0 1px #d8dee4;
 	transition: all 0.2s ease;
 	font-size: medium;
 	box-shadow: 0 0 0 1.5px #675dff;
 }
 
-.radio-wrapper input[type="radio"]:checked ~ label {
-	box-shadow: 0 0 0 1.5px #675dff;
-	color: #533afd;
-}
-
-.radio-wrapper input[type="radio"] ~ label select {
-	display: none;
-}
 .radio-wrapper input[type="radio"] ~ input[type="number"] {
 	display: none;
 }
@@ -146,13 +132,7 @@ fieldset.destination .radio-wrapper label {
 .radio-wrapper input[type="radio"]:checked ~ input[type="number"] {
 	display: inline-block;
 }
-.radio-wrapper input[type="radio"]:checked ~ label select {
-	display: inline-block;
-}
 
-.radio-wrapper input[type="radio"]:focus ~ label {
-	box-shadow: 0 0 0 1.5px #675dff, 0 0 0 4px rgba(1, 150, 237, .36);
-}
 .radio-wrapper input ~ label .title {
 	font-weight: 600;
 	margin-bottom: .5em;
