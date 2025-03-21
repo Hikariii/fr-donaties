@@ -10,21 +10,24 @@
 		type="text/css"
 		href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&amp;family=Raleway:ital,wght@0,100;0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,700"
 	>
+<!--	<script src="https://cdn.jsdelivr.net/npm/umbrellajs"></script>-->
 </head>
 <body>
 
-<form>
+<form id="donation" class="hidden">
 
 	<div class="fieldset-header">Frequentie</div>
 	<fieldset class="frequency">
 
 		<div class="radio-freq">
-			<input id="maandelijks"
+			<input id="monthly"
 				type="radio"
-				name="frequentie"
+				name="frequency"
+				value="monthly"
 				checked
-			>
-			<label for="maandelijks">
+				required
+			/>
+			<label for="monthly">
 				<span class="title">Maandelijks</span>
 				<span class="hart-svg">
 					<svg class="heart-svg-inline"
@@ -44,12 +47,26 @@
 		</div>
 
 		<div class="radio-freq">
-			<input id="eenmalig"
+			<input id="once"
 				type="radio"
-				name="frequentie"
-			>
-			<label for="eenmalig">
+				name="frequency"
+				value="once"
+				required
+			/>
+			<label for="once">
 				<span class="title">Eenmalig</span>
+			</label>
+		</div>
+	</fieldset>
+	<fieldset id="frequency-permission">
+		<div class="checkbox-wrapper">
+			<input id="checkbox-permission"
+				type="checkbox"
+				name="monthly-permission"
+				required
+			/>
+			<label id="checkbox-permission-label" for="checkbox-permission">
+				<span class="title">Ik geef Stichting Forerunner toestemming om maandelijks het ingevulde bedrag af te schrijven voor het gekozen project.</span>
 			</label>
 		</div>
 	</fieldset>
@@ -59,9 +76,11 @@
 		<div class="radio-wrapper">
 			<input id="waarnodig"
 				type="radio"
-				name="bestemming"
+				name="destination"
+				value="needed"
 				checked
-			>
+				required
+			/>
 			<label for="waarnodig">
 				<span class="title">Waar mijn hulp het hardst nodig is</span>
 				<span class="hart-svg">
@@ -84,11 +103,13 @@
 		<div class="radio-wrapper">
 			<input id="project"
 				type="radio"
-				name="bestemming"
-			>
+				name="destination"
+				value="project"
+				required
+			/>
 			<label for="project">
 				<span class="title">Zelf een project kiezen</span>
-				<select name="projectcode">
+				<select name="projectcode" required>
 					<option value="FR000">FR000 - Algemene Donatie</option>
 					<option value="FR102">FR102 - Awakening the Nations</option>
 					<option value="FR104">FR104 - Until All Nations Sing</option>
@@ -139,86 +160,149 @@
 		<div class="radio-wrapper">
 			<input id="10-euro"
 				type="radio"
-				name="bedrag"
-			>
-			<label for="10-euro">
-				<span class="title">&#8364; 10</span>
+				name="amount"
+				value="10"
+				required
+			/>
+			<label for="10-euro" class="amount-nr">
+				<span class="title"><span class="amount-currency">&euro;</span>10</span>
 			</label>
 		</div>
 
 		<div class="radio-wrapper">
 			<input id="25-euro"
 				type="radio"
-				name="bedrag"
+				name="amount"
+				value="25"
 				checked
-			>
-			<label for="25-euro">
-				<span class="title">&#8364; 25</span>
+				required
+			/>
+			<label for="25-euro" class="amount-nr">
+				<span class="title"><span class="amount-currency">&euro;</span> 25</span>
 			</label>
 		</div>
 
 		<div class="radio-wrapper">
 			<input id="50-euro"
 				type="radio"
-				name="bedrag"
-			>
-			<label for="50-euro">
-				<span class="title">&#8364; 50</span>
+				name="amount"
+				value="50"
+				required
+			/>
+			<label for="50-euro" class="amount-nr">
+				<span class="title"><span class="amount-currency">&euro;</span> 50</span>
 			</label>
 		</div>
 
 		<div class="radio-wrapper">
 			<input id="100-euro"
 				type="radio"
-				name="bedrag"
-			>
-			<label for="100-euro">
-				<span class="title">&#8364; 100</span>
+				name="amount"
+				value="100"
+				required
+			/>
+			<label for="100-euro" class="amount-nr">
+				<span class="title"><span class="amount-currency">&euro;</span> 100</span>
 			</label>
 		</div>
 
-		<div class="radio-wrapper radio-duo">
-			<input id="anders"
+		<div class="radio-wrapper">
+			<input id="other-amount"
 				type="radio"
-				name="bedrag"
-			>
-			<label for="anders">
+				name="amount"
+				value="other"
+				min="5"
+				step="1"
+				required
+			/>
+			<label id="other-amount-label" for="other-amount">
 				<span class="title">ander bedrag...</span>
 			</label>
-			<input id="bedrag"
+		</div>
+
+		<div class="radio-wrapper amount-wrapper">
+			<input id="amount" class="hidden"
 				type="number"
+				name="other-amount"
 				min="5"
-				placeholder="&#8364; ...."
+				placeholder="&euro; ...."
+				required
 			/>
 		</div>
 	</fieldset>
 
-
 	<div class="fieldset-header">Valuta</div>
-	<fieldset class="radio-freq">
+	<fieldset class="valuta">
 
-		<div class="radio-freq">
-			<input id="maandelijks"
+		<div class="radio-currency">
+			<input id="currency-euro"
 				type="radio"
-				name="frequentie"
+				name="currency"
+				value="EUR"
 				checked
-			>
-			<label for="maandelijks">
+				required
+			/>
+			<label for="currency-euro">
 				<span class="title">In euro's (€)</span>
 			</label>
 		</div>
 
-		<div class="radio-freq">
-			<input id="eenmalig"
+		<div class="radio-currency">
+			<input id="currency-dollar"
 				type="radio"
-				name="frequentie"
-			>
-			<label for="eenmalig">
+				name="currency"
+				value="USD"
+				required
+			/>
+			<label for="currency-dollar">
 				<span class="title">In dollars ($)</span>
 			</label>
 		</div>
 	</fieldset>
 
+	<div class="fieldset-header">Uw gegevens</div>
+	<fieldset class="contact">
+
+		<div class="input-name">
+			<input id="contact-name"
+				type="text"
+				placeholder="Voor- en achternaam"
+				name="name"
+				minlength="4"
+				required
+			/>
+		</div>
+
+		<div class="input-email">
+			<input id="contact-email"
+				type="email"
+				placeholder="e-mailadres"
+				name="email"
+				required
+			/>
+		</div>
+	</fieldset>
+
+	<fieldset class="newsletter">
+
+		<div class="checkbox-wrapper">
+			<input id="checkbox-newsletter"
+				type="checkbox"
+				name="newsletter"
+			/>
+			<label id="checkbox-newsletter-label" for="checkbox-newsletter">
+				<span class="title">Ja, ik ontvang graag eens in de 6 weken inspirerende zendingsupdates, informatie over reizen, activiteiten, toerusting en meer...</span>
+			</label>
+		</div>
+
+	</fieldset>
+
+	<fieldset class="submit">
+		<button id="submit" type="button">Doneer</button>
+	</fieldset>
+
 </form>
+<script src="js/umbrella.min.js"></script>
+<script defer src="js/render.js"></script>
 </body>
 </html>

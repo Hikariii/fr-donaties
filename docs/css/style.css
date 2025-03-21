@@ -8,7 +8,7 @@ body {
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-attachment: fixed;
-	background-image: url(../img/newgrace_kids.jpg);
+	background-image: url(../img/swati_girls_school_prayer.jpg);
 }
 
 
@@ -27,7 +27,7 @@ h3 {
 
 form {
 	max-width: 800px;
-	background: #fff;
+	background: rgba(255, 255, 255, 0.4);
 	margin: 3em auto;
 }
 @media only screen and (max-width: 768px) {
@@ -39,24 +39,33 @@ form {
 
 fieldset {
 	border: none;
-	background-color: #e3e3e3;
+	background-color: rgba(227, 227, 227, 0.7);
 	margin: 10px;
 }
+
+.hidden { display: none }
 
 .fieldset-header {
 	text-align: center;
 }
 
 /*
- Frequentie fieldset
+ Frequentie, valuta, contact fieldsets
 */
-fieldset.frequency {
+fieldset.frequency, fieldset.valuta, fieldset.contact{
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
-div.radio-freq {
+div.radio-freq, div.radio-currency {
 	min-width: 150px;
 	margin: 5px 5px;
+}
+fieldset.contact input {
+	width: 93%;
+	margin: 8px;
+	height: 30px;
+	border: none;
+	border-radius: 5px;
 }
 .heart-svg-inline {
 	position: relative;
@@ -111,20 +120,33 @@ fieldset.amount .radio-duo {
 	display: flex;
 }
 
-.radio-wrapper input[type="number"] {
+div.amount-wrapper {
+	flex-grow: 1;
+}
+
+#amount {
 	background: #fff;
 	margin: 5px;
 	padding: 11px;
 	border: none;
 	border-radius: 6px;
-	cursor: pointer;
 	box-sizing: border-box;
 	text-align: left;
 	transition: all 0.2s ease;
 	font-size: medium;
 	box-shadow: 0 0 0 1.5px #675dff;
+	width: 100%;
 }
 
+fieldset.submit {
+	text-align: center;
+}
+
+#submit {
+	width: 50%;
+	height: 30px;
+}
+/*
 .radio-wrapper input[type="radio"] ~ input[type="number"] {
 	display: none;
 }
@@ -137,3 +159,4 @@ fieldset.amount .radio-duo {
 	font-weight: 600;
 	margin-bottom: .5em;
 }
+*/
