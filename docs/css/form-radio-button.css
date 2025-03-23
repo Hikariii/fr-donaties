@@ -35,11 +35,15 @@
 	width: 1px;
 }
 
+.radio-wrapper input[type="radio"] ~ label {
+	box-shadow: 0 0 0 2px rgba(151, 151, 151, 0.5);
+}
+
 .radio-wrapper input[type="radio"]:checked ~ label {
-	box-shadow: 0 0 0 1.5px #675dff;
-	color: #533afd;
+	box-shadow: 0 0 0 2px #96430f;
+	color: #96430f;
 }
 
 .radio-wrapper input[type="radio"]:focus ~ label {
-	box-shadow: 0 0 0 1.5px #675dff, 0 0 0 4px rgba(1, 150, 237, .36);
+	box-shadow: 0 0 0 2px #96430f, 0 0 0 4px rgba(183, 79, 17, 0.36);
 }
