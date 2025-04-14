@@ -8,7 +8,9 @@ body {
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-attachment: fixed;
-	background-image: url(../img/swati_girls_school_prayer.jpg);
+	/*background-image: url(../img/swati_girls_school_prayer.jpg);*/
+	/*background-image: url(../img/mission_kids_paraguay.jpg);*/
+	background-image: url(../img/kids_water_india.jpg);
 }
 
 h3 {
@@ -19,13 +21,14 @@ h3 {
 	font-style: normal;
 	font-size: 27px;
 	line-height: 1em;
-	letter-spacing: 1.3px;
+	letter-spacing: 1px;
 	text-transform: none;
 }
 
 form {
+	overflow: auto;
 	max-width: 800px;
-	background: rgba(255, 255, 255, 0.7);
+	background: rgba(255, 255, 255, 0.6);
 	margin: 3em auto;
 	border-radius: 6px;
 }
@@ -36,9 +39,14 @@ form {
 	}
 }
 
+form fieldset input:user-invalid {
+	/*border: 1px solid red;*/
+	box-shadow: 0 0 0 2px #d00;
+}
+
 fieldset {
 	border: none;
-	background-color: rgba(227, 227, 227, 0.7);
+	background-color: rgba(227, 227, 227, 0.6);
 	margin: 10px;
 	border-radius: 6px;
 }
@@ -47,6 +55,9 @@ fieldset {
 
 .fieldset-header {
 	text-align: center;
+}
+.fieldset-header-first {
+	margin-top: 10px;
 }
 
 /*
@@ -99,9 +110,9 @@ fieldset.destination .radio-wrapper input[type="radio"] ~ label.needed {
 	background-color: #df9c4e;
 	color: white;
 	font-weight: bold;
-	padding-left: 30px;
-	padding-right: 30px;
-	padding-top: 6px;
+	padding-left: 40px;
+	padding-right: 40px;
+	padding-top: 10px;
 }
 
 fieldset.destination .radio-wrapper input[type="radio"] ~ label.needed:hover {
@@ -116,6 +127,7 @@ fieldset.destination label.needed .hart-svg {
 
 fieldset.destination label.needed .hart-svg .heart-svg-inline {
 	height: 1.8em;
+	filter: brightness(150%) saturate(20%);
 }
 
 .radio-wrapper label select {
@@ -131,6 +143,9 @@ fieldset.destination label.needed .hart-svg .heart-svg-inline {
 }
 .radio-wrapper input[type="radio"]:checked ~ label select {
 	display: inline-block;
+}
+.radio-wrapper input[type="radio"]:checked ~ label.needed .hart-svg .heart-svg-inline {
+	filter: initial;
 }
 
 /*
@@ -159,7 +174,7 @@ div.amount-wrapper {
 	text-align: left;
 	transition: all 0.2s ease;
 	font-size: medium;
-	box-shadow: 0 0 0 1.5px #96430f;
+	box-shadow: 0 0 0 2px #96430f;
 	width: 100%;
 }
 
