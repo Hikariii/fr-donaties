@@ -8,8 +8,6 @@ body {
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-attachment: fixed;
-	/*background-image: url(../img/swati_girls_school_prayer.jpg);*/
-	/*background-image: url(../img/mission_kids_paraguay.jpg);*/
 	background-image: url(../img/kids_water_india.jpg);
 }
 
@@ -40,7 +38,6 @@ form {
 }
 
 form fieldset input:user-invalid {
-	/*border: 1px solid red;*/
 	box-shadow: 0 0 0 2px #d00;
 }
 
@@ -127,7 +124,7 @@ fieldset.destination label.needed .hart-svg {
 
 fieldset.destination label.needed .hart-svg .heart-svg-inline {
 	height: 1.8em;
-	filter: brightness(150%) saturate(20%);
+	filter: brightness(100);
 }
 
 .radio-wrapper label select {
@@ -198,17 +195,3 @@ fieldset.submit {
 #submit:active {
 	background-color: #b4752eff;
 }
-/*
-.radio-wrapper input[type="radio"] ~ input[type="number"] {
-	display: none;
-}
-
-.radio-wrapper input[type="radio"]:checked ~ input[type="number"] {
-	display: inline-block;
-}
-
-.radio-wrapper input ~ label .title {
-	font-weight: 600;
-	margin-bottom: .5em;
-}
-*/
