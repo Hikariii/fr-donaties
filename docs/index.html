@@ -2,19 +2,27 @@
 <html lang="nl">
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1.0"
+	/>
 	<title>Document</title>
-	<link rel="stylesheet" href="css/form-radio-button.css">
-	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet"
+		href="css/form-radio-button.css"
+	>
+	<link rel="stylesheet"
+		href="css/style.css"
+	>
 	<link rel="stylesheet"
 		type="text/css"
 		href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&amp;family=Raleway:ital,wght@0,100;0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,700"
 	>
-<!--	<script src="https://cdn.jsdelivr.net/npm/umbrellajs"></script>-->
+	<!--	<script src="https://cdn.jsdelivr.net/npm/umbrellajs"></script>-->
 </head>
 <body>
 
-<form id="donation" class="hidden">
+<form id="donation"
+	class="hidden"
+>
 
 	<div class="fieldset-header fieldset-header-first">Frequentie</div>
 	<fieldset class="frequency">
@@ -31,15 +39,15 @@
 				<span class="title">Maandelijks</span>
 				<span class="hart-svg">
 					<svg class="heart-svg-inline"
-					clip-rule="evenodd"
-					fill-rule="evenodd"
-					stroke-linejoin="round"
-					stroke-miterlimit="2"
-					viewBox="0 0 24 24"
-					xmlns="http://www.w3.org/2000/svg"
+						clip-rule="evenodd"
+						fill-rule="evenodd"
+						stroke-linejoin="round"
+						stroke-miterlimit="2"
+						viewBox="0 0 24 24"
+						xmlns="http://www.w3.org/2000/svg"
 					>
 					<path d="m12 5.72c-2.624-4.517-10-3.198-10 2.461 0 3.725 4.345 7.727 9.303 12.54.194.189.446.283.697.283s.503-.094.697-.283c4.977-4.831 9.303-8.814 9.303-12.54 0-5.678-7.396-6.944-10-2.461z"
-				  		fill-rule="nonzero"
+						fill-rule="nonzero"
 						fill="#96430f"
 					/>
 					</svg>
@@ -66,7 +74,9 @@
 				name="monthly-permission"
 				required
 			/>
-			<label id="checkbox-permission-label" for="checkbox-permission">
+			<label id="checkbox-permission-label"
+				for="checkbox-permission"
+			>
 				<span class="title">Ik geef Stichting Forerunner toestemming om maandelijks het ingevulde bedrag af te schrijven voor het gekozen project.</span>
 			</label>
 		</div>
@@ -82,7 +92,9 @@
 				checked
 				required
 			/>
-			<label for="waarnodig" class="needed">
+			<label for="waarnodig"
+				class="needed"
+			>
 				<span class="title">Waar mijn hulp het hardst nodig is</span>
 				<span class="hart-svg">
 					<svg class="heart-svg-inline"
@@ -111,7 +123,9 @@
 			/>
 			<label for="project">
 				<span class="title">Zelf een project kiezen</span>
-				<select name="projectcode" required>
+				<select name="projectcode"
+					required
+				>
 					<option value="FR102">FR102 - Awakening the Nations</option>
 					<option value="FR104">FR104 - Until All Nations Sing</option>
 					<option value="FR107">FR107 - Gebedshuis Amersfoort (GA) - Arjan Krijtenburg</option>
@@ -165,7 +179,9 @@
 				value="10"
 				required
 			/>
-			<label for="10-euro" class="amount-nr">
+			<label for="10-euro"
+				class="amount-nr"
+			>
 				<span class="title"><span class="amount-currency">&euro;</span>10</span>
 			</label>
 		</div>
@@ -178,7 +194,9 @@
 				checked
 				required
 			/>
-			<label for="25-euro" class="amount-nr">
+			<label for="25-euro"
+				class="amount-nr"
+			>
 				<span class="title"><span class="amount-currency">&euro;</span> 25</span>
 			</label>
 		</div>
@@ -190,7 +208,9 @@
 				value="50"
 				required
 			/>
-			<label for="50-euro" class="amount-nr">
+			<label for="50-euro"
+				class="amount-nr"
+			>
 				<span class="title"><span class="amount-currency">&euro;</span> 50</span>
 			</label>
 		</div>
@@ -202,7 +222,9 @@
 				value="100"
 				required
 			/>
-			<label for="100-euro" class="amount-nr">
+			<label for="100-euro"
+				class="amount-nr"
+			>
 				<span class="title"><span class="amount-currency">&euro;</span> 100</span>
 			</label>
 		</div>
@@ -216,13 +238,16 @@
 				step="1"
 				required
 			/>
-			<label id="other-amount-label" for="other-amount">
+			<label id="other-amount-label"
+				for="other-amount"
+			>
 				<span class="title">ander bedrag...</span>
 			</label>
 		</div>
 
 		<div class="radio-wrapper amount-wrapper">
-			<input id="amount" class="hidden"
+			<input id="amount"
+				class="hidden"
 				type="number"
 				name="other-amount"
 				min="5"
@@ -291,7 +316,9 @@
 				type="checkbox"
 				name="newsletter"
 			/>
-			<label id="checkbox-newsletter-label" for="checkbox-newsletter">
+			<label id="checkbox-newsletter-label"
+				for="checkbox-newsletter"
+			>
 				<span class="title">Ja, ik ontvang graag eens in de 6 weken inspirerende zendingsupdates, informatie over reizen, activiteiten, toerusting en meer...</span>
 			</label>
 		</div>
@@ -299,11 +326,59 @@
 	</fieldset>
 
 	<fieldset class="submit">
-		<button id="submit" type="button">Doneer</button>
+		<button id="submit"
+			type="button"
+		>Doneer</button>
 	</fieldset>
 
 </form>
+<div id="form-bottom">
+	<div id="form-disclaimer">
+		<p>Automatische periodieke donaties via incasso of creditcard kunnen op elk moment stopgezet worden.
+			Stuur hiervoor een bericht via het <a target="_blank" href="https://forerunner.info/contact">contactformulier</a>.
+			Er is geen opzegtermijn.</p>
+	</div>
+	<div id="payment-methods">
+		<figure><img src="https://www.mollie.com/external/icons/payment-methods/ideal%402x.png"
+			alt="iDEAL"
+		>
+			<figcaption>iDEAL</figcaption>
+		</figure>
+		<figure><img src="https://www.mollie.com/external/icons/payment-methods/creditcard%402x.png"
+			alt="Credit card"
+		>
+			<figcaption>Card</figcaption>
+		</figure>
+		<figure><img src="https://www.mollie.com/external/icons/payment-methods/banktransfer%402x.png"
+			alt="Bank transfer"
+		>
+			<figcaption>Bank transfer</figcaption>
+		</figure>
+		<figure><img src="https://www.mollie.com/external/icons/payment-methods/paypal%402x.png"
+			alt="PayPal"
+		>
+			<figcaption>PayPal</figcaption>
+		</figure>
+		<figure><img src="https://www.mollie.com/external/icons/payment-methods/bancontact%402x.png"
+			alt="Bancontact"
+		>
+			<figcaption>Bancontact</figcaption>
+		</figure>
+		<figure><img src="https://www.mollie.com/external/icons/payment-methods/kbc%402x.png"
+			alt="KBC/CBC"
+		>
+			<figcaption>KBC/CBC Payment Button</figcaption>
+		</figure>
+		<figure><img src="https://www.mollie.com/external/icons/payment-methods/belfius%402x.png"
+			alt="Belfius"
+		>
+			<figcaption>Belfius Pay Button</figcaption>
+		</figure>
+	</div>
+</div>
 <script src="js/umbrella.min.js"></script>
-<script defer src="js/render.js"></script>
+<script defer
+	src="js/render.js"
+></script>
 </body>
 </html>

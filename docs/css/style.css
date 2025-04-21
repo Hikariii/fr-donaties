@@ -23,18 +23,45 @@ h3 {
 	text-transform: none;
 }
 
-form {
+form, #form-bottom {
 	overflow: auto;
 	max-width: 800px;
 	background: rgba(255, 255, 255, 0.6);
-	margin: 3em auto;
+	margin: 1em auto 0 auto;
 	border-radius: 6px;
 }
 @media only screen and (max-width: 768px) {
-	form {
+	form, #form-bottom {
 		max-width: 100%;
 		margin: 0;
 	}
+}
+
+#form-disclaimer {
+	margin: 1em 2em;
+}
+
+#payment-methods {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 1em;
+	margin-bottom: 1em;
+}
+
+figure {
+	position: relative;
+	margin: 0;
+	width: 70px;
+}
+figure img, figure figcaption {
+	display: block;
+	margin: 0 auto;
+	text-align: center;
+	font-size: 0.8em;
+}
+figure img {
+	max-width: 56px;
 }
 
 form fieldset input:user-invalid {
