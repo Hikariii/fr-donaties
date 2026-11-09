@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kerstactie 2026 — Forerunner</title>
+<!--
+  Ontwerp A: actiepagina in de stijl van supp.to.
+  Kies een project, vul je naam en e-mailadres in en klik op een bedrag. De klik op het
+  bedrag stuurt het formulier meteen naar POST /donate, en de backend stuurt
+  door naar de betaalpagina van Mollie.
+
+  Nog te doen voor gebruik:
+  - Zet de echte projectcodes in de value van de drie radioknoppen.
+  - Zet PROTOTYPE hieronder op false.
+  - Vervang de teksten tussen [ ] en de afbeeldingen.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: hsl(18.84, 67.6%, 35.1%);
+    --accent-donker: hsl(18.84, 67.6%, 28%);
+    --accent-licht: hsl(18.84, 60%, 95%);
+    --petrol: hsl(182, 32.61%, 18.04%);
+    --salie: hsl(163.13, 13.11%, 52.16%);
+    --tekst: hsl(0, 0%, 10.98%);
+    --grijs: hsl(0, 0%, 42%);
+    --rand: hsl(0, 0%, 88%);
+    --vlak: hsl(40, 30%, 97%);
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    font-family: "Poppins", system-ui, sans-serif;
+    font-weight: 400;
+    color: var(--tekst);
+    background: #fff;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .pagina { max-width: 640px; margin: 0 auto; padding: 0 0 2rem; }
+
+  /* Kop met foto */
+  .hero {
+    position: relative;
+    min-height: 300px;
+    display: flex;
+    align-items: flex-end;
+    color: #fff;
+    background: var(--petrol) url("img/hero.jpg") center / cover no-repeat;
+  }
+  .hero::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, hsla(182, 32%, 12%, .92) 10%, hsla(182, 32%, 12%, .15) 75%);
+  }
+  .hero-tekst { position: relative; padding: 1.5rem 1.25rem; }
+  .label {
+    display: inline-flex; align-items: center; gap: .4rem;
+    font-size: .75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    background: rgba(255,255,255,.16);
+    padding: .3rem .7rem; border-radius: 99px;
+    backdrop-filter: blur(4px);
+  }
+  .hero h1 {
+    margin: .6rem 0 .3rem;
+    font-size: clamp(1.7rem, 7vw, 2.4rem);
+    line-height: 1.15;
+    font-weight: 700;
+  }
+  .hero p { margin: 0; font-size: 1rem; opacity: .92; }
+
+  @media (min-width: 640px) {
+    .pagina { padding-top: 1.5rem; }
+    .hero { border-radius: var(--radius); overflow: hidden; min-height: 340px; }
+    .hero-tekst { padding: 2rem; }
+  }
+
+  .intro { padding: 1.25rem 1.25rem 0; color: var(--grijs); margin: 0; }
+
+  form { padding: 0 1.25rem; }
+  .stap { margin-top: 1.75rem; }
+  .stap h2 {
+    font-size: 1.05rem; font-weight: 600; margin: 0 0 .75rem;
+    display: flex; align-items: center; gap: .6rem;
+  }
+  .nummer {
+    flex: none;
+    width: 1.6rem; height: 1.6rem; border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--petrol); color: #fff;
+    font-size: .8rem; font-weight: 600;
+  }
+
+  /* Projecten */
+  .projecten { display: grid; gap: .6rem; }
+  .project input { position: absolute; opacity: 0; pointer-events: none; }
+  .project label {
+    display: flex; align-items: center; gap: .9rem;
+    padding: .6rem; padding-right: 1rem;
+    border: 2px solid var(--rand);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+  }
+  .project label:hover { border-color: var(--salie); }
+  .project .foto {
+    flex: none;
+    width: 64px; height: 64px; border-radius: 10px;
+    background: var(--salie) center / cover no-repeat;
+    display: grid; place-items: center;
+    color: #fff; font-weight: 700; font-size: 1.4rem;
+  }
+  .project .naam { display: block; font-weight: 600; }
+  .project .uitleg { display: block; font-size: .85rem; color: var(--grijs); }
+  .project .vink {
+    margin-left: auto; flex: none;
+    width: 22px; height: 22px; border-radius: 50%;
+    border: 2px solid var(--rand);
+    display: grid; place-items: center;
+  }
+  .project input:checked + label { border-color: var(--accent); background: var(--accent-licht); }
+  .project input:checked + label .vink { border-color: var(--accent); background: var(--accent); }
+  .project input:checked + label .vink::after {
+    content: ""; width: 6px; height: 10px;
+    border: solid #fff; border-width: 0 2px 2px 0;
+    transform: translateY(-1px) rotate(45deg);
+  }
+  .project input:focus-visible + label { outline: 3px solid var(--salie); outline-offset: 2px; }
+
+  @media (min-width: 640px) {
+    .projecten { grid-template-columns: repeat(3, 1fr); }
+    .project label { flex-direction: column; align-items: flex-start; height: 100%; padding: .75rem; position: relative; }
+    .project .foto { width: 100%; height: 110px; }
+    .project .vink { position: absolute; top: 1.2rem; right: 1.2rem; background: #fff; }
+  }
+
+  /* Gegevens */
+  .velden { display: grid; gap: .6rem; }
+  .veld input[type="text"], .veld input[type="email"], .anders input {
+    width: 100%;
+    font: inherit; font-size: 1.05rem;
+    padding: .85rem 1rem;
+    border: 2px solid var(--rand);
+    border-radius: var(--radius);
+    background: #fff;
+  }
+  .veld input:focus, .anders input:focus { outline: none; border-color: var(--petrol); }
+  .hint { font-size: .8rem; color: var(--grijs); margin: .4rem 0 0; }
+  .nieuwsbrief {
+    display: flex; gap: .6rem; align-items: flex-start;
+    margin-top: .8rem; font-size: .85rem; color: var(--grijs); cursor: pointer;
+  }
+  .nieuwsbrief input { margin-top: .2rem; width: 1.1rem; height: 1.1rem; accent-color: var(--accent); flex: none; }
+
+  /* Bedragen */
+  .bedragen { display: grid; grid-template-columns: repeat(2, 1fr); gap: .6rem; }
+  @media (min-width: 480px) { .bedragen { grid-template-columns: repeat(4, 1fr); } }
+  .bedrag {
+    font: inherit;
+    font-size: 1.35rem; font-weight: 700;
+    padding: 1rem .5rem;
+    color: #fff;
+    background: var(--accent);
+    border: 0; border-radius: var(--radius);
+    cursor: pointer;
+    transition: background .15s, transform .05s;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.1;
+  }
+  .bedrag small { font-size: .7rem; font-weight: 500; opacity: .85; margin-top: .25rem; }
+  .bedrag:hover { background: var(--accent-donker); }
+  .bedrag:active { transform: scale(.98); }
+  .bedrag:focus-visible { outline: 3px solid var(--salie); outline-offset: 2px; }
+  .bedrag:disabled { opacity: .55; cursor: wait; }
+
+  .anders { display: flex; gap: .6rem; margin-top: .6rem; }
+  .anders .invoer { position: relative; flex: 1; }
+  .anders .invoer span {
+    position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+    color: var(--grijs); font-weight: 600;
+  }
+  .anders input { padding-left: 2.2rem; }
+  .anders .bedrag { font-size: 1rem; padding: 0 1.4rem; background: var(--petrol); }
+  .anders .bedrag:hover { background: hsl(182, 32%, 12%); }
+  .fout { color: #b00020; font-size: .85rem; margin: .4rem 0 0; min-height: 1.2em; }
+
+  /* Vertrouwen */
+  .vertrouwen {
+    margin: 1.75rem 1.25rem 0;
+    padding: 1rem 1.1rem;
+    background: var(--vlak);
+    border-radius: var(--radius);
+    font-size: .82rem; color: var(--grijs);
+    display: grid; gap: .35rem;
+  }
+  .vertrouwen div { display: flex; gap: .5rem; }
+  .vertrouwen div::before { content: "✓"; color: var(--salie); font-weight: 700; }
+
+  .placeholder { font-style: italic; opacity: .8; }
+
+  /* Melding in de prototypemodus */
+  dialog { border: 0; border-radius: var(--radius); padding: 1.25rem; max-width: 90vw; box-shadow: 0 10px 40px rgba(0,0,0,.25); font: inherit; }
+  dialog pre { background: var(--vlak); padding: .75rem; border-radius: 8px; font-size: .8rem; white-space: pre-wrap; }
+  dialog button { font: inherit; padding: .5rem 1rem; border-radius: 8px; border: 0; background: var(--petrol); color: #fff; cursor: pointer; }
+</style>
+</head>
+<body>
+<div class="pagina">
+
+  <header class="hero">
+    <div class="hero-tekst">
+      <span class="label">✶ Kerstactie 2026</span>
+      <h1>Geef een warm kerstfeest</h1>
+      <p>Kies een project en geef in één klik.</p>
+    </div>
+  </header>
+
+  <p class="intro placeholder">[Korte tekst over de kerstactie: waarom, voor wie, en wat een gift doet.]</p>
+
+  <form id="donatie" method="post" action="https://forerunner-info.appspot.com/donate" target="_top" novalidate>
+    <input type="hidden" name="currency" value="EUR">
+    <input type="hidden" name="periodiek" value="once">
+
+    <section class="stap">
+      <h2><span class="nummer">1</span> Kies een project</h2>
+      <div class="projecten" role="radiogroup">
+        <div class="project">
+          <input type="radio" name="projectcode" id="p-grace" value="TODO-GRACE" required>
+          <label for="p-grace">
+            <span class="foto" style="background-image:url('img/grace-home.jpg')"></span>
+            <span>
+              <span class="naam">Grace Home</span>
+              <span class="uitleg placeholder">[Eén zin over het project]</span>
+            </span>
+            <span class="vink"></span>
+          </label>
+        </div>
+        <div class="project">
+          <input type="radio" name="projectcode" id="p-uruma" value="TODO-URUMA">
+          <label for="p-uruma">
+            <span class="foto">U</span>
+            <span>
+              <span class="naam">Action Uruma</span>
+              <span class="uitleg placeholder">[Eén zin over het project]</span>
+            </span>
+            <span class="vink"></span>
+          </label>
+        </div>
+        <div class="project">
+          <input type="radio" name="projectcode" id="p-paraguay" value="TODO-PARAGUAY">
+          <label for="p-paraguay">
+            <span class="foto" style="background-image:url('img/paraguay.jpg')"></span>
+            <span>
+              <span class="naam">Gebed en Zending Paraguay</span>
+              <span class="uitleg placeholder">[Eén zin over het project]</span>
+            </span>
+            <span class="vink"></span>
+          </label>
+        </div>
+      </div>
+      <p class="fout" id="fout-project" aria-live="polite"></p>
+    </section>
+
+    <section class="stap veld">
+      <h2><span class="nummer">2</span> Je gegevens</h2>
+      <div class="velden">
+        <div>
+          <input type="text" name="name" id="naam" autocomplete="name"
+                 placeholder="Voor- en achternaam" aria-label="Voor- en achternaam" required>
+          <p class="fout" id="fout-naam" aria-live="polite"></p>
+        </div>
+        <div>
+          <input type="email" name="email" id="email" autocomplete="email" inputmode="email"
+                 placeholder="E-mailadres" aria-label="E-mailadres" required aria-describedby="email-hint">
+          <p class="hint" id="email-hint">Voor de bevestiging van je gift.</p>
+          <p class="fout" id="fout-email" aria-live="polite"></p>
+        </div>
+      </div>
+      <label class="nieuwsbrief">
+        <input type="checkbox" name="newsletter" value="YES">
+        <span>Stuur mij ook de nieuwsbrief van Forerunner (ongeveer elke 6 weken).</span>
+      </label>
+    </section>
+
+    <section class="stap">
+      <h2><span class="nummer">3</span> Kies je bedrag</h2>
+      <div class="bedragen">
+        <button class="bedrag" type="submit" name="bedrag" value="10">€ 10<small>geef nu</small></button>
+        <button class="bedrag" type="submit" name="bedrag" value="25">€ 25<small>geef nu</small></button>
+        <button class="bedrag" type="submit" name="bedrag" value="50">€ 50<small>geef nu</small></button>
+        <button class="bedrag" type="submit" name="bedrag" value="100">€ 100<small>geef nu</small></button>
+      </div>
+      <div class="anders">
+        <div class="invoer">
+          <span>€</span>
+          <input type="text" id="ander-bedrag" inputmode="decimal" placeholder="Ander bedrag"
+                 autocomplete="off" aria-label="Ander bedrag in euro">
+        </div>
+        <button class="bedrag" type="submit" name="bedrag" id="ander-knop" value="">Geef</button>
+      </div>
+      <p class="fout" id="fout-bedrag" aria-live="polite"></p>
+    </section>
+  </form>
+
+  <div class="vertrouwen">
+    <div>Veilig betalen via Mollie met iDEAL en andere betaalmethoden</div>
+    <div>Giften aan Stichting Forerunner zijn aftrekbaar van de belasting (ANBI)</div>
+    <div>Je gift gaat naar het project dat je kiest</div>
+  </div>
+</div>
+
+<dialog id="prototype-melding">
+  <strong>Prototype: dit formulier zou nu dit versturen</strong>
+  <pre id="prototype-data"></pre>
+  <form method="dialog"><button>Sluiten</button></form>
+</dialog>
+
+<script>
+  // Zet op false zodra de echte projectcodes in het formulier staan.
+  const PROTOTYPE = true;
+  const MINIMUM = 5;
+
+  const form = document.getElementById('donatie');
+  const email = document.getElementById('email');
+  const naam = document.getElementById('naam');
+  const anderBedrag = document.getElementById('ander-bedrag');
+  const anderKnop = document.getElementById('ander-knop');
+  const fout = {
+    project: document.getElementById('fout-project'),
+    naam: document.getElementById('fout-naam'),
+    email: document.getElementById('fout-email'),
+    bedrag: document.getElementById('fout-bedrag'),
+  };
+
+  function toonFout(veld, tekst, focusOp) {
+    fout[veld].textContent = tekst;
+    if (focusOp) {
+      focusOp.focus({ preventScroll: true });
+      focusOp.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
+  function leesBedrag(tekst) {
+    const getal = parseFloat(tekst.replace(/\s|€/g, '').replace(',', '.'));
+    return Number.isFinite(getal) ? Math.round(getal * 100) / 100 : NaN;
+  }
+
+  form.addEventListener('submit', (e) => {
+    const knop = e.submitter;
+    for (const veld in fout) fout[veld].textContent = '';
+
+    const project = form.querySelector('input[name="projectcode"]:checked');
+    if (!project) {
+      e.preventDefault();
+      return toonFout('project', 'Kies eerst een project.', form.querySelector('input[name="projectcode"]'));
+    }
+    naam.value = naam.value.trim();
+    if (!naam.value) {
+      e.preventDefault();
+      return toonFout('naam', 'Vul je voor- en achternaam in.', naam);
+    }
+    if (!email.checkValidity() || !email.value) {
+      e.preventDefault();
+      return toonFout('email', 'Vul een geldig e-mailadres in.', email);
+    }
+    if (knop === anderKnop) {
+      const bedrag = leesBedrag(anderBedrag.value);
+      if (!(bedrag >= MINIMUM)) {
+        e.preventDefault();
+        return toonFout('bedrag', `Vul een bedrag in van minimaal € ${MINIMUM}.`, anderBedrag);
+      }
+      anderKnop.value = bedrag.toFixed(2);
+    }
+
+    if (PROTOTYPE) {
+      e.preventDefault();
+      const data = new FormData(form, knop);
+      document.getElementById('prototype-data').textContent =
+        'POST ' + form.action + '\n\n' +
+        [...data].map(([k, v]) => `${k} = ${v}`).join('\n');
+      document.getElementById('prototype-melding').showModal();
+      return;
+    }
+
+    // Voorkom een dubbele betaling door een tweede klik. Wacht één tik, want
+    // een uitgeschakelde knop gaat niet mee in het formulier.
+    setTimeout(() => {
+      form.querySelectorAll('.bedrag').forEach((b) => (b.disabled = true));
+      knop.firstChild.textContent = 'Even geduld…';
+    });
+  });
+
+  // Enter in een tekstveld zou de eerste knop (€ 10) indrukken. Voorkom dat.
+  for (const veld of [naam, email]) {
+    veld.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); veld.blur(); }
+    });
+  }
+  anderBedrag.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); form.requestSubmit(anderKnop); }
+  });
+
+  // Na 'terug' uit Mollie staat de pagina soms nog in de cache. Zet de knoppen weer aan.
+  window.addEventListener('pageshow', () => {
+    form.querySelectorAll('.bedrag').forEach((b) => (b.disabled = false));
+  });
+
+  // Geef de hoogte door aan de pagina eromheen, voor een iframe zonder schuifbalk.
+  if (window.parent !== window) {
+    const meld = () => window.parent.postMessage(
+      { type: 'forerunner-actie-hoogte', hoogte: document.body.getBoundingClientRect().height }, '*');
+    new ResizeObserver(meld).observe(document.body);
+  }
+</script>
+</body>
+</html>
