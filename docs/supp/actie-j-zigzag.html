@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kerstactie 2026 — Forerunner</title>
+<!--
+
+  Ontwerp C-K: magazine-zigzag.
+  Per project een verhalend blok: grote foto en tekst naast elkaar, om en om
+  gespiegeld (op mobiel onder elkaar). De cadeaus zijn pill-knoppen; de uitleg
+  van de gekozen pill staat eronder. De zinnen per project zijn concepttekst.
+
+  Formulier: gelijk aan ontwerp C. Elk cadeau is een radioknop name="cadeau" met
+  data-bedrag (minimaal 5) en data-project (de projectcode). Het script zet die
+  in de verborgen velden bedrag en projectcode. Daarna naam, e-mailadres en de
+  knop "Geef € …". Deze pagina heeft JavaScript nodig.
+
+  Nog te doen voor gebruik:
+  - Zet de echte projectcodes in data-project (zoek op TODO-).
+  - Controleer de bedragen en teksten van de cadeaus met de projecten.
+  - Zet PROTOTYPE op false.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: hsl(18.84, 67.6%, 35.1%);
+    --accent-donker: hsl(18.84, 67.6%, 28%);
+    --accent-licht: hsl(18.84, 60%, 95%);
+    --petrol: hsl(182, 32.61%, 18.04%);
+    --salie: hsl(163.13, 13.11%, 52.16%);
+    --tekst: hsl(0, 0%, 10.98%);
+    --grijs: hsl(0, 0%, 42%);
+    --rand: hsl(0, 0%, 88%);
+    --vlak: hsl(40, 30%, 97%);
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    font-family: "Poppins", system-ui, sans-serif;
+    font-weight: 400;
+    color: var(--tekst);
+    background: #fff;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .pagina { max-width: 1040px; margin: 0 auto; padding: 0 0 2rem; }
+
+  /* Kop met foto */
+  .hero {
+    position: relative;
+    min-height: 300px;
+    display: flex;
+    align-items: flex-end;
+    color: #fff;
+    background: var(--petrol) url("img/hero.jpg") center / cover no-repeat;
+  }
+  .hero::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, hsla(182, 32%, 12%, .92) 10%, hsla(182, 32%, 12%, .15) 75%);
+  }
+  .hero-tekst { position: relative; padding: 1.5rem 1.25rem; }
+  .label {
+    display: inline-flex; align-items: center; gap: .4rem;
+    font-size: .75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    background: rgba(255,255,255,.16);
+    padding: .3rem .7rem; border-radius: 99px;
+    backdrop-filter: blur(4px);
+  }
+  .hero h1 {
+    margin: .6rem 0 .3rem;
+    font-size: clamp(1.7rem, 7vw, 2.4rem);
+    line-height: 1.15;
+    font-weight: 700;
+  }
+  .hero p { margin: 0; font-size: 1rem; opacity: .92; }
+
+  @media (min-width: 640px) {
+    .pagina { padding-top: 1.5rem; }
+    .hero { border-radius: var(--radius); overflow: hidden; min-height: 340px; }
+    .hero-tekst { padding: 2rem; }
+  }
+
+  .intro { padding: 1.25rem 1.25rem 0; color: var(--grijs); margin: 0; }
+
+  form { padding: 0 1.25rem; }
+  .stap { margin-top: 1.75rem; scroll-margin-top: 1rem; }
+  .stap > h2 {
+    font-size: 1.05rem; font-weight: 600; margin: 0 0 .75rem;
+    display: flex; align-items: center; gap: .6rem;
+  }
+  .nummer {
+    flex: none;
+    width: 1.6rem; height: 1.6rem; border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--petrol); color: #fff;
+    font-size: .8rem; font-weight: 600;
+  }
+
+
+  /* Magazine-zigzag: per project foto en verhaal naast elkaar */
+  .verhaal { margin-top: 1rem; }
+  .verhaal + .verhaal { margin-top: 1.75rem; }
+  .verhaal-foto {
+    aspect-ratio: 16 / 7;
+    border-radius: var(--radius);
+    background: var(--salie) center / cover no-repeat;
+  }
+  .verhaal-tekst { padding-top: .8rem; }
+  .nr { font-size: .8rem; font-weight: 600; letter-spacing: .12em; color: var(--accent); }
+  .verhaal h3 {
+    margin: .1rem 0 0; font-size: clamp(1.35rem, 5vw, 1.7rem); font-weight: 700; line-height: 1.1;
+    color: var(--petrol);
+  }
+  .verhaal .land { display: block; font-size: .85rem; font-weight: 500; color: var(--grijs); margin-top: .35rem; }
+  .verhaal blockquote {
+    margin: .6rem 0 .8rem; padding-left: .9rem;
+    border-left: 3px solid var(--salie);
+    font-size: .95rem; font-style: italic; font-weight: 300; line-height: 1.55;
+  }
+
+  .pills { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .cadeau input { position: absolute; opacity: 0; pointer-events: none; }
+  .cadeau label {
+    display: inline-flex; align-items: baseline; flex-wrap: wrap;
+    padding: .5rem .95rem;
+    border: 2px solid var(--accent);
+    border-radius: 999px;
+    color: var(--accent-donker);
+    font-size: .9rem; font-weight: 500; line-height: 1.3;
+    cursor: pointer;
+    transition: background .15s, color .15s;
+  }
+  .cadeau label:hover { background: var(--accent-licht); }
+  /* Mobiel: geen losse pills die over 2 regels breken, maar volle rijen
+     met de titel links en de prijs rechts; tapdoel minstens 44px. */
+  @media (max-width: 759px) {
+    .pills { flex-direction: column; gap: .4rem; }
+    .cadeau label {
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: nowrap; gap: .75rem;
+      width: 100%; min-height: 44px; padding: .55rem 1rem;
+      border-radius: 14px;
+    }
+    .cadeau .punt { display: none; }
+    .cadeau .titel { flex: 1; min-width: 0; }
+  }
+  .cadeau .punt { white-space: pre; opacity: .6; }
+  .cadeau .prijs { font-weight: 700; white-space: nowrap; }
+  .cadeau .uitleg { display: none; }
+  .cadeau input:checked + label { background: var(--accent); color: #fff; }
+  .cadeau input:checked + label::before { content: "✓\00a0"; font-weight: 700; }
+  .cadeau input:focus-visible + label { outline: 3px solid var(--salie); outline-offset: 2px; }
+
+  .pill-uitleg {
+    margin: .75rem 0 0; min-height: 0;
+    font-size: .9rem; color: var(--grijs);
+  }
+  .pill-uitleg:empty { display: none; }
+  .pill-uitleg::before { content: "→ "; color: var(--accent); font-weight: 600; }
+
+  @media (min-width: 760px) {
+    .verhaal {
+      display: grid; grid-template-columns: 2fr 3fr; gap: 1.75rem; align-items: stretch;
+    }
+    .verhaal.omgekeerd { grid-template-columns: 3fr 2fr; }
+    .verhaal + .verhaal { margin-top: 2rem; }
+    .verhaal-foto { aspect-ratio: auto; min-height: 200px; }
+    .verhaal-tekst { padding-top: 0; }
+    .verhaal.omgekeerd .verhaal-foto { order: 2; }
+  }
+  /* Gegevens */
+  .keuze {
+    display: flex; align-items: center; gap: .75rem;
+    padding: .8rem 1rem;
+    margin-bottom: .75rem;
+    background: var(--accent-licht);
+    border-radius: var(--radius);
+    font-size: .9rem;
+  }
+  .keuze .wat { flex: 1; min-width: 0; }
+  .keuze strong { display: block; font-weight: 600; }
+  .keuze span { color: var(--grijs); font-size: .8rem; }
+  .keuze .bedrag { font-size: 1.15rem; font-weight: 700; color: var(--accent); }
+  .keuze.leeg { background: var(--vlak); color: var(--grijs); }
+  .keuze a { color: var(--petrol); font-size: .8rem; }
+
+  .velden { display: grid; gap: .6rem; }
+  @media (min-width: 640px) { .velden { grid-template-columns: 1fr 1fr; } }
+  .velden input {
+    width: 100%;
+    font: inherit; font-size: 1.05rem;
+    padding: .85rem 1rem;
+    border: 2px solid var(--rand);
+    border-radius: var(--radius);
+    background: #fff;
+  }
+  .velden input:focus { outline: none; border-color: var(--petrol); }
+  .velden input[aria-invalid="true"] { border-color: #b00020; }
+  .hint { font-size: .8rem; color: var(--grijs); margin: .4rem 0 0; }
+  .nieuwsbrief {
+    display: flex; gap: .6rem; align-items: flex-start;
+    margin-top: .4rem; font-size: .85rem; color: var(--grijs); cursor: pointer;
+  }
+  .nieuwsbrief input { margin-top: .2rem; width: 1.1rem; height: 1.1rem; accent-color: var(--accent); flex: none; }
+  .fout { color: #b00020; font-size: .85rem; margin: .4rem 0 0; }
+  .fout:empty { display: none; }
+
+  .geef {
+    margin-top: 1rem;
+    width: 100%;
+    font: inherit; font-size: 1.15rem; font-weight: 700;
+    padding: 1rem;
+    color: #fff;
+    background: var(--accent);
+    border: 0; border-radius: var(--radius);
+    cursor: pointer;
+    transition: background .15s, transform .05s;
+  }
+  .geef:hover { background: var(--accent-donker); }
+  .geef:active { transform: scale(.99); }
+  .geef:focus-visible { outline: 3px solid var(--salie); outline-offset: 2px; }
+  .geef:disabled { opacity: .55; cursor: wait; }
+
+  /* Vertrouwen */
+  .vertrouwen {
+    margin: 1.75rem 1.25rem 0;
+    padding: 1rem 1.1rem;
+    background: var(--vlak);
+    border-radius: var(--radius);
+    font-size: .82rem; color: var(--grijs);
+    display: grid; gap: .35rem;
+  }
+  .vertrouwen div { display: flex; gap: .5rem; }
+  .vertrouwen div::before { content: "✓"; color: var(--salie); font-weight: 700; }
+
+  .placeholder { font-style: italic; opacity: .8; }
+
+  /* Melding in de prototypemodus */
+  dialog { border: 0; border-radius: var(--radius); padding: 1.25rem; max-width: 90vw; box-shadow: 0 10px 40px rgba(0,0,0,.25); font: inherit; }
+  dialog pre { background: var(--vlak); padding: .75rem; border-radius: 8px; font-size: .8rem; white-space: pre-wrap; }
+  dialog button { font: inherit; padding: .5rem 1rem; border-radius: 8px; border: 0; background: var(--petrol); color: #fff; cursor: pointer; }
+</style>
+</head>
+<body>
+<div class="pagina">
+
+  <header class="hero">
+    <div class="hero-tekst">
+      <span class="label">✶ Kerstactie 2026</span>
+      <h1>Geef een cadeau dat telt</h1>
+      <p>Kies een concreet cadeau voor een kind, een gezin of een zendeling.</p>
+    </div>
+  </header>
+
+  <p class="intro placeholder">[Korte tekst over de kerstactie: waarom, voor wie, en wat een gift doet.]</p>
+
+  <form id="donatie" method="post" action="https://forerunner-info.appspot.com/donate" target="_top" novalidate>
+    <input type="hidden" name="currency" value="EUR">
+    <input type="hidden" name="periodiek" value="once">
+    <input type="hidden" name="projectcode" id="projectcode" value="">
+    <input type="hidden" name="bedrag" id="bedrag" value="">
+
+    <section class="stap" id="stap-cadeau">
+      <h2><span class="nummer">1</span> Kies je cadeau</h2>
+      <article class="project verhaal">
+        <div class="verhaal-foto" style="background-image:url('img/india.jpg')" role="img" aria-label="Foto van Grace Home"></div>
+        <div class="verhaal-tekst">
+          <span class="nr">01</span>
+          <h3>Grace Home<span class="land">Kindertehuis in India</span></h3>
+          <blockquote>Hier vinden 35 tot 40 kinderen een warm thuis, eten, zorg en een plek op school.</blockquote>
+          <div class="pills" role="radiogroup" aria-label="Cadeaus voor Grace Home">
+            <span class="cadeau">
+              <input type="radio" name="cadeau" id="c-schoolgeld" data-bedrag="150" data-project="TODO-GRACE">
+              <label for="c-schoolgeld"><span class="titel">Schoolgeld voor een jaar</span><span class="punt"> · </span><span class="prijs">€ 150</span><span class="uitleg">Een kind gaat een heel jaar naar school.</span></label>
+            </span>
+            <span class="cadeau">
+              <input type="radio" name="cadeau" id="c-uniform" data-bedrag="10" data-project="TODO-GRACE">
+              <label for="c-uniform"><span class="titel">Een schooluniform</span><span class="punt"> · </span><span class="prijs">€ 10</span><span class="uitleg">Een kind gaat netjes gekleed naar school.</span></label>
+            </span>
+          </div>
+          <p class="pill-uitleg" aria-live="polite"></p>
+        </div>
+      </article>
+      <article class="project verhaal omgekeerd">
+        <div class="verhaal-foto" style="background-image:url('img/myanmar.jpg')" role="img" aria-label="Foto van Myanmar"></div>
+        <div class="verhaal-tekst">
+          <span class="nr">02</span>
+          <h3>Myanmar<span class="land">Zendelingen in Myanmar</span></h3>
+          <blockquote>Lokale zendelingen trainen nieuwe gelovigen en brengen het evangelie in hun eigen land.</blockquote>
+          <div class="pills" role="radiogroup" aria-label="Cadeaus voor Myanmar">
+            <span class="cadeau">
+              <input type="radio" name="cadeau" id="c-salaris" data-bedrag="200" data-project="TODO-MYANMAR">
+              <label for="c-salaris"><span class="titel">Een jaarsalaris voor een zendeling</span><span class="punt"> · </span><span class="prijs">€ 200</span><span class="uitleg">Een zendeling in Myanmar kan een jaar lang het evangelie brengen.</span></label>
+            </span>
+            <span class="cadeau">
+              <input type="radio" name="cadeau" id="c-bijbeltraining" data-bedrag="25" data-project="TODO-MYANMAR">
+              <label for="c-bijbeltraining"><span class="titel">Bijbeltraining, eten en onderdak</span><span class="punt"> · </span><span class="prijs">€ 25</span><span class="uitleg">Een cursist volgt de bijbeltraining en krijgt eten en een slaapplek.</span></label>
+            </span>
+          </div>
+          <p class="pill-uitleg" aria-live="polite"></p>
+        </div>
+      </article>
+      <article class="project verhaal">
+        <div class="verhaal-foto" style="background-image:url('img/congo.jpg')" role="img" aria-label="Foto van Action Uruma"></div>
+        <div class="verhaal-tekst">
+          <span class="nr">03</span>
+          <h3>Action Uruma<span class="land">School en zorg in Oost-Congo</span></h3>
+          <blockquote>Uruma betekent barmhartigheid: school, ontbijt en zorg voor kinderen in Oost-Congo.</blockquote>
+          <div class="pills" role="radiogroup" aria-label="Cadeaus voor Action Uruma">
+            <span class="cadeau">
+              <input type="radio" name="cadeau" id="c-ontbijt" data-bedrag="40" data-project="TODO-URUMA">
+              <label for="c-ontbijt"><span class="titel">Een jaar schoolontbijt</span><span class="punt"> · </span><span class="prijs">€ 40</span><span class="uitleg">Een kind begint elke schooldag met een voedzaam ontbijt.</span></label>
+            </span>
+            <span class="cadeau">
+              <input type="radio" name="cadeau" id="c-schooltas" data-bedrag="15" data-project="TODO-URUMA">
+              <label for="c-schooltas"><span class="titel">Een schooltas met schriften en pennen</span><span class="punt"> · </span><span class="prijs">€ 15</span><span class="uitleg">Alles wat een kind nodig heeft om te leren.</span></label>
+            </span>
+            <span class="cadeau">
+              <input type="radio" name="cadeau" id="c-checkup" data-bedrag="75" data-project="TODO-URUMA">
+              <label for="c-checkup"><span class="titel">Een medische check-up voor een klas</span><span class="punt"> · </span><span class="prijs">€ 75</span><span class="uitleg">Een arts onderzoekt en behandelt een hele klas.</span></label>
+            </span>
+            <span class="cadeau">
+              <input type="radio" name="cadeau" id="c-vakopleiding" data-bedrag="120" data-project="TODO-URUMA">
+              <label for="c-vakopleiding"><span class="titel">Een vakopleiding voor een jongere</span><span class="punt"> · </span><span class="prijs">€ 120</span><span class="uitleg">Een jongere leert een vak en kan zelf geld verdienen.</span></label>
+            </span>
+          </div>
+          <p class="pill-uitleg" aria-live="polite"></p>
+        </div>
+      </article>
+      <article class="project verhaal omgekeerd">
+        <div class="verhaal-foto" style="background-image:url('img/paraguay-2.jpg')" role="img" aria-label="Foto van Gebed en Zending"></div>
+        <div class="verhaal-tekst">
+          <span class="nr">04</span>
+          <h3>Gebed en Zending<span class="land">Sloppenwijken van Ciudad del Este, Paraguay</span></h3>
+          <blockquote>Elke week trekt het team de sloppenwijken in, met eten, gebed en hoop.</blockquote>
+          <div class="pills" role="radiogroup" aria-label="Cadeaus voor Gebed en Zending">
+            <span class="cadeau">
+              <input type="radio" name="cadeau" id="c-waterfilter" data-bedrag="35" data-project="TODO-PARAGUAY">
+              <label for="c-waterfilter"><span class="titel">Een waterfilter voor een gezin</span><span class="punt"> · </span><span class="prijs">€ 35</span><span class="uitleg">Schoon drinkwater voor een gezin in de sloppenwijk.</span></label>
+            </span>
+            <span class="cadeau">
+              <input type="radio" name="cadeau" id="c-voedselpakket" data-bedrag="25" data-project="TODO-PARAGUAY">
+              <label for="c-voedselpakket"><span class="titel">Een voedselpakket</span><span class="punt"> · </span><span class="prijs">€ 25</span><span class="uitleg">Een gezin heeft een week lang genoeg te eten.</span></label>
+            </span>
+            <span class="cadeau">
+              <input type="radio" name="cadeau" id="c-maaltijd" data-bedrag="50" data-project="TODO-PARAGUAY">
+              <label for="c-maaltijd"><span class="titel">Een maaltijd voor alle kinderen</span><span class="punt"> · </span><span class="prijs">€ 50</span><span class="uitleg">Alle kinderen op de zendingsbasis eten samen een warme maaltijd.</span></label>
+            </span>
+            <span class="cadeau">
+              <input type="radio" name="cadeau" id="c-kerst" data-bedrag="100" data-project="TODO-PARAGUAY">
+              <label for="c-kerst"><span class="titel">Kerst in de jeugdgevangenis</span><span class="punt"> · </span><span class="prijs">€ 100</span><span class="uitleg">De jongens in de jeugdgevangenis vieren kerst met eten en een cadeautje.</span></label>
+            </span>
+          </div>
+          <p class="pill-uitleg" aria-live="polite"></p>
+        </div>
+      </article>
+      <p class="fout" id="fout-cadeau" aria-live="polite"></p>
+    </section>
+
+    <section class="stap" id="stap-gegevens">
+      <h2><span class="nummer">2</span> Je gegevens</h2>
+
+      <div class="keuze leeg" id="keuze" aria-live="polite">
+        <span class="wat">Kies hierboven eerst een cadeau.</span>
+      </div>
+
+      <div class="velden">
+        <div>
+          <input type="text" name="name" id="naam" autocomplete="name"
+                 placeholder="Voor- en achternaam" aria-label="Voor- en achternaam" required>
+          <p class="fout" id="fout-naam" aria-live="polite"></p>
+        </div>
+        <div>
+          <input type="email" name="email" id="email" autocomplete="email" inputmode="email"
+                 placeholder="E-mailadres" aria-label="E-mailadres" required>
+          <p class="fout" id="fout-email" aria-live="polite"></p>
+        </div>
+      </div>
+      <p class="hint">We sturen je een bevestiging van je gift.</p>
+      <label class="nieuwsbrief">
+        <input type="checkbox" name="newsletter" value="YES">
+        <span>Stuur mij ook de nieuwsbrief van Forerunner (ongeveer elke 6 weken).</span>
+      </label>
+
+      <button class="geef" type="submit" id="geef">Geef je cadeau</button>
+    </section>
+  </form>
+
+  <div class="vertrouwen">
+    <div>Veilig betalen via Mollie met iDEAL en andere betaalmethoden</div>
+    <div>Giften aan Stichting Forerunner zijn aftrekbaar van de belasting (ANBI)</div>
+    <div>Je gift gaat naar het project van het cadeau dat je kiest</div>
+  </div>
+</div>
+
+<dialog id="prototype-melding">
+  <strong>Prototype: dit formulier zou nu dit versturen</strong>
+  <pre id="prototype-data"></pre>
+  <form method="dialog"><button>Sluiten</button></form>
+</dialog>
+
+<script>
+  // Zet op false zodra de echte projectcodes in de cadeaus staan.
+  const PROTOTYPE = true;
+
+  const form = document.getElementById('donatie');
+  const naam = document.getElementById('naam');
+  const email = document.getElementById('email');
+  const projectcode = document.getElementById('projectcode');
+  const bedrag = document.getElementById('bedrag');
+  const keuze = document.getElementById('keuze');
+  const geef = document.getElementById('geef');
+  const stapGegevens = document.getElementById('stap-gegevens');
+  const cadeaus = form.querySelectorAll('input[name="cadeau"]');
+  const fout = {
+    cadeau: document.getElementById('fout-cadeau'),
+    naam: document.getElementById('fout-naam'),
+    email: document.getElementById('fout-email'),
+  };
+
+  const gekozen = () => form.querySelector('input[name="cadeau"]:checked');
+
+  function toonKeuze() {
+    const c = gekozen();
+    if (!c) return;
+    const label = c.nextElementSibling;
+    const project = c.closest('.project').querySelector('h3').firstChild.textContent;
+    keuze.classList.remove('leeg');
+    keuze.innerHTML = '';
+    const wat = document.createElement('span');
+    wat.className = 'wat';
+    const titel = document.createElement('strong');
+    titel.textContent = label.querySelector('.titel').textContent;
+    const sub = document.createElement('span');
+    sub.textContent = project + ' · ';
+    const wijzig = document.createElement('a');
+    wijzig.href = '#stap-cadeau';
+    wijzig.textContent = 'wijzig';
+    wijzig.addEventListener('click', (e) => {
+      e.preventDefault();
+      c.closest('.cadeau').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+    sub.append(wijzig);
+    wat.append(titel, sub);
+    const prijs = document.createElement('span');
+    prijs.className = 'bedrag';
+    prijs.textContent = '€ ' + c.dataset.bedrag;
+    keuze.append(wat, prijs);
+    geef.textContent = 'Geef € ' + c.dataset.bedrag;
+    fout.cadeau.textContent = '';
+  }
+
+  // Na een keuze: toon het cadeau bij de gegevens en scroll daarheen,
+  // tenzij de gegevens al in beeld zijn.
+  for (const c of cadeaus) {
+    c.addEventListener('change', () => {
+      toonKeuze();
+      const r = stapGegevens.getBoundingClientRect();
+      if (r.top > window.innerHeight - 80) {
+        setTimeout(() => stapGegevens.scrollIntoView({ behavior: 'smooth', block: 'start' }), 250);
+      }
+    });
+  }
+
+  function toonFout(veld, tekst, invoer) {
+    fout[veld].textContent = tekst;
+    if (invoer.type !== 'radio') invoer.setAttribute('aria-invalid', 'true');
+    invoer.focus({ preventScroll: true });
+    (invoer.type === 'radio' ? invoer.closest('.stap') : invoer)
+      .scrollIntoView({ behavior: 'smooth', block: invoer.type === 'radio' ? 'start' : 'center' });
+  }
+
+  form.addEventListener('submit', (e) => {
+    for (const veld in fout) fout[veld].textContent = '';
+    naam.removeAttribute('aria-invalid');
+    email.removeAttribute('aria-invalid');
+
+    const c = gekozen();
+    if (!c) {
+      e.preventDefault();
+      return toonFout('cadeau', 'Kies eerst een cadeau.', cadeaus[0]);
+    }
+    naam.value = naam.value.trim();
+    if (!naam.value) {
+      e.preventDefault();
+      return toonFout('naam', 'Vul je voor- en achternaam in.', naam);
+    }
+    if (!email.value || !email.checkValidity()) {
+      e.preventDefault();
+      return toonFout('email', 'Vul een geldig e-mailadres in.', email);
+    }
+
+    projectcode.value = c.dataset.project;
+    bedrag.value = c.dataset.bedrag;
+
+    if (PROTOTYPE) {
+      e.preventDefault();
+      const data = new FormData(form);
+      data.delete('cadeau');
+      document.getElementById('prototype-data').textContent =
+        'Cadeau: ' + c.nextElementSibling.querySelector('.titel').textContent + '\n\n' +
+        'POST ' + form.action + '\n\n' +
+        [...data].map(([k, v]) => `${k} = ${v}`).join('\n');
+      document.getElementById('prototype-melding').showModal();
+      return;
+    }
+
+    // Het radioveld "cadeau" hoeft niet naar de backend.
+    for (const r of cadeaus) r.disabled = true;
+
+    // Voorkom een dubbele betaling door een tweede klik.
+    setTimeout(() => {
+      geef.disabled = true;
+      geef.textContent = 'Even geduld…';
+    });
+  });
+
+  // Enter in een tekstveld verstuurt het formulier niet meteen.
+  for (const veld of [naam, email]) {
+    veld.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); veld.blur(); }
+    });
+  }
+
+  // Na 'terug' uit Mollie staat de pagina soms nog in de cache. Zet alles weer aan.
+  window.addEventListener('pageshow', () => {
+    for (const r of cadeaus) r.disabled = false;
+    geef.disabled = false;
+    const c = gekozen();
+    geef.textContent = c ? 'Geef € ' + c.dataset.bedrag : 'Geef je cadeau';
+    toonKeuze();
+  });
+
+  // Geef de hoogte door aan de pagina eromheen, voor een iframe zonder schuifbalk.
+  if (window.parent !== window) {
+    const meld = () => window.parent.postMessage(
+      { type: 'forerunner-actie-hoogte', hoogte: document.body.getBoundingClientRect().height }, '*');
+    new ResizeObserver(meld).observe(document.body);
+  }
+
+  // Toon onder de pills de uitleg van het gekozen cadeau in dat project.
+  function toonUitleg() {
+    for (const p of document.querySelectorAll('.pill-uitleg')) p.textContent = '';
+    const c = gekozen();
+    if (!c) return;
+    c.closest('.verhaal').querySelector('.pill-uitleg').textContent =
+      c.nextElementSibling.querySelector('.uitleg').textContent;
+  }
+  for (const c of cadeaus) c.addEventListener('change', toonUitleg);
+  window.addEventListener('pageshow', toonUitleg);
+</script>
+</body>
+</html>

@@ -1,384 +1,65 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="nl">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport"
-		content="width=device-width, initial-scale=1.0"
-	/>
-	<title>Document</title>
-	<link rel="stylesheet"
-		href="css/form-radio-button.css"
-	>
-	<link rel="stylesheet"
-		href="css/style.css"
-	>
-	<link rel="stylesheet"
-		type="text/css"
-		href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&amp;family=Raleway:ital,wght@0,100;0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,700"
-	>
-	<!--	<script src="https://cdn.jsdelivr.net/npm/umbrellajs"></script>-->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>fr-donaties — overzicht</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --accent: hsl(18.84, 67.6%, 35.1%); --petrol: hsl(182, 32.61%, 18.04%); --grijs: hsl(0, 0%, 42%); --rand: hsl(0, 0%, 88%); }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Poppins", system-ui, sans-serif; color: hsl(0, 0%, 11%); line-height: 1.5; }
+  main { max-width: 760px; margin: 0 auto; padding: 2rem 1.25rem 3rem; }
+  h1 { color: var(--petrol); margin: 0 0 .25rem; font-size: 1.6rem; }
+  h2 { color: var(--petrol); font-size: 1.1rem; margin: 2rem 0 .6rem; }
+  p { margin: 0 0 .75rem; color: var(--grijs); }
+  a { color: var(--accent); }
+  ul { list-style: none; padding: 0; margin: 0; display: grid; gap: .4rem; }
+  li { display: flex; flex-wrap: wrap; align-items: baseline; gap: .25rem .75rem; padding: .6rem .8rem; border: 1px solid var(--rand); border-radius: 10px; }
+  .letter { font-weight: 600; color: var(--petrol); min-width: 1.2rem; }
+  .naam { flex: 1; min-width: 12rem; }
+  .los { font-size: .85rem; }
+</style>
 </head>
 <body>
+<main>
+  <h1>fr-donaties</h1>
+  <p>Prototypes voor donatiepagina's van Stichting Forerunner.</p>
 
-<form id="donation"
-	class="hidden"
->
+  <h2>Donatieformulier</h2>
+  <ul>
+    <li><span class="naam"><a href="doneer/index.html">Het huidige donatieformulier</a></span></li>
+  </ul>
 
-	<div class="fieldset-header fieldset-header-first">Frequentie</div>
-	<fieldset class="frequency">
-
-		<div class="radio-freq">
-			<input id="monthly"
-				type="radio"
-				name="frequency"
-				value="monthly"
-				checked
-				required
-			/>
-			<label for="monthly">
-				<span class="title">Maandelijks</span>
-				<span class="hart-svg">
-					<svg class="heart-svg-inline"
-						clip-rule="evenodd"
-						fill-rule="evenodd"
-						stroke-linejoin="round"
-						stroke-miterlimit="2"
-						viewBox="0 0 24 24"
-						xmlns="http://www.w3.org/2000/svg"
-					>
-					<path d="m12 5.72c-2.624-4.517-10-3.198-10 2.461 0 3.725 4.345 7.727 9.303 12.54.194.189.446.283.697.283s.503-.094.697-.283c4.977-4.831 9.303-8.814 9.303-12.54 0-5.678-7.396-6.944-10-2.461z"
-						fill-rule="nonzero"
-						fill="#96430f"
-					/>
-					</svg>
-				</span>
-			</label>
-		</div>
-
-		<div class="radio-freq">
-			<input id="once"
-				type="radio"
-				name="frequency"
-				value="once"
-				required
-			/>
-			<label for="once">
-				<span class="title">Eenmalig</span>
-			</label>
-		</div>
-	</fieldset>
-	<fieldset id="frequency-permission">
-		<div class="checkbox-wrapper">
-			<input id="checkbox-permission"
-				type="checkbox"
-				name="monthly-permission"
-				required
-			/>
-			<label id="checkbox-permission-label"
-				for="checkbox-permission"
-			>
-				<span class="title">Ik geef Stichting Forerunner toestemming om maandelijks het ingevulde bedrag af te schrijven voor het gekozen project.</span>
-			</label>
-		</div>
-	</fieldset>
-
-	<div class="fieldset-header">Bestemming</div>
-	<fieldset class="destination">
-		<div class="radio-wrapper">
-			<input id="waarnodig"
-				type="radio"
-				name="destination"
-				value="needed"
-				checked
-				required
-			/>
-			<label for="waarnodig"
-				class="needed"
-			>
-				<span class="title">Waar mijn hulp het hardst nodig is</span>
-				<span class="hart-svg">
-					<svg class="heart-svg-inline"
-						clip-rule="evenodd"
-						fill-rule="evenodd"
-						stroke-linejoin="round"
-						stroke-miterlimit="2"
-						viewBox="0 0 24 24"
-						xmlns="http://www.w3.org/2000/svg"
-					>
-					<path d="m12 5.72c-2.624-4.517-10-3.198-10 2.461 0 3.725 4.345 7.727 9.303 12.54.194.189.446.283.697.283s.503-.094.697-.283c4.977-4.831 9.303-8.814 9.303-12.54 0-5.678-7.396-6.944-10-2.461z"
-						fill-rule="nonzero"
-						fill="#96430f"
-					/>
-					</svg>
-				</span>
-			</label>
-		</div>
-
-		<div class="radio-wrapper">
-			<input id="project"
-				type="radio"
-				name="destination"
-				value="project"
-				required
-			/>
-			<label for="project">
-				<span class="title">Zelf een project kiezen</span>
-				<select name="projectcode"
-					required
-				>
-					<option value="FR102">FR102 - Awakening the Nations</option>
-					<option value="FR104">FR104 - Until All Nations Sing</option>
-					<option value="FR107">FR107 - Gebedshuis Amersfoort (GA) - Arjan Krijtenburg</option>
-					<option value="FR108">FR108 - Call to Intimacy</option>
-					<option value="FR109">FR109 - Justice House Of Prayer (JHOP) - Johan en Hannah den Hartogh</option>
-					<option value="FR113">FR113 - For the Lamb’s Reward - Daniel Henrietta</option>
-					<option value="FR120">FR120 - European Prayer Project</option>
-					<option value="FR124">FR124 - Re-discovering Jesus - Elisha and Vimbai Nyandoro</option>
-					<option value="FR127">FR127 - Hut van David - Joanne Boiten</option>
-					<option value="FR128">FR128 - Life4Israel - Daniel en Riwkah Keijzer</option>
-					<option value="FR132">FR132 - Missiewerk Congo</option>
-					<option value="FR136">FR136 - Korinthe Ministries</option>
-					<option value="FR137">FR137 - Soul Balm - Songs by Erika</option>
-					<option value="FR138">FR138 - Gebedswerk Zuilen</option>
-					<option value="FR139">FR139 - Health for the Nations</option>
-					<option value="FR141">FR141 - Showing Jesus Love</option>
-					<option value="FR142">FR142 - Serving the City</option>
-					<option value="FR146">FR146 - For Such A Time as This</option>
-					<option value="FR149">FR149 - De Bloeiplaats | Modernday Monastery</option>
-					<option value="FR153">FR153 - Deeper into Jesus</option>
-					<option value="FR154">FR154 - Spirit Move</option>
-					<option value="FR155">FR155 - F5life</option>
-					<option value="FR157">FR157 - Mahanaim Cyprus</option>
-					<option value="FR159">FR159 - Keyboard &amp; The Sword</option>
-					<option value="FR160">FR160 - Discipelschap in beweging</option>
-					<option value="FR161">FR161 - Oil upon His feet</option>
-					<option value="FR162">FR162 - Bijbelonderwijs Amsterdam</option>
-					<option value="FR201">FR201 - Grace Mission - India</option>
-					<option value="FR202">FR202 - Taungoo Mission Center - Myanmar</option>
-					<option value="FR203">FR203 - Village Mission - India</option>
-					<option value="FR205">FR205 - Bijbelclub Kosovo</option>
-					<option value="FR230">FR230 - Help een kind</option>
-					<option value="FR301">FR301 - Projectreizen</option>
-					<option value="FR350">FR350 - Crisishulp Oekraïne</option>
-					<option value="FR360">FR360 - Crisishulp Aardbeving</option>
-					<option value="FR401">FR401 - Gebed en Zending</option>
-					<option value="FR430">FR430 - Sponsoring Paraguay</option>
-					<option value="FR501">FR501 - Prepare the Way - Verhoef</option>
-					<option value="FR555">FR555 - Samen de winter door</option>
-				</select>
-			</label>
-		</div>
-	</fieldset>
-
-	<div class="fieldset-header">Bedrag</div>
-	<fieldset class="amount">
-		<div class="radio-wrapper">
-			<input id="10-euro"
-				type="radio"
-				name="amount"
-				value="10"
-				required
-			/>
-			<label for="10-euro"
-				class="amount-nr"
-			>
-				<span class="title"><span class="amount-currency">&euro;</span>10</span>
-			</label>
-		</div>
-
-		<div class="radio-wrapper">
-			<input id="25-euro"
-				type="radio"
-				name="amount"
-				value="25"
-				checked
-				required
-			/>
-			<label for="25-euro"
-				class="amount-nr"
-			>
-				<span class="title"><span class="amount-currency">&euro;</span> 25</span>
-			</label>
-		</div>
-
-		<div class="radio-wrapper">
-			<input id="50-euro"
-				type="radio"
-				name="amount"
-				value="50"
-				required
-			/>
-			<label for="50-euro"
-				class="amount-nr"
-			>
-				<span class="title"><span class="amount-currency">&euro;</span> 50</span>
-			</label>
-		</div>
-
-		<div class="radio-wrapper">
-			<input id="100-euro"
-				type="radio"
-				name="amount"
-				value="100"
-				required
-			/>
-			<label for="100-euro"
-				class="amount-nr"
-			>
-				<span class="title"><span class="amount-currency">&euro;</span> 100</span>
-			</label>
-		</div>
-
-		<div class="radio-wrapper">
-			<input id="other-amount"
-				type="radio"
-				name="amount"
-				value="other"
-				min="5"
-				step="1"
-				required
-			/>
-			<label id="other-amount-label"
-				for="other-amount"
-			>
-				<span class="title">ander bedrag...</span>
-			</label>
-		</div>
-
-		<div class="radio-wrapper amount-wrapper">
-			<input id="amount"
-				class="hidden"
-				type="number"
-				name="other-amount"
-				min="5"
-				placeholder="&euro; ...."
-				required
-			/>
-		</div>
-	</fieldset>
-
-	<div class="fieldset-header">Valuta</div>
-	<fieldset class="valuta">
-
-		<div class="radio-currency">
-			<input id="currency-euro"
-				type="radio"
-				name="currency"
-				value="EUR"
-				checked
-				required
-			/>
-			<label for="currency-euro">
-				<span class="title">In euro's (€)</span>
-			</label>
-		</div>
-
-		<div class="radio-currency">
-			<input id="currency-dollar"
-				type="radio"
-				name="currency"
-				value="USD"
-				required
-			/>
-			<label for="currency-dollar">
-				<span class="title">In dollars ($)</span>
-			</label>
-		</div>
-	</fieldset>
-
-	<div class="fieldset-header">Uw gegevens</div>
-	<fieldset class="contact">
-
-		<div class="input-name">
-			<input id="contact-name"
-				type="text"
-				placeholder="Voor- en achternaam"
-				name="name"
-				minlength="4"
-				required
-			/>
-		</div>
-
-		<div class="input-email">
-			<input id="contact-email"
-				type="email"
-				placeholder="e-mailadres"
-				name="email"
-				required
-			/>
-		</div>
-	</fieldset>
-
-	<fieldset class="newsletter">
-
-		<div class="checkbox-wrapper">
-			<input id="checkbox-newsletter"
-				type="checkbox"
-				name="newsletter"
-			/>
-			<label id="checkbox-newsletter-label"
-				for="checkbox-newsletter"
-			>
-				<span class="title">Ja, ik ontvang graag eens in de 6 weken inspirerende zendingsupdates, informatie over reizen, activiteiten, toerusting en meer...</span>
-			</label>
-		</div>
-
-	</fieldset>
-
-	<fieldset class="submit">
-		<button id="submit"
-			type="button"
-		>Doneer</button>
-	</fieldset>
-
-</form>
-<div id="form-bottom">
-	<div id="form-disclaimer">
-		<p>Automatische periodieke donaties via incasso of creditcard kunnen op elk moment stopgezet worden.
-			Stuur hiervoor een bericht via het <a target="_blank" href="https://forerunner.info/contact">contactformulier</a>.
-			Er is geen opzegtermijn.</p>
-	</div>
-	<div id="payment-methods">
-		<figure><img src="https://www.mollie.com/external/icons/payment-methods/ideal%402x.png"
-			alt="iDEAL"
-		>
-			<figcaption>iDEAL</figcaption>
-		</figure>
-		<figure><img src="https://www.mollie.com/external/icons/payment-methods/creditcard%402x.png"
-			alt="Credit card"
-		>
-			<figcaption>Card</figcaption>
-		</figure>
-		<figure><img src="https://www.mollie.com/external/icons/payment-methods/banktransfer%402x.png"
-			alt="Bank transfer"
-		>
-			<figcaption>Bank transfer</figcaption>
-		</figure>
-		<figure><img src="https://www.mollie.com/external/icons/payment-methods/paypal%402x.png"
-			alt="PayPal"
-		>
-			<figcaption>PayPal</figcaption>
-		</figure>
-		<figure><img src="https://www.mollie.com/external/icons/payment-methods/bancontact%402x.png"
-			alt="Bancontact"
-		>
-			<figcaption>Bancontact</figcaption>
-		</figure>
-		<figure><img src="https://www.mollie.com/external/icons/payment-methods/kbc%402x.png"
-			alt="KBC/CBC"
-		>
-			<figcaption>KBC/CBC Payment Button</figcaption>
-		</figure>
-		<figure><img src="https://www.mollie.com/external/icons/payment-methods/belfius%402x.png"
-			alt="Belfius"
-		>
-			<figcaption>Belfius Pay Button</figcaption>
-		</figure>
-	</div>
-</div>
-<script src="js/umbrella.min.js"></script>
-<script defer
-	src="js/render.js"
-></script>
+  <h2>Kerstactie: ontwerpen</h2>
+  <p>Elk ontwerp opent in de pagina van forerunner.info. Wissel daar met de knoppen bovenaan. "Los" opent het ontwerp zonder omlijsting.</p>
+  <ul id="ontwerpen"></ul>
+</main>
+<script>
+  const ONTWERPEN = [
+    ['A', 'actie-supp.html', 'Knoppen zoals supp'],
+    ['B', 'actie-cadeaus.html', 'Alleen acties'],
+    ['C', 'actie-cadeau-eerst.html', 'Eerst cadeau, dan gegevens'],
+    ['D', 'actie-d-catalogus.html', 'Fotocatalogus met filter'],
+    ['E', 'actie-e-menukaart.html', 'Menukaart'],
+    ['F', 'actie-f-tabs.html', 'Tabs per project'],
+    ['G', 'actie-g-carrousel.html', 'Carrousel per project'],
+    ['H', 'actie-h-kerstlabels.html', 'Kerstlabels'],
+    ['I', 'actie-i-bento.html', 'Bento-grid'],
+    ['J', 'actie-j-zigzag.html', 'Magazine-zigzag'],
+    ['K', 'actie-k-accordeon.html', 'Projectkaarten met accordeon'],
+    ['L', 'actie-l-prijsladder.html', 'Prijsladder'],
+  ];
+  const lijst = document.getElementById('ontwerpen');
+  for (const [letter, bestand, naam] of ONTWERPEN) {
+    const li = document.createElement('li');
+    li.innerHTML = `<span class="letter">${letter}</span>
+      <span class="naam"><a href="supp/index.html?ontwerp=${bestand}">${naam}</a></span>
+      <a class="los" href="supp/${bestand}">los</a>`;
+    lijst.append(li);
+  }
+</script>
 </body>
 </html>
