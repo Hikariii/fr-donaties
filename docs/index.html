@@ -18,7 +18,7 @@
   a { color: var(--accent); }
   ul { list-style: none; padding: 0; margin: 0; display: grid; gap: .4rem; }
   li { display: flex; flex-wrap: wrap; align-items: baseline; gap: .25rem .75rem; padding: .6rem .8rem; border: 1px solid var(--rand); border-radius: 10px; }
-  .letter { font-weight: 600; color: var(--petrol); min-width: 1.2rem; }
+  .letter { font-weight: 600; color: var(--petrol); min-width: 1.6rem; }
   .naam { flex: 1; min-width: 12rem; }
   .los { font-size: .85rem; }
 </style>
@@ -36,6 +36,10 @@
   <h2>Kerstactie: ontwerpen</h2>
   <p>Elk ontwerp opent in de pagina van forerunner.info. Wissel daar met de knoppen bovenaan. "Los" opent het ontwerp zonder omlijsting.</p>
   <ul id="ontwerpen"></ul>
+
+  <h2>Kerstactie Grace Home</h2>
+  <p>Alleen Grace Home (FR230). A: eenmalig en maandelijks op één pagina. B: twee pagina's. C: alleen eenmalig.</p>
+  <ul id="grace-home"></ul>
 </main>
 <script>
   const ONTWERPEN = [
@@ -59,6 +63,25 @@
       <span class="naam"><a href="supp/index.html?ontwerp=${bestand}">${naam}</a></span>
       <a class="los" href="supp/${bestand}">los</a>`;
     lijst.append(li);
+  }
+
+  const GRACE_HOME = [
+    ['A1', 'a-toggle.html', 'Schakelaar, opent op eenmalig'],
+    ['A2', 'a-toggle.html?start=maandelijks', 'Schakelaar, opent op maandelijks'],
+    ['A3', 'a3-naast-elkaar.html', 'Eenmalig en maandelijks naast elkaar'],
+    ['A4', 'a4-maandelijks-eerst.html', 'Maandelijks eerst, eenmalig als alternatief'],
+    ['B1', 'b-keuze.html', 'Keuzepagina, dan eenmalig of maandelijks'],
+    ['B2', 'b-eenmalig.html', 'Direct eenmalig, met een link naar maandelijks'],
+    ['C1', 'c1-kaarten.html', 'Alleen eenmalig: cadeaukaarten met foto'],
+    ['C2', 'c2-ladder.html', 'Alleen eenmalig: compacte prijsladder'],
+  ];
+  const ghLijst = document.getElementById('grace-home');
+  for (const [letter, bestand, naam] of GRACE_HOME) {
+    const li = document.createElement('li');
+    li.innerHTML = `<span class="letter">${letter}</span>
+      <span class="naam"><a href="grace-home-kerst/index.html?ontwerp=${encodeURIComponent(bestand)}">${naam}</a></span>
+      <a class="los" href="grace-home-kerst/${bestand}">los</a>`;
+    ghLijst.append(li);
   }
 </script>
 </body>

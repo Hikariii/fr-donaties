@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grace Home — Forerunner</title>
+<!--
+  Ontwerp A3: eenmalig en maandelijks op één pagina, naast elkaar.
+  Twee kolommen vanaf 760px: "Geef een cadeau" (okerband) en "Steun
+  maandelijks" (saliéband), zoals de gekleurde banden op het beeld voor
+  social media. Op mobiel staan ze onder elkaar, maandelijks eerst.
+  Eén radiogroep, dus er is altijd hooguit één keuze.
+  De opties, het formulier en de prototypemodus staan in gedeeld.js.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="gedeeld.css">
+<style>
+  /* Kop: tekst links, foto rechts op desktop */
+  @media (min-width: 760px) {
+    .gh-kop { display: grid; grid-template-columns: 1.1fr 1fr; gap: 0 1.5rem; align-items: center; }
+    .gh-kop h1 { grid-column: 1 / -1; }
+    .gh-kop .tekst { grid-column: 1; }
+    .gh-kop .gh-foto { grid-column: 2; grid-row: 2; margin: 0; aspect-ratio: 4 / 3; }
+  }
+
+  .kolommen { display: grid; gap: 1rem; }
+  @media (min-width: 760px) { .kolommen { grid-template-columns: 1fr 1fr; align-items: start; } }
+
+  .kolom { border-radius: var(--radius); overflow: hidden; background: var(--vlak); }
+  .band {
+    margin: 0; padding: .8rem 1rem;
+    font-size: 1.1rem; font-weight: 600; text-align: center;
+    color: var(--petrol);
+  }
+  .band small { display: block; font-size: .78rem; font-weight: 400; color: var(--grijs); }
+  .kolom.cadeau .band { background: var(--oker-licht); }
+  .kolom.maand .band { background: var(--salie-licht); }
+  .kolom .lijst { display: grid; gap: .5rem; padding: .75rem; }
+  .kolom .sponsor-noot { margin: 0; padding: 0 1rem 1rem; }
+
+  .optie label {
+    display: flex; align-items: center; gap: .8rem;
+    min-height: 44px;
+    padding: .75rem .9rem;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    background: #fff;
+    transition: border-color .15s, background .15s;
+  }
+  .optie label:hover { border-color: var(--salie); }
+  .optie .rond {
+    flex: none; width: 2.6rem; height: 2.6rem; border-radius: 50%;
+    display: grid; place-items: center;
+    color: #fff;
+  }
+  .optie .rond .icoon { width: 1.3em; height: 1.3em; }
+  .kolom.cadeau .rond { background: var(--oker); }
+  .kolom.maand .rond { background: var(--salie); }
+  .optie .wat { flex: 1; min-width: 0; }
+  .optie .titel { display: block; font-weight: 600; line-height: 1.3; font-size: .95rem; }
+  .optie .uitleg { display: block; font-size: .78rem; color: var(--grijs); line-height: 1.35; }
+  .optie .prijs { flex: none; text-align: right; font-weight: 700; color: var(--accent); line-height: 1.15; }
+  .optie .prijs small { display: block; font-weight: 500; font-size: .7rem; color: var(--grijs); }
+  .optie input:checked + label { border-color: var(--accent); background: var(--accent-licht); }
+  .optie input:checked + label .rond { background: var(--accent); }
+
+  /* Mobiel: maandelijks eerst */
+  @media (max-width: 759px) { .kolom.maand { order: -1; } }
+</style>
+</head>
+<body>
+<div class="pagina">
+  <header class="gh-kop">
+    <h1>Geef kansarme kinderen hoop!</h1>
+    <div class="tekst">
+      <p>Grace Home is het gezinshuis van een Indiase familie met wie we al 15 jaar samenwerken.</p>
+      <p>Zij vangen kansarme (wees)kinderen op en geven hen zorg, voedsel, een liefdevol thuis en onderwijs.</p>
+      <p class="doe-mee">Doe jij mee?</p>
+    </div>
+    <img class="gh-foto" src="img/india.jpg" alt="Lachende kinderen van Grace Home">
+  </header>
+
+  <form id="donatie">
+    <section class="stap" id="stap-keuze">
+      <h2>Kies je gift</h2>
+      <div class="kolommen">
+        <div class="kolom cadeau">
+          <h3 class="band">Geef een cadeau <small>Je betaalt één keer</small></h3>
+          <div class="lijst" data-lijst="eenmalig"></div>
+        </div>
+        <div class="kolom maand">
+          <h3 class="band">Steun maandelijks <small>Je stopt wanneer je wilt</small></h3>
+          <div class="lijst" data-lijst="maandelijks"></div>
+          <div data-sponsor></div>
+        </div>
+      </div>
+      <p class="fout" id="fout-keuze" aria-live="polite"></p>
+    </section>
+
+    <section class="stap" id="stap-gegevens" data-gh-gegevens>
+      <h2>Je gegevens</h2>
+    </section>
+  </form>
+</div>
+
+<script src="gedeeld.js"></script>
+<script>
+  for (const soort of ['eenmalig', 'maandelijks']) {
+    document.querySelector(`[data-lijst="${soort}"]`).innerHTML = GH.OPTIES[soort].map((o) => `
+      <div class="optie">
+        ${GH.radio(o, soort)}
+        <label for="k-${o.id}">
+          <span class="rond">${GH.icoon(o.icoon)}</span>
+          <span class="wat">
+            <span class="titel">${o.titel}</span>
+            <span class="uitleg">${o.uitleg}</span>
+          </span>
+          <span class="prijs">€ ${GH.euro(o.bedrag)}${soort === 'maandelijks' ? '<small>per maand</small>' : ''}</span>
+        </label>
+      </div>`).join('');
+  }
+  document.querySelector('[data-sponsor]').innerHTML = GH.sponsorNoot();
+  GH.start();
+</script>
+</body>
+</html>

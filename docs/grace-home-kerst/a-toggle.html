@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grace Home — Forerunner</title>
+<!--
+  Ontwerp A1 en A2: eenmalig en maandelijks op één pagina, met een schakelaar.
+  A1 opent op eenmalig, A2 (?start=maandelijks) op maandelijks.
+  De opties, het formulier en de prototypemodus staan in gedeeld.js.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="gedeeld.css">
+<style>
+  .schakelaar {
+    display: grid; grid-template-columns: 1fr 1fr;
+    padding: 4px; gap: 4px;
+    background: var(--salie-licht);
+    border-radius: 99px;
+    margin: 0 0 1rem;
+  }
+  .schakelaar button {
+    font: inherit; font-weight: 600; font-size: .95rem;
+    padding: .7rem .5rem; min-height: 44px;
+    border: 0; border-radius: 99px;
+    background: transparent; color: var(--petrol);
+    cursor: pointer;
+  }
+  .schakelaar button[aria-pressed="true"] { background: var(--petrol); color: #fff; }
+  .schakelaar button:focus-visible { outline: 3px solid var(--salie); outline-offset: 2px; }
+
+  .uitleg-soort { margin: 0 0 .9rem; color: var(--grijs); font-size: .92rem; }
+
+  .opties { display: grid; gap: .6rem; }
+  @media (min-width: 560px) { .opties { grid-template-columns: 1fr 1fr; } }
+  .optie label {
+    height: 100%;
+    display: flex; align-items: center; gap: .9rem;
+    padding: .9rem 1rem;
+    border: 2px solid var(--rand);
+    border-radius: var(--radius);
+    background: #fff;
+    transition: border-color .15s, background .15s;
+  }
+  .optie label:hover { border-color: var(--salie); }
+  .optie .rond {
+    flex: none; width: 3rem; height: 3rem; border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--salie); color: #fff;
+  }
+  .optie .wat { min-width: 0; }
+  .optie .prijs { display: block; font-weight: 700; font-size: 1.15rem; color: var(--accent); line-height: 1.2; }
+  .optie .prijs small { font-weight: 500; font-size: .8rem; color: var(--grijs); }
+  .optie .titel { display: block; font-weight: 600; line-height: 1.3; }
+  .optie .uitleg { display: block; font-size: .8rem; color: var(--grijs); }
+  .optie input:checked + label { border-color: var(--accent); background: var(--accent-licht); }
+  .optie input:checked + label .rond { background: var(--accent); }
+</style>
+</head>
+<body>
+<div class="pagina">
+  <header class="gh-kop">
+    <h1>Geef kansarme kinderen hoop!</h1>
+    <p>Grace Home is het gezinshuis van een Indiase familie met wie we al 15 jaar samenwerken.</p>
+    <p>Zij vangen kansarme (wees)kinderen op en geven hen zorg, voedsel, een liefdevol thuis en onderwijs.</p>
+    <img class="gh-foto" src="img/india.jpg" alt="Lachende kinderen van Grace Home">
+    <p class="doe-mee">Doe jij mee?</p>
+  </header>
+
+  <form id="donatie">
+    <section class="stap" id="stap-keuze">
+      <div class="schakelaar" role="group" aria-label="Hoe wil je geven?">
+        <button type="button" data-soort="eenmalig">Eenmalig</button>
+        <button type="button" data-soort="maandelijks">Maandelijks</button>
+      </div>
+      <div data-lijst="eenmalig">
+        <p class="uitleg-soort">Geef een cadeau. Je betaalt één keer.</p>
+        <div class="opties"></div>
+      </div>
+      <div data-lijst="maandelijks">
+        <p class="uitleg-soort">Steun maandelijks. Je stopt wanneer je wilt.</p>
+        <div class="opties"></div>
+        <div data-sponsor></div>
+      </div>
+      <p class="fout" id="fout-keuze" aria-live="polite"></p>
+    </section>
+
+    <section class="stap" id="stap-gegevens" data-gh-gegevens>
+      <h2>Je gegevens</h2>
+    </section>
+  </form>
+</div>
+
+<script src="gedeeld.js"></script>
+<script>
+  for (const soort of ['eenmalig', 'maandelijks']) {
+    document.querySelector(`[data-lijst="${soort}"] .opties`).innerHTML = GH.OPTIES[soort].map((o) => `
+      <div class="optie">
+        ${GH.radio(o, soort)}
+        <label for="k-${o.id}">
+          <span class="rond">${GH.icoon(o.icoon)}</span>
+          <span class="wat">
+            <span class="prijs">€ ${GH.euro(o.bedrag)}${soort === 'maandelijks' ? ' <small>per maand</small>' : ''}</span>
+            <span class="titel">${o.titel}</span>
+            <span class="uitleg">${o.uitleg}</span>
+          </span>
+        </label>
+      </div>`).join('');
+  }
+  document.querySelector('[data-sponsor]').innerHTML = GH.sponsorNoot();
+
+  const gh = GH.start();
+
+  function toonSoort(soort) {
+    for (const k of document.querySelectorAll('.schakelaar button')) {
+      k.setAttribute('aria-pressed', String(k.dataset.soort === soort));
+    }
+    for (const lijst of document.querySelectorAll('[data-lijst]')) {
+      lijst.hidden = lijst.dataset.lijst !== soort;
+    }
+    // Een keuze in de verborgen lijst telt niet meer.
+    const r = gh.gekozen();
+    if (r && r.closest('[data-lijst]').hidden) { r.checked = false; gh.toon(); }
+  }
+  for (const k of document.querySelectorAll('.schakelaar button')) {
+    k.addEventListener('click', () => toonSoort(k.dataset.soort));
+  }
+  toonSoort(new URLSearchParams(location.search).get('start') === 'maandelijks' ? 'maandelijks' : 'eenmalig');
+</script>
+</body>
+</html>

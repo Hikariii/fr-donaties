@@ -114,7 +114,7 @@
 			projectcode: formData.projectCode,
 			bedrag: formData.amount,
 			currency: formData.currency,
-			periodiek: formData.isMonthly ? 'once' : 'maandelijks',
+			periodiek: formData.isMonthly ? 'maandelijks' : 'once',
 		})
 	});
 

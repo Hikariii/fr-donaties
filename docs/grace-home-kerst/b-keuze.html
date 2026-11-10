@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grace Home — Forerunner</title>
+<!--
+  Ontwerp B1: twee aparte pagina's, met eerst deze keuzepagina.
+  Geen formulier: twee grote kaarten leiden naar b-eenmalig.html of
+  b-maandelijks.html (in dezelfde iframe). De parameter ?via=keuze zorgt dat
+  die pagina's een link "terug naar de keuze" tonen.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="gedeeld.css">
+<style>
+  .keuzes { display: grid; gap: .9rem; margin-top: 1.5rem; }
+  @media (min-width: 600px) { .keuzes { grid-template-columns: 1fr 1fr; } }
+  .keuzekaart {
+    display: flex; flex-direction: column; gap: .6rem;
+    padding: 1.4rem 1.25rem;
+    border-radius: var(--radius);
+    text-decoration: none; color: var(--tekst);
+    border: 2px solid transparent;
+    transition: transform .1s, border-color .15s;
+  }
+  .keuzekaart:hover { border-color: var(--accent); }
+  .keuzekaart:focus-visible { outline: 3px solid var(--salie); outline-offset: 2px; }
+  .keuzekaart.eenmalig { background: var(--oker-licht); }
+  .keuzekaart.maandelijks { background: var(--salie-licht); }
+  .keuzekaart .rond {
+    width: 3.2rem; height: 3.2rem; border-radius: 50%;
+    display: grid; place-items: center; color: #fff;
+  }
+  .eenmalig .rond { background: var(--oker); }
+  .maandelijks .rond { background: var(--salie); }
+  .keuzekaart h2 { margin: 0; font-size: 1.3rem; color: var(--petrol); line-height: 1.2; }
+  .keuzekaart .soort { font-size: .9rem; color: var(--grijs); }
+  .keuzekaart .vanaf { font-weight: 700; color: var(--accent); font-size: 1.05rem; }
+  .keuzekaart .verder {
+    margin-top: auto; align-self: flex-start;
+    font-weight: 600; color: #fff; background: var(--accent);
+    padding: .65rem 1.1rem; border-radius: 99px; min-height: 44px;
+    display: inline-flex; align-items: center;
+  }
+</style>
+</head>
+<body>
+<div class="pagina">
+  <header class="gh-kop">
+    <h1>Geef kansarme kinderen hoop!</h1>
+    <p>Grace Home is het gezinshuis van een Indiase familie met wie we al 15 jaar samenwerken.</p>
+    <p>Zij vangen kansarme (wees)kinderen op en geven hen zorg, voedsel, een liefdevol thuis en onderwijs.</p>
+    <img class="gh-foto" src="img/india.jpg" alt="Lachende kinderen van Grace Home">
+    <p class="doe-mee">Doe jij mee?</p>
+  </header>
+
+  <nav class="keuzes" aria-label="Hoe wil je geven?"></nav>
+</div>
+
+<script src="gedeeld.js"></script>
+<script>
+  document.querySelector('.keuzes').innerHTML = `
+    <a class="keuzekaart eenmalig" href="b-eenmalig.html?via=keuze">
+      <span class="rond">${GH.icoon('cadeau')}</span>
+      <h2>Geef een cadeau</h2>
+      <span class="soort">Eenmalig. Schoolgeld, een startpakket, kleding of een menstruatieset.</span>
+      <span class="vanaf">vanaf € 15</span>
+      <span class="verder">Kies een cadeau →</span>
+    </a>
+    <a class="keuzekaart maandelijks" href="b-maandelijks.html?via=keuze">
+      <span class="rond">${GH.icoon('hart')}</span>
+      <h2>Steun maandelijks</h2>
+      <span class="soort">Elke maand. Schoolgeld of volledige zorg voor een kind. Je stopt wanneer je wilt.</span>
+      <span class="vanaf">vanaf € 12,50 per maand</span>
+      <span class="verder">Kies je steun →</span>
+    </a>`;
+  GH.meldHoogte();
+</script>
+</body>
+</html>
