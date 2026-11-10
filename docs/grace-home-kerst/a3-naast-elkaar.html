@@ -66,7 +66,13 @@
   .optie input:checked + label { border-color: var(--accent); background: var(--accent-licht); }
   .optie input:checked + label .rond { background: var(--accent); }
 
-  /* Mobiel: maandelijks eerst */
+  /* Smal scherm: de band neemt minder ruimte, zodat de titels niet op drie regels komen */
+  @media (max-width: 420px) {
+    .kolom .lijst { padding: .5rem; gap: .4rem; }
+    .optie label { padding: .7rem .75rem; gap: .65rem; }
+    .optie .rond { width: 2.2rem; height: 2.2rem; }
+    .kolom .sponsor-noot { padding: 0 .75rem .9rem; }
+  }
 </style>
 </head>
 <body>
