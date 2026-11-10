@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Geef een cadeau — Grace Home — Forerunner</title>
+<!--
+  Ontwerp C2: alleen eenmalig, als rustige prijsladder. Een korte kop zonder
+  foto, daaronder vier rijen met links een groot bedrag en rechts wat het
+  cadeau is. Daaronder de gegevens.
+  De opties, het formulier en de prototypemodus staan in gedeeld.js.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="gedeeld.css">
+<style>
+  .gh-kop { border-bottom: 1px solid var(--rand); padding-bottom: 1rem; }
+  .gh-kop .doe-mee { margin-top: .2rem; }
+
+  .ladder { border-top: 1px solid var(--rand); }
+  .optie + .optie label { border-top: 0; }
+  .optie label {
+    display: grid; grid-template-columns: 5.2rem 1fr auto; align-items: center; gap: 1rem;
+    padding: 1rem .5rem;
+    border-bottom: 1px solid var(--rand);
+    min-height: 64px;
+    transition: background .15s;
+  }
+  .optie label:hover { background: var(--vlak); }
+  .optie .prijs {
+    font-weight: 700; font-size: 1.6rem; color: var(--accent);
+    line-height: 1; white-space: nowrap;
+  }
+  .optie .titel { display: block; font-weight: 600; line-height: 1.3; }
+  .optie .uitleg { display: block; font-size: .82rem; color: var(--grijs); }
+  .optie .vink {
+    width: 1.5rem; height: 1.5rem; border-radius: 50%;
+    border: 2px solid var(--rand);
+    display: grid; place-items: center;
+    color: #fff; font-size: .8rem; font-weight: 700;
+  }
+  .optie input:checked + label { background: var(--accent-licht); }
+  .optie input:checked + label .vink { background: var(--accent); border-color: var(--accent); }
+  .optie input:checked + label .vink::before { content: "✓"; }
+  @media (max-width: 400px) {
+    .optie label { grid-template-columns: 4.2rem 1fr auto; gap: .75rem; padding: .9rem .25rem; }
+    .optie .prijs { font-size: 1.35rem; }
+  }
+  @media (min-width: 640px) {
+    .optie label { grid-template-columns: 7rem 1fr auto; padding: 1.1rem 1rem; }
+    .optie .prijs { font-size: 2rem; }
+  }
+</style>
+</head>
+<body>
+<div class="pagina">
+  <header class="gh-kop">
+    <h1>Geef kansarme kinderen hoop!</h1>
+    <p>Grace Home in India geeft kansarme (wees)kinderen zorg, voedsel, een liefdevol thuis en onderwijs. Kies een cadeau.</p>
+    <p class="doe-mee">Doe jij mee?</p>
+  </header>
+
+  <form id="donatie">
+    <section class="stap" id="stap-keuze">
+      <h2>Geef een cadeau</h2>
+      <div class="ladder"></div>
+      <p class="fout" id="fout-keuze" aria-live="polite"></p>
+    </section>
+
+    <section class="stap" id="stap-gegevens" data-gh-gegevens>
+      <h2>Je gegevens</h2>
+    </section>
+  </form>
+</div>
+
+<script src="gedeeld.js"></script>
+<script>
+  document.querySelector('.ladder').innerHTML = GH.OPTIES.eenmalig.map((o) => `
+    <div class="optie">
+      ${GH.radio(o, 'eenmalig')}
+      <label for="k-${o.id}">
+        <span class="prijs">€ ${GH.euro(o.bedrag)}</span>
+        <span class="wat">
+          <span class="titel">${o.titel}</span>
+          <span class="uitleg">${o.uitleg}</span>
+        </span>
+        <span class="vink" aria-hidden="true"></span>
+      </label>
+    </div>`).join('');
+  GH.start();
+</script>
+</body>
+</html>

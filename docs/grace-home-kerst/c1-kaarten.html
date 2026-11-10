@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Geef een cadeau — Grace Home — Forerunner</title>
+<!--
+  Ontwerp C1: alleen eenmalig. Vier cadeaukaarten met een foto en een icoon,
+  in een raster van 2 bij 2 (ook op mobiel, compacter). Daaronder de gegevens.
+  De opties, het formulier en de prototypemodus staan in gedeeld.js.
+  Er zijn nu twee foto's; elke kaart gebruikt een andere uitsnede. Vervang ze
+  door een foto per cadeau zodra die er zijn (o.foto in gedeeld.js).
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="gedeeld.css">
+<style>
+  .opties { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
+  @media (min-width: 640px) { .opties { gap: 1rem; } }
+  .optie label {
+    height: 100%;
+    display: flex; flex-direction: column;
+    border: 2px solid var(--rand); border-radius: var(--radius);
+    background: #fff; overflow: hidden;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .optie label:hover { border-color: var(--salie); }
+  .optie .foto {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    background: var(--salie-licht) center / cover no-repeat;
+  }
+  .optie .badge {
+    position: absolute; left: .6rem; bottom: -1.3rem;
+    width: 2.6rem; height: 2.6rem; border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--salie); color: #fff;
+    border: 3px solid #fff;
+  }
+  .optie .badge .icoon { width: 1.25rem; height: 1.25rem; }
+  .optie .wat { display: flex; flex-direction: column; flex: 1; padding: 1.6rem .8rem .9rem; }
+  .optie .prijs { font-weight: 700; font-size: 1.35rem; color: var(--accent); line-height: 1.1; }
+  .optie .titel { font-weight: 600; line-height: 1.25; margin-top: .25rem; font-size: .95rem; }
+  .optie .uitleg { font-size: .78rem; color: var(--grijs); margin-top: .25rem; }
+  .optie .kies {
+    margin-top: auto; padding-top: .7rem;
+    font-size: .85rem; font-weight: 600; color: var(--petrol);
+  }
+  .optie .kies::before { content: "○  Kies dit cadeau"; }
+  @media (min-width: 640px) {
+    .optie .wat { padding: 1.8rem 1.1rem 1.1rem; }
+    .optie .badge { left: 1rem; width: 3rem; height: 3rem; bottom: -1.5rem; }
+    .optie .badge .icoon { width: 1.4rem; height: 1.4rem; }
+    .optie .prijs { font-size: 1.6rem; }
+    .optie .titel { font-size: 1.05rem; }
+    .optie .uitleg { font-size: .85rem; }
+  }
+  @media (max-width: 400px) {
+    .optie .uitleg { display: none; }
+  }
+  .optie input:checked + label { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-licht); }
+  .optie input:checked + label .badge { background: var(--accent); }
+  .optie input:checked + label .kies { color: var(--accent); }
+  .optie input:checked + label .kies::before { content: "✓  Gekozen"; }
+</style>
+</head>
+<body>
+<div class="pagina">
+  <header class="gh-kop">
+    <h1>Geef kansarme kinderen hoop!</h1>
+    <p>Grace Home is het gezinshuis van een Indiase familie met wie we al 15 jaar samenwerken.</p>
+    <p>Zij vangen kansarme (wees)kinderen op en geven hen zorg, voedsel, een liefdevol thuis en onderwijs.</p>
+    <p class="doe-mee">Doe jij mee?</p>
+  </header>
+
+  <form id="donatie">
+    <section class="stap" id="stap-keuze">
+      <h2>Geef een cadeau</h2>
+      <div class="opties"></div>
+      <p class="fout" id="fout-keuze" aria-live="polite"></p>
+    </section>
+
+    <section class="stap" id="stap-gegevens" data-gh-gegevens>
+      <h2>Je gegevens</h2>
+    </section>
+  </form>
+</div>
+
+<script src="gedeeld.js"></script>
+<script>
+  // Een andere uitsnede per kaart, zolang er maar twee foto's zijn.
+  const UITSNEDE = { 'schoolgeld-jaar': '30% 40%', startpakket: '75% 60%', kleding: '35% 55%', menstruatieset: '72% 30%' };
+  document.querySelector('.opties').innerHTML = GH.OPTIES.eenmalig.map((o) => `
+    <div class="optie">
+      ${GH.radio(o, 'eenmalig')}
+      <label for="k-${o.id}">
+        <span class="foto" style="background-image:url('${o.foto}');background-position:${UITSNEDE[o.id] || 'center'}">
+          <span class="badge">${GH.icoon(o.icoon)}</span>
+        </span>
+        <span class="wat">
+          <span class="prijs">€ ${GH.euro(o.bedrag)}</span>
+          <span class="titel">${o.titel}</span>
+          <span class="uitleg">${o.uitleg}</span>
+          <span class="kies" aria-hidden="true"></span>
+        </span>
+      </label>
+    </div>`).join('');
+  GH.start();
+</script>
+</body>
+</html>
