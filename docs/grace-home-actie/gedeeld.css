@@ -137,21 +137,3 @@ dialog { border: 0; border-radius: var(--radius); padding: 1.25rem; max-width: m
 dialog h2 { margin: 0 0 .5rem; font-size: 1.1rem; }
 dialog pre { background: var(--vlak); padding: .75rem; border-radius: 8px; font-size: .8rem; white-space: pre-wrap; }
 dialog button { font: inherit; padding: .5rem 1rem; border-radius: 8px; border: 0; background: var(--petrol); color: #fff; cursor: pointer; }
-
-/* Banner boven de titel: de kinderen van de flyer, op de achtergrondkleur van
-   de flyer, zodat foto en vlak naadloos in elkaar overlopen. */
-.banner {
-  display: grid; grid-template-columns: 1fr 1.5fr; align-items: end;
-  margin-top: 1.25rem;
-  background: rgb(226, 237, 233);
-  border-radius: var(--radius);
-  overflow: hidden;
-}
-.banner-tekst { align-self: center; margin: 0; padding: 1.25rem 0 1.25rem 1.5rem; }
-.banner .doe-mee { display: block; margin: 0; }
-.banner-sub { display: block; margin-top: .4rem; font-size: .85rem; font-weight: 500; color: var(--petrol); }
-.banner img { display: block; width: 100%; height: auto; }
-@media (max-width: 479px) {
-  .banner { grid-template-columns: 1fr; }
-  .banner-tekst { padding: 1.1rem 1.25rem 0; }
-}
