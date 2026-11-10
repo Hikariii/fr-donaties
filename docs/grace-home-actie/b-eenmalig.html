@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Geef een cadeau — Grace Home — Forerunner</title>
+<!--
+  Ontwerp B: twee aparte pagina's. Dit is de pagina voor een eenmalig cadeau.
+  - B2 opent direct hier. Onderaan staat een link naar b-maandelijks.html.
+  - B1 komt hier via b-keuze.html (?via=keuze). Dan staat bovenaan ook een
+    link terug naar de keuze, en de link naar maandelijks houdt ?via=keuze vast.
+  De opties, het formulier en de prototypemodus staan in gedeeld.js.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="gedeeld.css">
+<style>
+  .terug {
+    display: inline-flex; align-items: center; min-height: 44px;
+    margin-top: .75rem; color: var(--petrol); font-size: .9rem; text-decoration: none;
+  }
+  .terug:hover { text-decoration: underline; }
+  .terug[hidden] { display: none; }
+  .soortlabel {
+    display: inline-block; margin-top: 1.25rem;
+    font-size: .75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    background: var(--oker-licht); color: var(--accent);
+    padding: .3rem .7rem; border-radius: 99px;
+  }
+  .terug:not([hidden]) + .gh-kop .soortlabel { margin-top: .25rem; }
+  .gh-kop h1 { margin-top: 1.25rem; }
+
+  .opties { display: grid; gap: .6rem; }
+  @media (min-width: 560px) { .opties { grid-template-columns: 1fr 1fr; } }
+  .optie label {
+    height: 100%;
+    display: flex; align-items: center; gap: .9rem;
+    padding: .9rem 1rem;
+    border: 2px solid var(--rand); border-radius: var(--radius);
+    background: #fff;
+    transition: border-color .15s, background .15s;
+  }
+  .optie label:hover { border-color: var(--oker); }
+  .optie .rond {
+    flex: none; width: 3rem; height: 3rem; border-radius: 50%;
+    display: grid; place-items: center; background: var(--oker); color: #fff;
+  }
+  .optie .wat { min-width: 0; }
+  .optie .prijs { display: block; font-weight: 700; font-size: 1.15rem; color: var(--accent); line-height: 1.2; }
+  .optie .titel { display: block; font-weight: 600; line-height: 1.3; }
+  .optie .uitleg { display: block; font-size: .8rem; color: var(--grijs); }
+  .optie input:checked + label { border-color: var(--accent); background: var(--accent-licht); }
+  .optie input:checked + label .rond { background: var(--accent); }
+
+  .kruislink {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    margin-top: 1rem; padding: .8rem 1.1rem; min-height: 44px;
+    background: var(--salie-licht); border-radius: var(--radius);
+    color: var(--petrol); font-weight: 600; text-decoration: none;
+  }
+  .kruislink small { display: block; font-weight: 400; color: var(--grijs); font-size: .82rem; }
+  .kruislink:hover { background: hsl(163, 20%, 88%); }
+  .kruislink:focus-visible { outline: 3px solid var(--salie); outline-offset: 2px; }
+  .kruislink .pijl { font-size: 1.3rem; flex: none; }
+</style>
+</head>
+<body>
+<div class="pagina">
+  <a class="terug" href="b-keuze.html" hidden>← terug naar de keuze</a>
+  <div class="banner">
+    <p class="banner-tekst"><span class="doe-mee">Doe jij mee?</span><span class="banner-sub">Grace Home · India</span></p>
+    <img src="img/kinderen-flyer.jpg" alt="Drie lachende kinderen van Grace Home" width="640" height="400">
+  </div>
+  <header class="gh-kop">
+    <h1>Geef kansarme kinderen hoop!</h1>
+    <p>Geef een cadeau aan de kinderen van Grace Home in India. Je doneert eenmalig.</p>
+  </header>
+  <a class="kruislink" href="b-maandelijks.html">
+    <span>Structureel helpen? Steun maandelijks<small>Vanaf € 12,50 per maand. Je stopt wanneer je wilt.</small></span>
+    <span class="pijl" aria-hidden="true">→</span>
+  </a>
+
+  <form id="donatie">
+    <section class="stap" id="stap-keuze">
+      <h2>Kies je cadeau</h2>
+      <div class="opties"></div>
+      <p class="fout" id="fout-keuze" aria-live="polite"></p>
+    </section>
+
+    <section class="stap" id="stap-gegevens" data-gh-gegevens>
+      <h2>Je gegevens</h2>
+    </section>
+  </form>
+
+</div>
+
+<script src="gedeeld.js"></script>
+<script>
+  document.querySelector('.opties').innerHTML = GH.OPTIES.eenmalig.map((o) => `
+    <div class="optie">
+      ${GH.radio(o, 'eenmalig')}
+      <label for="k-${o.id}">
+        <span class="rond">${GH.icoon(o.icoon)}</span>
+        <span class="wat">
+          <span class="prijs">€ ${GH.euro(o.bedrag)}</span>
+          <span class="titel">${o.titel}</span>
+          <span class="uitleg">${o.uitleg}</span>
+        </span>
+      </label>
+    </div>`).join('');
+
+  // Via de keuzepagina (B1): toon "terug" en houd ?via=keuze vast.
+  if (new URLSearchParams(location.search).get('via') === 'keuze') {
+    document.querySelector('.terug').hidden = false;
+    document.querySelector('.kruislink').href = 'b-maandelijks.html?via=keuze';
+  }
+
+  GH.start();
+</script>
+</body>
+</html>
