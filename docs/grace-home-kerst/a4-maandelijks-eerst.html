@@ -6,7 +6,7 @@
 <title>Grace Home — Forerunner</title>
 <!--
   Ontwerp A4: maandelijks eerst, eenmalig als alternatief.
-  Bovenaan een banner en drie grote kaarten "Word maandelijks gever".
+  Bovenaan een banner en twee grote kaarten "Structureel helpen? Steun maandelijks".
   Daaronder, rustiger en kleiner: "Liever eenmalig? Geef een cadeau",
   als compacte rijen. Eén radiogroep, dus hooguit één keuze.
   De opties, het formulier en de prototypemodus staan in gedeeld.js.
@@ -36,7 +36,7 @@
 
   /* Grote kaarten voor maandelijks */
   .groot { display: grid; gap: .6rem; margin-top: .9rem; }
-  @media (min-width: 640px) { .groot { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 640px) { .groot { grid-template-columns: repeat(2, 1fr); } }
   .groot .optie label {
     height: 100%;
     display: flex; flex-direction: column; align-items: flex-start; gap: .35rem;
@@ -106,8 +106,8 @@
     <section id="stap-keuze">
       <div class="banner">
         <div class="tekst">
-          <h2>Word maandelijks gever</h2>
-          <p>Elke maand een vast bedrag. Je stopt wanneer je wilt.</p>
+          <h2>Structureel helpen?</h2>
+          <p>Steun maandelijks met een vast bedrag. Je stopt wanneer je wilt.</p>
         </div>
       </div>
       <div class="groot" data-lijst="maandelijks"></div>

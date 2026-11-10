@@ -6,9 +6,9 @@
 <title>Grace Home — Forerunner</title>
 <!--
   Ontwerp A3: eenmalig en maandelijks op één pagina, naast elkaar.
-  Twee kolommen vanaf 760px: "Geef een cadeau" (okerband) en "Steun
-  maandelijks" (saliéband), zoals de gekleurde banden op het beeld voor
-  social media. Op mobiel staan ze onder elkaar, maandelijks eerst.
+  Twee kolommen vanaf 760px: "Geef een cadeau" (okerband) en "Structureel
+  helpen? Steun maandelijks" (saliéband), zoals de gekleurde banden op het beeld voor
+  social media. Op mobiel staan ze onder elkaar, eenmalig eerst.
   Eén radiogroep, dus er is altijd hooguit één keuze.
   De opties, het formulier en de prototypemodus staan in gedeeld.js.
 -->
@@ -67,7 +67,6 @@
   .optie input:checked + label .rond { background: var(--accent); }
 
   /* Mobiel: maandelijks eerst */
-  @media (max-width: 759px) { .kolom.maand { order: -1; } }
 </style>
 </head>
 <body>
@@ -91,7 +90,7 @@
           <div class="lijst" data-lijst="eenmalig"></div>
         </div>
         <div class="kolom maand">
-          <h3 class="band">Steun maandelijks <small>Je stopt wanneer je wilt</small></h3>
+          <h3 class="band">Structureel helpen? Steun maandelijks <small>Je stopt wanneer je wilt</small></h3>
           <div class="lijst" data-lijst="maandelijks"></div>
           <div data-sponsor></div>
         </div>
