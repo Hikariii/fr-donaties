@@ -15,6 +15,11 @@
   --rand: hsl(0, 0%, 87%);
   --vlak: hsl(40, 30%, 97%);
   --radius: 14px;
+  /* Kleuren van de flyer (versie 3) */
+  --flyer-geel: rgb(247, 209, 40);
+  --flyer-wit: rgb(243, 247, 246);
+  --flyer-salie: rgb(183, 209, 200);
+  --flyer-icoon: rgb(108, 154, 151);
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; }
