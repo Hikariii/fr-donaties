@@ -8,6 +8,7 @@
   Ontwerp B: twee aparte pagina's. Dit is de pagina voor maandelijkse steun.
   Onderaan staat een link naar b-eenmalig.html. Via b-keuze.html (?via=keuze)
   staat bovenaan ook een link terug naar de keuze.
+  "Eten voor twee kinderen" staat alleen in B en F, niet in deze versie.
   Onder de opties staat een verwijzing naar persoonlijk sponsoren: dat loopt
   via forerunner.info, niet via dit formulier.
   De opties, het formulier en de prototypemodus staan in gedeeld.js.
@@ -103,7 +104,7 @@
 
 <script src="gedeeld.js"></script>
 <script>
-  document.querySelector('.opties').innerHTML = GH.OPTIES.maandelijks.map((o) => `
+  document.querySelector('.opties').innerHTML = GH.OPTIES.maandelijks.filter((o) => o.id !== 'eten-2').map((o) => `
     <div class="optie">
       ${GH.radio(o, 'maandelijks')}
       <label for="k-${o.id}">
