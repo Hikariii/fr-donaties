@@ -32,9 +32,8 @@
       { id: 'menstruatieset', bedrag: '15', titel: 'Menstruatieset voor een tienermeisje', uitleg: 'Maandverband en verzorging.', icoon: 'cadeau', foto: 'img/india.jpg' },
     ],
     maandelijks: [
+      { id: 'sponsor', bedrag: '38.50', titel: 'Sponsor een kind of student', uitleg: 'Zorg, voedsel, een liefdevol thuis en onderwijs.', icoon: 'persoon', foto: 'img/india.jpg' },
       { id: 'scholing-1', bedrag: '12.50', titel: 'Schoolgeld voor een kind', uitleg: 'Elk jaar naar school, zolang je geeft.', icoon: 'hoed', foto: 'img/grace-home.jpg' },
-      { id: 'scholing-2', bedrag: '25.00', titel: 'Schoolgeld voor twee kinderen', uitleg: 'Twee kinderen naar school, elk jaar opnieuw.', icoon: 'kinderen', foto: 'img/grace-home.jpg' },
-      { id: 'zorg', bedrag: '38.50', titel: 'Volledige zorg voor een kind', uitleg: 'Voedsel, zorg, een liefdevol thuis en onderwijs.', icoon: 'hart', foto: 'img/india.jpg' },
     ],
   };
 
@@ -45,6 +44,7 @@
     cadeau: '<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/>',
     hoed: '<path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>',
     kinderen: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+    persoon: '<circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/>',
     hart: '<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
   };
 
@@ -65,7 +65,7 @@
     `<input type="radio" name="keuze" id="k-${o.id}" value="${o.id}" data-bedrag="${o.bedrag}" data-periodiek="${periodiekVan(soort)}" data-titel="${o.titel}">`;
 
   const sponsorNoot = () =>
-    `<p class="sponsor-noot">Wil je een vast kind sponsoren en volgen? <a href="${SPONSOR_URL}" target="_top">Lees meer over persoonlijk sponsoren bij Grace Home</a>.</p>`;
+    `<p class="sponsor-noot">Wil je meer geven of een vast kind volgen? <a href="${SPONSOR_URL}" target="_top">Lees meer over sponsoren bij Grace Home</a>.</p>`;
 
   const GEGEVENS = `
     <div class="keuze-samenvatting leeg" id="keuze-samenvatting">Je hebt nog niets gekozen.</div>
