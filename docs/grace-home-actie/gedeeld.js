@@ -26,16 +26,19 @@
 
   const OPTIES = {
     eenmalig: [
-      { id: 'schoolgeld-jaar', bedrag: '150', titel: 'Schoolgeld voor een jaar', uitleg: 'Een kind gaat een heel jaar naar school.', icoon: 'boek', foto: 'img/grace-home.jpg' },
-      { id: 'startpakket', bedrag: '50', titel: 'Startpakket school', uitleg: 'Uniform, schooltas, schoolboeken en schrijfmateriaal.', icoon: 'rugzak', foto: 'img/grace-home.jpg' },
-      { id: 'kleding', bedrag: '25', titel: 'Set kleding voor een kind', uitleg: 'Nieuwe kleren die passen.', icoon: 'shirt', foto: 'img/india.jpg' },
-      { id: 'menstruatieset', bedrag: '15', titel: 'Menstruatieset voor een tienermeisje', uitleg: 'Maandverband en verzorging.', icoon: 'cadeau', foto: 'img/india.jpg' },
+      { id: 'schoolgeld-jaar', bedrag: '150', titel: 'Schoolgeld voor een heel jaar', uitleg: 'Een kind gaat een heel jaar naar school.', icoon: 'boek', foto: 'img/grace-home.jpg' },
+      { id: 'startpakket', bedrag: '50', titel: 'Startpakket school', uitleg: 'Uniform, schooltas, schoolboeken e.a.', icoon: 'rugzak', foto: 'img/grace-home.jpg' },
+      { id: 'kleding', bedrag: '25', titel: 'Set nieuwe kleding voor een kind', uitleg: 'Nieuwe kleren die passen.', icoon: 'shirt', foto: 'img/india.jpg' },
+      { id: 'menstruatieset', bedrag: '15', titel: 'Menstruatieset tienermeisje', uitleg: 'Maandverband en verzorging.', icoon: 'cadeau', foto: 'img/india.jpg' },
     ],
     maandelijks: [
       { id: 'sponsor', bedrag: '38.50', titel: 'Sponsor een kind of student', uitleg: 'Zorg, voedsel, een liefdevol thuis en onderwijs.', icoon: 'persoon', foto: 'img/india.jpg' },
       { id: 'scholing-1', bedrag: '12.50', titel: 'Schoolgeld voor een kind', uitleg: 'Elk jaar naar school, zolang je geeft.', icoon: 'hoed', foto: 'img/grace-home.jpg' },
     ],
   };
+
+  // De volgorde van de cadeaus op de flyer (rij voor rij).
+  const FLYER_VOLGORDE = ['kleding', 'schoolgeld-jaar', 'menstruatieset', 'startpakket'];
 
   const PADEN = {
     boek: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
@@ -264,5 +267,5 @@
     new ResizeObserver(meld).observe(document.body);
   }
 
-  window.GH = { OPTIES, SPONSOR_URL, icoon, euro, prijs, radio, sponsorNoot, start, meldHoogte };
+  window.GH = { OPTIES, FLYER_VOLGORDE, SPONSOR_URL, icoon, euro, prijs, radio, sponsorNoot, start, meldHoogte };
 })();
