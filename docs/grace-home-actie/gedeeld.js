@@ -33,6 +33,7 @@
     ],
     maandelijks: [
       { id: 'sponsor', bedrag: '38.50', titel: 'Sponsor een kind of student', uitleg: 'Zorg, voedsel, een liefdevol thuis en onderwijs.', icoon: 'persoon', foto: 'img/india.jpg' },
+      { id: 'eten-2', bedrag: '25', titel: 'Eten voor twee kinderen', uitleg: 'Elke dag een gezonde maaltijd.', icoon: 'soep', foto: 'img/india.jpg' },
       { id: 'scholing-1', bedrag: '12.50', titel: 'Schoolgeld voor een kind', uitleg: 'Elk jaar naar school, zolang je geeft.', icoon: 'hoed', foto: 'img/grace-home.jpg' },
     ],
   };
@@ -48,6 +49,7 @@
     hoed: '<path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>',
     kinderen: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
     persoon: '<circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/>',
+    soep: '<path d="M12 21a9 9 0 0 0 9-9H3a9 9 0 0 0 9 9Z"/><path d="M7 21h10"/><path d="M19.5 12 22 6"/><path d="M16.25 3c.27.1.8.53.75 1.36-.06.83-.93 1.2-1 2.02-.05.78.34 1.24.73 1.62"/><path d="M11.25 3c.27.1.8.53.74 1.36-.05.83-.93 1.2-.98 2.02-.06.78.33 1.24.72 1.62"/><path d="M6.25 3c.27.1.8.53.75 1.36-.06.83-.93 1.2-1 2.02-.05.78.34 1.24.74 1.62"/>',
     hart: '<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
   };
 
