@@ -11,9 +11,9 @@
   - De cadeaus in de volgorde van de flyer (€ 25, € 150, € 15, € 50), 2×2 als
     witte kaarten op salie. "Startpakket school: uniform, schooltas,
     schoolboeken e.a." staat in één zin, zoals op de flyer.
-  - Geen link naar maandelijks bovenaan. Onder de kaarten staat een strook
-    zoals de onderrand van de flyer: "Wil je structureel helpen? Steun
-    maandelijks of sponsor een kind." Die zin linkt naar de maandpagina.
+  - Geen link naar maandelijks bovenaan. Onder de cadeaus staat een brede
+    vijfde tegel in een eigen kleur, zoals bij F: "Wil je structureel helpen?
+    Steun maandelijks of sponsor een kind". Die tegel opent de maandpagina.
   De opties, het formulier en de prototypemodus staan in gedeeld.js.
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -78,17 +78,25 @@
   .optie input:checked + label .icoon { color: var(--accent); }
   #fout-keuze { margin: .6rem 0 0; }
 
-  .flyer-voet {
-    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .4rem 1rem;
-    padding: .9rem 1.1rem; min-height: 44px;
+  /* Vijfde tegel: maandelijks, een link in een eigen kleur (zoals F) */
+  .maand {
+    grid-column: 1 / -1;
+    display: flex; align-items: center; gap: 1rem;
+    min-height: 44px; padding: 1rem 1.1rem;
     background: var(--flyer-wit);
-    color: var(--tekst); font-size: .95rem; text-decoration: none;
+    border: 2px solid var(--petrol);
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(30, 60, 55, .22);
+    color: var(--petrol); text-decoration: none;
+    transition: background .15s;
   }
-  .flyer-voet .zin { text-decoration: underline; text-decoration-color: var(--flyer-icoon); text-underline-offset: 3px; }
-  .flyer-voet:hover .zin { color: var(--accent); }
-  .flyer-voet:focus-visible { outline: 3px solid var(--salie); outline-offset: -3px; }
-  .flyer-voet .site { display: inline-flex; align-items: center; gap: .4rem; color: var(--petrol); font-size: .9rem; white-space: nowrap; }
-  .flyer-voet .site svg { width: 1.4rem; height: 1.4rem; color: var(--flyer-icoon); }
+  .maand:hover { background: #fff; }
+  .maand:focus-visible { outline: 3px solid var(--salie); outline-offset: 2px; }
+  .maand .icoon { width: 2.6rem; height: 2.6rem; flex: none; stroke-width: 1.6; }
+  .maand .wat { flex: 1; min-width: 0; }
+  .maand strong { display: block; font-size: 1.05rem; }
+  .maand .sub { display: block; font-size: .9rem; }
+  .maand .pijl { flex: none; font-size: 1.3rem; }
 </style>
 </head>
 <body>
@@ -114,10 +122,6 @@
         <div class="opties"></div>
         <p class="fout" id="fout-keuze" aria-live="polite"></p>
       </div>
-      <a class="flyer-voet" href="b-maandelijks.html?terug=b-flyer-precies.html">
-        <span class="zin">Wil je structureel helpen? Steun maandelijks of sponsor een kind.</span>
-        <span class="site"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>forerunner.info</span>
-      </a>
     </section>
 
     <section class="stap" id="stap-gegevens" data-gh-gegevens>
@@ -140,7 +144,12 @@
           <span class="titel">${o.id === 'startpakket' ? `${o.titel}: ${o.uitleg.charAt(0).toLowerCase()}${o.uitleg.slice(1)}` : o.titel}</span>
         </span>
       </label>
-    </div>`).join('');
+    </div>`).join('') + `
+    <a class="maand" href="b-maandelijks.html?terug=b-flyer-precies.html">
+      ${GH.icoon('hart')}
+      <span class="wat"><strong>Wil je structureel helpen?</strong><span class="sub">Steun maandelijks of sponsor een kind</span></span>
+      <span class="pijl" aria-hidden="true">→</span>
+    </a>`;
   GH.start();
 </script>
 </body>
