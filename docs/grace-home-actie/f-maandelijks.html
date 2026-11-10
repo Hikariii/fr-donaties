@@ -15,9 +15,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="gedeeld.css">
 <style>
-  /* Band in een lichte tint van de roest (de titelkleur) van forerunner.info.
-     Alternatief: zand, hsl(33, 42%, 82%). */
-  :root { --band: hsl(18.84, 38%, 95.5%); }
   .pagina { padding-top: 1.25rem; }
 
   /* Kop zoals de flyer, compact */
@@ -31,7 +28,7 @@
   .intro p { margin: .4rem 0 0; font-size: .95rem; }
   .kinderen { display: block; width: 88%; max-width: 420px; height: auto; margin: .5rem auto -20%; position: relative; z-index: 1; }
   .band {
-    background: var(--band);
+    background: var(--flyer-geel);
     padding: 20% 1.25rem .9rem;
     display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 .9rem;
   }
@@ -47,36 +44,32 @@
   .cadeaus { background: var(--flyer-salie); border-radius: var(--radius); padding: .9rem; margin-top: 1rem; }
   .raster { display: grid; gap: .8rem; grid-template-columns: 1fr 1fr; }
   .optie label {
-    position: relative;
-    height: 100%; min-height: 9.5rem;
-    display: flex; flex-direction: column; justify-content: flex-end; gap: .55rem;
-    padding: 1rem .9rem .9rem;
+    height: 100%;
+    display: flex; flex-direction: column; align-items: flex-start; gap: .5rem;
+    padding: 1rem .95rem;
     background: #fff;
     border: 2px solid transparent;
     border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(30, 60, 55, .18);
+    /* schaduw zoals ontwerp B */
+    box-shadow: 0 3px 6px rgba(30, 60, 55, .22);
     transition: border-color .15s, background .15s;
   }
   .optie label:hover { border-color: var(--flyer-icoon); }
-  .optie .icoon { width: 3.4rem; height: 3.4rem; color: var(--flyer-icoon); stroke-width: 1.3; }
-  .optie .prijs {
-    position: absolute; top: .6rem; right: .6rem;
-    background: var(--accent); color: #fff;
-    font-weight: 700; font-size: 1.05rem; line-height: 1;
-    padding: .4rem .65rem; border-radius: 99px;
-  }
-  .optie .titel { display: block; font-size: .92rem; line-height: 1.3; }
-  .optie .prijs small { font-weight: 500; font-size: .75rem; }
-  .optie label { padding-top: 2.9rem; }
+  .optie .icoon { width: 3.2rem; height: 3.2rem; color: var(--flyer-icoon); stroke-width: 1.4; }
+  .optie .wat { min-width: 0; }
+  /* bedrag zonder pil, zoals ontwerp B */
+  .optie .prijs { display: block; color: var(--accent); font-weight: 600; font-size: 1.5rem; line-height: 1.1; }
+  .optie .prijs small { font-weight: 500; font-size: .8rem; }
+  @media (max-width: 639px) { .optie .prijs { font-size: 1.3rem; white-space: nowrap; } }
+  .optie .titel { display: block; font-size: .92rem; line-height: 1.3; margin-top: .2rem; }
   .optie .titel small { display: block; color: var(--grijs); font-size: .75rem; margin-top: .1rem; }
   .optie input:checked + label { border-color: var(--accent); background: var(--accent-licht); }
   .optie input:checked + label .icoon { color: var(--accent); }
-  .optie input:checked + label .prijs::before { content: "✓ "; }
   @media (min-width: 640px) {
-    .optie label { flex-direction: row; align-items: center; justify-content: flex-start; min-height: 7.5rem; padding: 1.1rem 1.1rem; gap: 1rem; }
-    .optie .titel { font-size: 1rem; padding-right: 3.5rem; }
+    .optie label { flex-direction: row; align-items: center; min-height: 7.5rem; padding: 1.1rem; gap: 1rem; }
+    .optie .prijs { font-size: 1.7rem; }
+    .optie .titel { font-size: 1rem; }
   }
-  @media (min-width: 640px) { .optie .titel { padding-right: 0; } .optie label { padding-top: 3rem; } }
   @media (max-width: 380px) {
     .optie .titel small { display: none; }
     .optie .icoon { width: 2.8rem; height: 2.8rem; }
@@ -137,9 +130,11 @@
     <div class="optie">
       ${GH.radio(o, 'maandelijks')}
       <label for="k-${o.id}">
-        <span class="prijs">€ ${GH.euro(o.bedrag)} <small>p/m</small></span>
         ${GH.icoon(o.icoon)}
-        <span class="titel">${o.titel}<small>${o.uitleg}</small></span>
+        <span class="wat">
+          <span class="prijs">€ ${GH.euro(o.bedrag)} <small>p/m</small></span>
+          <span class="titel">${o.titel}<small>${o.uitleg}</small></span>
+        </span>
       </label>
     </div>`).join('') + `
     <a class="maand" href="f-kop-e-kaarten-d.html">
