@@ -65,7 +65,7 @@
 
   // De radioknop voor een optie. Zet het label er zelf achter: <label for="k-…">.
   const radio = (o, soort) =>
-    `<input type="radio" name="keuze" id="k-${o.id}" value="${o.id}" data-bedrag="${o.bedrag}" data-periodiek="${periodiekVan(soort)}" data-titel="${o.titel}">`;
+    `<input type="radio" name="keuze" id="k-${o.id}" value="${o.id}" data-bedrag="${o.bedrag}" data-periodiek="${periodiekVan(soort)}" data-titel="${o.titel}" data-icoon="${o.icoon}">`;
 
   const sponsorNoot = () =>
     `<p class="sponsor-noot">Wil je meer geven of een vast kind volgen? <a href="${SPONSOR_URL}" target="_top">Lees meer over sponsoren bij Grace Home</a>.</p>`;
@@ -150,21 +150,15 @@
       const titel = document.createElement('strong');
       titel.textContent = r.dataset.titel;
       const soort = document.createElement('span');
-      soort.textContent = maand ? 'Maandelijks · ' : 'Eenmalig · ';
-      const wijzig = document.createElement('a');
-      wijzig.href = '#';
-      wijzig.textContent = 'wijzig';
-      wijzig.addEventListener('click', (e) => {
-        e.preventDefault();
-        const doel = document.querySelector(`label[for="${r.id}"]`) || r;
-        doel.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      });
-      soort.append(wijzig);
+      soort.textContent = maand ? 'Maandelijks' : 'Eenmalig';
       wat.append(titel, soort);
       const bedrag = document.createElement('span');
       bedrag.className = 'bedrag';
       bedrag.textContent = `€ ${euro(r.dataset.bedrag)}` + (maand ? ' p/m' : '');
-      samenvatting.append(wat, bedrag);
+      const beeld = document.createElement('span');
+      beeld.className = 'beeld';
+      beeld.innerHTML = PADEN[r.dataset.icoon] ? icoon(r.dataset.icoon) : '';
+      samenvatting.append(beeld, wat, bedrag);
     }
 
     form.addEventListener('change', (e) => {
