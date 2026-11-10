@@ -8,8 +8,8 @@
 <!--
   Prototype: echte HTML van https://forerunner.info/ondersteunen (opgehaald 2026-11-09).
   Wijzigingen: <base href> naar forerunner.info, de iframe van het donatieformulier
-  vervangen door de iframe van de actiepagina, en de ontwerpbalk + het script onderaan.
-  Kies het ontwerp met ?ontwerp=<bestand> of met de knoppen in de balk bovenaan.
+  vervangen door de iframe van de actiepagina (b-flyer-precies.html), en een klein
+  script onderaan dat de hoogte van de iframe bijwerkt.
 -->
 <meta charset="utf-8" />
 <title>Ondersteunen &mdash; Forerunner</title>
@@ -3239,78 +3239,10 @@
 
   
 <!-- Prototype: hoort niet bij de echte pagina -->
-<style>
-  .prototype-balk {
-    position: relative; z-index: 100000;
-    background: #111; color: #fff;
-    font: 500 12px/1.2 system-ui, sans-serif;
-    padding: 6px 10px;
-    display: flex; flex-wrap: wrap; gap: 4px; align-items: center;
-  }
-  .prototype-balk .titel { opacity: .6; margin-right: 4px; }
-  .prototype-balk button {
-    font: inherit; color: #fff; cursor: pointer;
-    background: #2a2a2a; border: 1px solid #444; border-radius: 5px;
-    padding: 3px 7px;
-  }
-  .prototype-balk button:hover { background: #3a3a3a; }
-  .prototype-balk button[aria-pressed="true"] { background: #fff; color: #111; border-color: #fff; }
-  .prototype-balk button:focus-visible { outline: 2px solid #8ab; outline-offset: 2px; }
-</style>
-<div class="prototype-balk" id="prototype-balk" role="group" aria-label="Ontwerp kiezen">
-  <span class="titel">Ontwerp</span>
-</div>
 <script>
-  // Voeg hier een nieuw ontwerp toe om het naast de andere te vergelijken.
-  const ONTWERPEN = [
-    { bestand: 'b-flyer-precies.html', naam: 'B', uitleg: 'precies de flyer: volgorde van de flyer, maandelijks als vijfde tegel' },
-    { bestand: 'f-kop-e-kaarten-d.html', naam: 'F', uitleg: 'compacte kop, cadeaus als tegels, een eigen maandpagina in dezelfde stijl' },
-    { bestand: 'b-eenmalig.html', naam: 'Nu', uitleg: 'de huidige versie (B2 met banner)' },
-  ];
-
-  // <base href> wijst naar forerunner.info; de ontwerpen staan naast dit bestand.
-  const lokaal = (bestand) => new URL(bestand, location.href).href;
-
+  // <base href> wijst naar forerunner.info; de actiepagina staat naast dit bestand.
   const iframe = document.getElementById('actie');
-  const balk = document.getElementById('prototype-balk');
-  const params = new URLSearchParams(location.search);
-  const gekozen = params.get('ontwerp') || ONTWERPEN[0].bestand;
-
-  // De balk staat helemaal bovenaan de pagina. De kop van Squarespace staat
-  // absoluut op top 0; schuif hem omlaag tot onder de balk. Zet Squarespace
-  // de kop bij scrollen vast (fixed), dan blijft hij gewoon bovenin het scherm.
-  document.body.prepend(balk);
-  const kop = document.querySelector('header');
-  function zetKop() {
-    if (!kop) return;
-    kop.style.top = '';
-    if (getComputedStyle(kop).position === 'absolute') kop.style.top = balk.offsetHeight + 'px';
-  }
-  new ResizeObserver(zetKop).observe(balk);
-  window.addEventListener('scroll', zetKop, { passive: true });
-
-  function kies(bestand) {
-    iframe.src = lokaal(bestand);
-    for (const k of balk.querySelectorAll('button')) {
-      k.setAttribute('aria-pressed', String(k.dataset.bestand === bestand));
-    }
-    // Een relatieve URL zou tegen <base href> (forerunner.info) worden opgelost; maak hem absoluut.
-    params.set('ontwerp', bestand);
-    const url = new URL(location.href);
-    url.search = params;
-    history.replaceState(null, '', url.href);
-  }
-
-  for (const o of ONTWERPEN) {
-    const knop = document.createElement('button');
-    knop.type = 'button';
-    knop.textContent = o.naam;
-    knop.title = o.uitleg;
-    knop.dataset.bestand = o.bestand;
-    knop.addEventListener('click', () => kies(o.bestand));
-    balk.append(knop);
-  }
-  kies(gekozen);
+  iframe.src = new URL('b-flyer-precies.html', location.href).href;
 
   // De actiepagina meldt haar hoogte, zodat de iframe geen eigen schuifbalk krijgt.
   window.addEventListener('message', (e) => {
