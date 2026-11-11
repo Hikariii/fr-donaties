@@ -21,7 +21,7 @@ export const EENMALIG = [
 ];
 
 export const MAANDELIJKS = [
-  { id: 'sponsor', periodiek: 'maandelijks', bedrag: '38.50', titel: 'Steun een kind of student', uitleg: 'Zorg, voedsel, een liefdevol thuis en onderwijs.', icoon: 'persoon' },
+  { id: 'sponsor', periodiek: 'maandelijks', bedrag: '38.50', titel: 'Sponsor een kind of student', uitleg: 'Zorg, voedsel, een liefdevol thuis en onderwijs.', icoon: 'persoon' },
   { id: 'eten-2', periodiek: 'maandelijks', bedrag: '25', titel: 'Eten voor twee kinderen', uitleg: 'Elke dag een gezonde maaltijd.', icoon: 'soep' },
   { id: 'scholing-1', periodiek: 'maandelijks', bedrag: '12.50', titel: 'Schoolgeld voor een kind', uitleg: 'Een kind gaat naar school, zolang jij geeft.', icoon: 'hoed' },
 ];
