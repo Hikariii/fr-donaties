@@ -52,18 +52,35 @@ Zet op de pagina in Squarespace een Code Block met de iframe en een klein
 script dat de hoogte van de iframe aanpast:
 
 ```html
-<iframe id="grace-home-actie" src="https://hikariii.github.io/fr-donaties/live/grace-home/"
-        title="Geef hoop: Grace Home" scrolling="no"
-        style="display:block;width:100%;border:0;height:1900px"></iframe>
+<iframe id="grace-home-actie"
+        src="https://hikariii.github.io/fr-donaties/live/grace-home/"
+        title="Geef hoop: Grace Home"
+        scrolling="no"
+        style="display:block;width:100%;border:0;height:600px;"></iframe>
 <script>
   // De pagina in de iframe meldt haar hoogte; pas de iframe daarop aan.
-  window.addEventListener('message', (e) => {
-    const f = document.getElementById('grace-home-actie');
-    if (e.source !== f.contentWindow) return;
-    if (e.data && e.data.type === 'forerunner-actie-hoogte') f.style.height = Math.ceil(e.data.hoogte) + 'px';
+  window.addEventListener('message', function (e) {
+    if (e.origin !== 'https://hikariii.github.io') return;
+    var f = document.getElementById('grace-home-actie');
+    if (!f || e.source !== f.contentWindow) return;
+    if (e.data && e.data.type === 'forerunner-actie-hoogte') {
+      f.style.height = Math.ceil(e.data.hoogte) + 'px';
+    }
   });
 </script>
 ```
 
 Het formulier opent Mollie in het hele venster (`target="_top"`). Een iframe
 met een `sandbox`-attribuut moet daarom `allow-top-navigation` toestaan.
+
+### Het Code Block in de Fluid Engine
+
+- In de editor draaien scripts niet. Daar houdt de iframe de starthoogte uit
+  de code. Houd die laag (600px), anders maakt de Fluid Engine het blok en de
+  sectie zo hoog. Op de live site staat er dan veel witruimte onder het
+  formulier.
+- Maak het blok in de editor klein (rond 600px) en zet de Row Count van de
+  sectie zo laag als kan, op desktop en op mobiel. De rijen groeien op de
+  live site mee met het formulier.
+- Zet niets onder het blok in dezelfde sectie, en zet "Fill Screen" uit.
+- Bekijk het resultaat op de live site, niet in de editor.
