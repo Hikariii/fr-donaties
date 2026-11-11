@@ -128,9 +128,8 @@
 
 <script src="gedeeld.js"></script>
 <script>
-  // De volgorde van de flyer, en het startpakket in één zin zoals op de flyer.
-  const opties = GH.FLYER_VOLGORDE.map((id) => GH.OPTIES.eenmalig.find((o) => o.id === id));
-  document.querySelector('.opties').innerHTML = opties.map((o) => `
+  // Het startpakket staat in één zin, zoals op de flyer.
+  document.querySelector('.opties').innerHTML = GH.OPTIES.eenmalig.map((o) => `
     <div class="optie">
       ${GH.radio(o, 'eenmalig')}
       <label for="k-${o.id}">

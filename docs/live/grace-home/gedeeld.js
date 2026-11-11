@@ -26,6 +26,7 @@
   const ACTIE = 'https://forerunner-info.appspot.com/donate';
   const SPONSOR_URL = 'https://forerunner.info/projecten/grace-home';
 
+  // De opties in de volgorde van de pagina: aflopend op bedrag.
   const OPTIES = {
     eenmalig: [
       { id: 'schoolgeld-jaar', bedrag: '150', titel: 'Schoolgeld voor een heel jaar', uitleg: 'Een kind gaat een heel jaar naar school.', icoon: 'boek', foto: 'img/grace-home.jpg' },
@@ -39,9 +40,6 @@
       { id: 'scholing-1', bedrag: '12.50', titel: 'Schoolgeld voor een kind', uitleg: 'Elk jaar naar school, zolang je geeft.', icoon: 'hoed', foto: 'img/grace-home.jpg' },
     ],
   };
-
-  // De volgorde van de cadeaus op de flyer (rij voor rij).
-  const FLYER_VOLGORDE = ['kleding', 'schoolgeld-jaar', 'menstruatieset', 'startpakket'];
 
   const PADEN = {
     boek: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
@@ -265,5 +263,5 @@
     new ResizeObserver(meld).observe(document.body);
   }
 
-  window.GH = { OPTIES, FLYER_VOLGORDE, SPONSOR_URL, icoon, euro, prijs, radio, sponsorNoot, start, meldHoogte };
+  window.GH = { OPTIES, SPONSOR_URL, icoon, euro, prijs, radio, sponsorNoot, start, meldHoogte };
 })();
