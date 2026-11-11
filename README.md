@@ -3,6 +3,19 @@ fr-donatie testform
 
 https://hikariii.github.io/fr-donaties/
 
+## Productie: `docs/live/`
+
+> **Let op:** de pagina's in `docs/live/` draaien in productie op
+> forerunner.info en ontvangen echte donaties. Wijzig ze alleen volgens
+> [`docs/live/README.md`](docs/live/README.md).
+
+| Pagina | Adres |
+| --- | --- |
+| Grace Home (FR230), eenmalig | `https://hikariii.github.io/fr-donaties/live/grace-home/` |
+| Grace Home (FR230), maandelijks | `https://hikariii.github.io/fr-donaties/live/grace-home/maandelijks.html` |
+
+Alle andere mappen in `docs/` zijn ontwerpen en prototypes.
+
 ## Plan: meerdere pagina's in `docs/`
 
 Dit plan is deels uitgevoerd: het formulier staat in `docs/doneer/` en de

@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grace Home — Forerunner</title>
+<!--
+  LIVE: deze pagina draait in productie op forerunner.info (in een iframe) en
+  ontvangt echte donaties voor Grace Home (FR230). Lees docs/live/README.md
+  voordat je iets wijzigt.
+
+  Grace Home, eenmalig: de cadeaus van de flyer. De tegel onderaan opent maandelijks.html.
+  De opties, het formulier en het versturen staan in gedeeld.js.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="gedeeld.css">
+<style>
+  .pagina { padding-top: 1.25rem; }
+
+  /* Kop zoals de flyer */
+  .kop { background: var(--flyer-wit); border-radius: var(--radius); overflow: hidden; }
+  .kop h1 {
+    margin: 0; padding: 1.4rem 1.25rem .4rem;
+    color: var(--accent); font-weight: 600;
+    font-size: clamp(1.6rem, 6vw, 2.3rem); line-height: 1.15;
+  }
+  .kop-raster { display: grid; padding: 0 1.25rem; }
+  .intro p { margin: .5rem 0 0; font-size: 1rem; }
+  .kinderen { display: block; width: 100%; height: auto; margin-bottom: -31.5%; position: relative; z-index: 1; }
+  /* Desktop: de kinderen staan rechts en lopen door tot in de gele band, zoals op de flyer */
+  @media (min-width: 640px) {
+    .kop { position: relative; }
+    .kop-raster { padding-right: 50%; padding-bottom: 1.25rem; }
+    .kinderen { position: absolute; right: .5rem; bottom: 0; width: 48%; margin: 0; }
+  }
+
+  .band {
+    background: var(--flyer-geel);
+    padding: 22% 1.25rem 1rem;
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 1rem;
+  }
+  @media (min-width: 640px) { .band { padding: 1.5rem 50% 1.25rem 1.25rem; min-height: 9rem; flex-direction: column; align-items: flex-start; justify-content: flex-end; } }
+  .band .doe-mee { margin: 0; font-size: clamp(2.4rem, 9vw, 3.4rem); }
+  .band h2 { margin: 0; color: var(--accent); font-weight: 500; font-size: clamp(1.4rem, 5vw, 1.9rem); }
+
+  .kop-raster { padding-bottom: 1.25rem; }
+  .band { flex-direction: column; align-items: flex-start; gap: .1rem; }
+  @media (max-width: 639px) { .band { padding-top: 26%; } }
+  .band h2 { padding-left: 2.5rem; }
+  @media (min-width: 640px) { .band h2 { padding-left: 4.5rem; } }
+
+  /* Cadeaus op salie, met de onderstrook van de flyer eraan vast */
+  .flyer-blok { margin-top: 1rem; border-radius: var(--radius); overflow: hidden; }
+  .cadeaus { background: var(--flyer-salie); padding: 1.1rem; }
+  .opties { display: grid; gap: .9rem; grid-template-columns: 1fr; }
+  @media (min-width: 560px) { .opties { grid-template-columns: 1fr 1fr; } }
+  .optie label {
+    height: 100%;
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1.1rem 1.1rem;
+    background: #fff;
+    border: 2px solid rgb(150, 178, 172);
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(30, 60, 55, .22);
+    transition: border-color .15s, background .15s;
+  }
+  .optie label:hover { border-color: var(--flyer-icoon); }
+  .optie .icoon { width: 3.4rem; height: 3.4rem; color: var(--flyer-icoon); stroke-width: 1.4; }
+  .optie .prijs { display: block; color: var(--accent); font-weight: 600; font-size: 1.7rem; line-height: 1.1; }
+  .optie .titel { display: block; font-size: 1rem; line-height: 1.35; margin-top: .25rem; }
+  .optie input:checked + label { border-color: var(--accent); background: var(--accent-licht); }
+  .optie input:checked + label .icoon { color: var(--accent); }
+  #fout-keuze { margin: .6rem 0 0; }
+
+  /* Vijfde tegel: maandelijks, een link in een eigen kleur */
+  .maand {
+    grid-column: 1 / -1;
+    display: flex; align-items: center; gap: 1rem;
+    min-height: 44px; padding: 1rem 1.1rem;
+    background: var(--flyer-wit);
+    border: 2px solid var(--petrol);
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(30, 60, 55, .22);
+    color: var(--petrol); text-decoration: none;
+    transition: background .15s;
+  }
+  .maand:hover { background: #fff; }
+  .maand:focus-visible { outline: 3px solid var(--salie); outline-offset: 2px; }
+  .maand .icoon { width: 2.6rem; height: 2.6rem; flex: none; stroke-width: 1.6; }
+  .maand .wat { flex: 1; min-width: 0; }
+  .maand strong { display: block; font-size: 1.05rem; }
+  .maand .sub { display: block; font-size: .9rem; }
+  .maand .pijl { flex: none; font-size: 1.3rem; }
+</style>
+</head>
+<body>
+<div class="pagina">
+  <header class="kop">
+    <h1>Geef hoop</h1>
+    <div class="kop-raster">
+      <div class="intro">
+        <p>Grace Home is het gezinshuis van een Indiase familie met wie we al 15 jaar samenwerken.</p>
+        <p>Zij vangen kansarme (wees)kinderen op en geven hen zorg, voedsel, een liefdevol thuis en onderwijs.</p>
+      </div>
+      <img class="kinderen" src="img/kinderen-cadeau.png" alt="Drie lachende kinderen van Grace Home met een cadeau" width="1220" height="960">
+    </div>
+    <div class="band">
+      <p class="doe-mee">Doe jij mee?</p>
+      <h2>Geef een cadeau</h2>
+    </div>
+  </header>
+
+  <form id="donatie">
+    <section id="stap-keuze" class="flyer-blok" aria-label="Kies je cadeau">
+      <div class="cadeaus">
+        <div class="opties"></div>
+        <p class="fout" id="fout-keuze" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="stap" id="stap-gegevens" data-gh-gegevens>
+      <h2>Je gegevens</h2>
+    </section>
+  </form>
+</div>
+
+<script src="gedeeld.js"></script>
+<script>
+  // De volgorde van de flyer, en het startpakket in één zin zoals op de flyer.
+  const opties = GH.FLYER_VOLGORDE.map((id) => GH.OPTIES.eenmalig.find((o) => o.id === id));
+  document.querySelector('.opties').innerHTML = opties.map((o) => `
+    <div class="optie">
+      ${GH.radio(o, 'eenmalig')}
+      <label for="k-${o.id}">
+        ${GH.icoon(o.icoon)}
+        <span class="wat">
+          <span class="prijs">€ ${GH.euro(o.bedrag)}</span>
+          <span class="titel">${o.id === 'startpakket' ? `${o.titel}: ${o.uitleg.charAt(0).toLowerCase()}${o.uitleg.slice(1)}` : o.titel}</span>
+        </span>
+      </label>
+    </div>`).join('') + `
+    <a class="maand" href="maandelijks.html">
+      ${GH.icoon('hart')}
+      <span class="wat"><strong>Wil je structureel helpen?</strong><span class="sub">Steun maandelijks of sponsor een kind</span></span>
+      <span class="pijl" aria-hidden="true">→</span>
+    </a>`;
+  GH.start();
+</script>
+</body>
+</html>

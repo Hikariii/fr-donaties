@@ -13,13 +13,14 @@
   - periodiek: precies "maandelijks" voor een maandelijkse donatie; al het
     andere is eenmalig. De eerste betaling maakt het mandaat; Mollie schrijft
     daarna elke maand hetzelfde bedrag af.
-  - projectcode: FR230 (Grace Home). Nog niet bevestigd in de database, dus
-    staat PROTOTYPE aan: de pagina verstuurt niets en toont wat ze zou sturen.
+  - projectcode: FR230 (Grace Home India - kindsponsoring), actief in de database
+    (bevestigd 2026-11-11). Zet PROTOTYPE op true om te testen zonder te
+    betalen: de pagina verstuurt dan niets en toont wat ze zou sturen.
 
   Iconen: paden van Lucide (lucide.dev, ISC-licentie).
 */
 (function () {
-  const PROTOTYPE = true;
+  const PROTOTYPE = false;
   const PROJECTCODE = 'FR230';
   const ACTIE = 'https://forerunner-info.appspot.com/donate';
   const SPONSOR_URL = 'https://forerunner.info/projecten/grace-home';
