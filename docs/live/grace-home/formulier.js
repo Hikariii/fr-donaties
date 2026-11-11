@@ -47,7 +47,7 @@ const GEGEVENS_HTML = `
         <p class="fout" id="fout-email" aria-live="polite"></p>
       </div>
     </div>
-    <label class="nieuwsbrief"><input type="checkbox" name="newsletter" value="YES">Houd me op de hoogte met de nieuwsbrief van Forerunner.</label>
+    <label class="nieuwsbrief"><input type="checkbox" name="newsletter" value="YES">Houd me via de nieuwsbrief op de hoogte van Forerunner.</label>
     <button class="geef" type="submit" id="geef">Geef</button>
     <ul class="vertrouwen">
       <li>Je betaalt veilig via Mollie, met iDEAL of creditcard.</li>

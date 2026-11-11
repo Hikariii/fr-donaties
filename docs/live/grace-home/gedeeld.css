@@ -8,6 +8,7 @@
   --accent-licht: hsl(18.84, 60%, 95%);
   --petrol: hsl(182, 32.61%, 18.04%);
   --salie: hsl(163.13, 13.11%, 52.16%);
+  --salie-licht: hsl(163, 20%, 93%);
   --tekst: hsl(0, 0%, 10.98%);
   --grijs: hsl(0, 0%, 40%);
   --rand: hsl(0, 0%, 87%);
@@ -117,7 +118,12 @@ body {
 .maand .sub { display: block; font-size: .9rem; }
 .maand .pijl { flex: none; font-size: 1.3rem; }
 
-.sponsor-noot { font-size: .85rem; color: var(--grijs); margin: .9rem 0 0; }
+/* Verwijzing naar sponsoren: een lichte balk, rustiger dan de tegels */
+.sponsor-noot {
+  margin: .9rem 0 0; padding: .75rem 1.1rem;
+  background: var(--salie-licht); border-radius: var(--radius);
+  font-size: .85rem; color: var(--petrol);
+}
 .sponsor-noot a { color: var(--petrol); }
 
 /* Gegevens, gevuld door startFormulier() in formulier.js */
