@@ -41,6 +41,7 @@ afbeeldingen.
 | `opmaak.js` | Bedragen als tekst (`€ 12,50 per maand`). |
 | `iconen.js` | De iconen (Lucide). |
 | `inbedding.js` | Meldt de hoogte aan forerunner.info, zodat de iframe meegroeit. |
+| `terugkeer.js` | Het bedankje na de betaling en de melding bij een fout van de backend (`?donatie=` en `?fout=`). |
 | `gedeeld.css` | De stijl van beide pagina's. Wat maar op één pagina nodig is, staat in die pagina. |
 
 De scripts zijn ES-modules. Open de pagina's daarom via een server, niet als
@@ -53,6 +54,28 @@ Zet `?test` achter het adres, bijvoorbeeld
 verstuurt dan niets en toont wat ze naar de backend zou sturen. De tegel naar
 de andere pagina houdt `?test` vast. Zo test je de echte pagina zonder iets aan
 de code te veranderen.
+
+## Terugkeer na de betaling of na een fout
+
+De backend stuurt de donateur terug naar de pagina op forerunner.info, met één
+parameter. Het Code Block geeft die parameter door aan de iframe, en
+`terugkeer.js` toont het resultaat.
+
+| Parameter | De pagina toont |
+| --- | --- |
+| `donatie=betaald` | Het bedankje. |
+| `donatie=verwerking` | Het bedankje, met "je betaling wordt nog verwerkt". |
+| `donatie=onbekend` | Een bedankje, met het e-mailadres voor vragen. |
+| `donatie=mislukt` | Het formulier, met een melding erboven. |
+| `fout=email` | Het formulier, met een melding bij het e-mailadres. |
+| `fout=bedrag`, `fout=project`, `fout=betaling` | Het formulier, met een melding boven de knop. |
+
+Een onbekende waarde negeert de pagina. Bekijk elke weergave met `?test`,
+bijvoorbeeld `http://localhost:8765/live/grace-home/?test&donatie=betaald`.
+
+De backend stuurt deze parameters pas mee na een wijziging in
+`Sevenish/Forerunner`. Tot die tijd komt de donateur na de betaling op de
+bedankpagina van appspot.
 
 ## Een wijziging live zetten
 
@@ -84,7 +107,8 @@ de code te veranderen.
 ## Inbouwen op forerunner.info
 
 Zet op de pagina in Squarespace een Code Block met de iframe en een klein
-script dat de hoogte van de iframe aanpast:
+script. Het script geeft `donatie` en `fout` door aan de iframe, en past de
+hoogte van de iframe aan:
 
 ```html
 <iframe id="grace-home-actie"
@@ -93,17 +117,33 @@ script dat de hoogte van de iframe aanpast:
         scrolling="no"
         style="display:block;width:100%;border:0;height:600px;"></iframe>
 <script>
-  // De pagina in de iframe meldt haar hoogte; pas de iframe daarop aan.
-  window.addEventListener('message', function (e) {
-    if (e.origin !== 'https://hikariii.github.io') return;
+  (function () {
     var f = document.getElementById('grace-home-actie');
-    if (!f || e.source !== f.contentWindow) return;
-    if (e.data && e.data.type === 'forerunner-actie-hoogte') {
-      f.style.height = Math.ceil(e.data.hoogte) + 'px';
-    }
-  });
+
+    // Geef de terugkeer van de backend (?donatie=... of ?fout=...) door aan de iframe.
+    var hier = new URLSearchParams(location.search);
+    var bron = new URL(f.src);
+    var gevonden = false;
+    ['donatie', 'fout'].forEach(function (k) {
+      if (hier.has(k)) { bron.searchParams.set(k, hier.get(k)); gevonden = true; }
+    });
+    if (gevonden) f.src = bron.href;
+
+    // De pagina in de iframe meldt haar hoogte; pas de iframe daarop aan.
+    window.addEventListener('message', function (e) {
+      if (e.origin !== 'https://hikariii.github.io') return;
+      if (e.source !== f.contentWindow) return;
+      if (e.data && e.data.type === 'forerunner-actie-hoogte') {
+        f.style.height = Math.ceil(e.data.hoogte) + 'px';
+      }
+    });
+  })();
 </script>
 ```
+
+De `src` staat in de HTML, zodat de editor van Squarespace de iframe toont. In
+de editor draaien scripts niet. Het script verandert de `src` alleen als het
+adres `donatie` of `fout` bevat.
 
 Het formulier opent Mollie in het hele venster (`target="_top"`). Een iframe
 met een `sandbox`-attribuut moet daarom `allow-top-navigation` toestaan.

@@ -48,6 +48,7 @@ const GEGEVENS_HTML = `
       </div>
     </div>
     <label class="nieuwsbrief"><input type="checkbox" name="newsletter" value="YES">Houd me via de nieuwsbrief op de hoogte van Forerunner.</label>
+    <p class="fout" id="fout-algemeen" aria-live="polite"></p>
     <button class="geef" type="submit" id="geef">Geef</button>
     <ul class="vertrouwen">
       <li>Je betaalt veilig via Mollie, met iDEAL of creditcard.</li>
@@ -138,6 +139,7 @@ export function startFormulier(form, opties) {
     keuze: form.querySelector('#fout-keuze'),
     naam: form.querySelector('#fout-naam'),
     email: form.querySelector('#fout-email'),
+    algemeen: form.querySelector('#fout-algemeen'),
   };
   const radios = () => form.querySelectorAll('input[name="keuze"]');
   const gekozenOptie = () => opties.find((o) => o.id === form.elements.keuze.value);

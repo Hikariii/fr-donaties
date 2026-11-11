@@ -59,10 +59,12 @@
   import { toonKaarten, toonIconen } from './kaarten.js';
   import { startFormulier } from './formulier.js';
   import { meldHoogteAanOuder } from './inbedding.js';
+  import { toonTerugkeer } from './terugkeer.js';
 
   toonKaarten(document.querySelector('.opties'), EENMALIG);
   toonIconen();
   startFormulier(document.getElementById('donatie'), EENMALIG);
+  toonTerugkeer(document.getElementById('donatie'));
   meldHoogteAanOuder();
 </script>
 </body>

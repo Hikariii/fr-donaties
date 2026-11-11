@@ -197,3 +197,24 @@ dialog { border: 0; border-radius: var(--radius); padding: 1.25rem; max-width: m
 dialog h2 { margin: 0 0 .5rem; font-size: 1.1rem; }
 dialog pre { background: var(--vlak); padding: .75rem; border-radius: 8px; font-size: .8rem; white-space: pre-wrap; }
 dialog button { font: inherit; padding: .5rem 1rem; border-radius: 8px; border: 0; background: var(--petrol); color: #fff; cursor: pointer; }
+
+/* Terugkeer van de backend (terugkeer.js): het bedankje en de melding */
+.bedankt {
+  margin-top: 1rem; padding: 2rem 1.25rem;
+  background: var(--flyer-salie); border-radius: var(--radius);
+  text-align: center;
+}
+.bedankt-icoon {
+  width: 4.5rem; height: 4.5rem; margin: 0 auto .75rem;
+  display: grid; place-items: center;
+  background: #fff; border-radius: 50%; color: var(--accent);
+}
+.bedankt-icoon .icoon { width: 2.4rem; height: 2.4rem; }
+.bedankt h2 { margin: 0; color: var(--accent); font-size: clamp(1.4rem, 5vw, 1.8rem); font-weight: 600; }
+.bedankt p { margin: .5rem auto 0; max-width: 32rem; color: var(--petrol); }
+.bedankt .geef { display: block; max-width: 20rem; margin: 1.5rem auto 0; text-decoration: none; }
+.melding {
+  margin: 1rem 0 0; padding: .8rem 1rem;
+  background: #fdecea; color: #8a1c13;
+  border-radius: var(--radius); font-size: .9rem;
+}
