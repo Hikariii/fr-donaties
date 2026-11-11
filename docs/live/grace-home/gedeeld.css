@@ -39,7 +39,7 @@ body {
   font-weight: 400;
 }
 
-/* Gegevens, gevuld door GH.start() */
+/* Gegevens, gevuld door startFormulier() in formulier.js */
 .stap { margin-top: 1.75rem; scroll-margin-top: 1rem; }
 .stap > h2 { font-size: 1.1rem; font-weight: 600; margin: 0 0 .75rem; color: var(--petrol); }
 

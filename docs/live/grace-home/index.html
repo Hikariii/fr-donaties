@@ -10,7 +10,7 @@
   voordat je iets wijzigt.
 
   Grace Home, eenmalig: de cadeaus van de flyer. De tegel onderaan opent maandelijks.html.
-  De opties, het formulier en het versturen staan in gedeeld.js.
+  De opties staan in opties.js, het formulier en het versturen in formulier.js.
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -132,11 +132,16 @@
   </form>
 </div>
 
-<script src="gedeeld.js"></script>
-<script>
-  GH.toonKaarten(document.querySelector('.opties'), GH.EENMALIG);
-  GH.toonIconen();
-  GH.start(GH.EENMALIG);
+<script type="module">
+  import { EENMALIG } from './opties.js';
+  import { toonKaarten, toonIconen } from './kaarten.js';
+  import { startFormulier } from './formulier.js';
+  import { meldHoogteAanOuder } from './inbedding.js';
+
+  toonKaarten(document.querySelector('.opties'), EENMALIG);
+  toonIconen();
+  startFormulier(document.getElementById('donatie'), EENMALIG);
+  meldHoogteAanOuder();
 </script>
 </body>
 </html>

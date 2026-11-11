@@ -10,7 +10,7 @@
   voordat je iets wijzigt.
 
   Grace Home, maandelijks: de maandopties en de verwijzing naar sponsoren. De tegel onderaan opent index.html.
-  De opties, het formulier en het versturen staan in gedeeld.js.
+  De opties staan in opties.js, het formulier en het versturen in formulier.js.
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -142,11 +142,16 @@
   </form>
 </div>
 
-<script src="gedeeld.js"></script>
-<script>
-  GH.toonKaarten(document.querySelector('.opties'), GH.MAANDELIJKS);
-  GH.toonIconen();
-  GH.start(GH.MAANDELIJKS);
+<script type="module">
+  import { MAANDELIJKS } from './opties.js';
+  import { toonKaarten, toonIconen } from './kaarten.js';
+  import { startFormulier } from './formulier.js';
+  import { meldHoogteAanOuder } from './inbedding.js';
+
+  toonKaarten(document.querySelector('.opties'), MAANDELIJKS);
+  toonIconen();
+  startFormulier(document.getElementById('donatie'), MAANDELIJKS);
+  meldHoogteAanOuder();
 </script>
 </body>
 </html>
