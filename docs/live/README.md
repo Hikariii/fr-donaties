@@ -5,9 +5,23 @@
 > Forerunner (`POST https://forerunner-info.appspot.com/donate`). Bezoekers
 > betalen via Mollie. Een fout hier kost donaties.
 
-Experimenteer niet in deze map. Ontwerpen en prototypes staan in de andere
-mappen van `docs/`, zoals `docs/grace-home-actie/`. Iets komt pas hier als het
-af is.
+Elke wijziging gaat via een eigen branch en pull request. Zet in de titel dat
+het om de live-versie gaat.
+
+## Geïsoleerd
+
+`docs/live/` deelt geen code met de rest van de repository. Alles wat een
+live pagina gebruikt, staat in haar eigen map: HTML, JavaScript, CSS en
+afbeeldingen.
+
+- Een live pagina verwijst nooit naar een bestand buiten haar map (geen
+  `../`). Lettertypes van Google Fonts zijn de enige externe bron.
+- Andere mappen mogen een live pagina wel tonen, maar alleen in een iframe,
+  zoals forerunner.info dat doet. Ze laden die pagina dan met `?test`. Een
+  voorbeeld is de nagebootste pagina van forerunner.info in
+  `docs/grace-home-actie/`.
+- Kopieer geen code uit een andere map naar `docs/live/`, of andersom, om die
+  daarna samen te onderhouden. Een kopie is daarna van de nieuwe map.
 
 ## Pagina's
 
@@ -16,20 +30,41 @@ af is.
 | Grace Home, eenmalig | `grace-home/index.html` | `https://hikariii.github.io/fr-donaties/live/grace-home/` | FR230 |
 | Grace Home, maandelijks | `grace-home/maandelijks.html` | `https://hikariii.github.io/fr-donaties/live/grace-home/maandelijks.html` | FR230 |
 
-De werkversie van Grace Home staat in `docs/grace-home-actie/`
-(`b-flyer-precies.html` en `b-flyer-maandelijks.html`).
+## De bestanden van Grace Home
+
+| Bestand | Wat |
+| --- | --- |
+| `index.html`, `maandelijks.html` | De twee pagina's: de kop, de tegel naar de andere pagina en een klein script dat de modules start. |
+| `opties.js` | De opties: bedrag, periodiek, titel en icoon. Een optie toevoegen of wijzigen doe je hier. |
+| `formulier.js` | Het formulier: de velden, de controle, het versturen naar de backend en de testmodus. Hier staan `PROJECTCODE` en `DONATIE_URL`. |
+| `kaarten.js` | De kaarten van de opties. |
+| `opmaak.js` | Bedragen als tekst (`€ 12,50 per maand`). |
+| `iconen.js` | De iconen (Lucide). |
+| `inbedding.js` | Meldt de hoogte aan forerunner.info, zodat de iframe meegroeit. |
+| `gedeeld.css` | De stijl van beide pagina's. Wat maar op één pagina nodig is, staat in die pagina. |
+
+De scripts zijn ES-modules. Open de pagina's daarom via een server, niet als
+bestand (`file://`).
+
+## Testmodus
+
+Zet `?test` achter het adres, bijvoorbeeld
+`https://hikariii.github.io/fr-donaties/live/grace-home/?test`. De pagina
+verstuurt dan niets en toont wat ze naar de backend zou sturen. De tegel naar
+de andere pagina houdt `?test` vast. Zo test je de echte pagina zonder iets aan
+de code te veranderen.
 
 ## Een wijziging live zetten
 
-1. Wijzig en test eerst de werkversie (bijvoorbeeld in
-   `docs/grace-home-actie/`).
-2. Neem de wijziging over in deze map, in een eigen pull request. Zet in de
-   titel dat het om de live-versie gaat.
-3. Controleer voor het mergen:
-   - `PROTOTYPE = false` en de juiste `PROJECTCODE` in `gedeeld.js`;
-   - de pagina's op mobiel en desktop, los en in een iframe;
-   - wat het formulier verstuurt. Zet daarvoor lokaal `PROTOTYPE = true`: de
-     pagina toont dan wat ze zou sturen. Zet het daarna terug.
+1. Maak een branch en wijzig de pagina in deze map.
+2. Test lokaal, met een server in `docs/`
+   (`python3 -m http.server 8765`), op
+   `http://localhost:8765/live/grace-home/?test`:
+   - op mobiel en desktop, los en in een iframe
+     (`http://localhost:8765/grace-home-actie/`);
+   - wat het formulier verstuurt, voor eenmalig en maandelijks;
+   - de foutmeldingen, en de terugknop na het versturen.
+3. Controleer voor het mergen de `PROJECTCODE` in `formulier.js`.
 4. Na de merge: doe één echte betaling en stort die zo nodig terug in Mollie.
    Bij een maandelijkse betaling: controleer het abonnement in Mollie en in het
    beheer van de backend, en zeg het daarna op.
