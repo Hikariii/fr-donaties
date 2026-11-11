@@ -30,6 +30,22 @@ afbeeldingen.
 | Grace Home, eenmalig | `grace-home/index.html` | `https://hikariii.github.io/fr-donaties/live/grace-home/` | FR230 |
 | Grace Home, maandelijks | `grace-home/maandelijks.html` | `https://hikariii.github.io/fr-donaties/live/grace-home/maandelijks.html` | FR230 |
 
+## De bestanden van Grace Home
+
+| Bestand | Wat |
+| --- | --- |
+| `index.html`, `maandelijks.html` | De twee pagina's: de kop, de tegel naar de andere pagina en een klein script dat de modules start. |
+| `opties.js` | De opties: bedrag, periodiek, titel en icoon. Een optie toevoegen of wijzigen doe je hier. |
+| `formulier.js` | Het formulier: de velden, de controle, het versturen naar de backend en de testmodus. Hier staan `PROJECTCODE` en `DONATIE_URL`. |
+| `kaarten.js` | De kaarten van de opties. |
+| `opmaak.js` | Bedragen als tekst (`€ 12,50 per maand`). |
+| `iconen.js` | De iconen (Lucide). |
+| `inbedding.js` | Meldt de hoogte aan forerunner.info, zodat de iframe meegroeit. |
+| `gedeeld.css` | De stijl van beide pagina's. Wat maar op één pagina nodig is, staat in die pagina. |
+
+De scripts zijn ES-modules. Open de pagina's daarom via een server, niet als
+bestand (`file://`).
+
 ## Testmodus
 
 Zet `?test` achter het adres, bijvoorbeeld
@@ -48,7 +64,7 @@ de code te veranderen.
      (`http://localhost:8765/grace-home-actie/`);
    - wat het formulier verstuurt, voor eenmalig en maandelijks;
    - de foutmeldingen, en de terugknop na het versturen.
-3. Controleer voor het mergen de `PROJECTCODE` in `gedeeld.js`.
+3. Controleer voor het mergen de `PROJECTCODE` in `formulier.js`.
 4. Na de merge: doe één echte betaling en stort die zo nodig terug in Mollie.
    Bij een maandelijkse betaling: controleer het abonnement in Mollie en in het
    beheer van de backend, en zeg het daarna op.
