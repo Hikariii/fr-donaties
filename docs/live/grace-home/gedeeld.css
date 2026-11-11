@@ -1,6 +1,7 @@
-/* Gedeelde stijl van de donatiepagina's van Grace Home.
-   Kleuren en lettertype van forerunner.info; "Doe jij mee?" in een schrijfletter,
-   zoals op de flyer. */
+/* LIVE: stijl van de donatiepagina's van Grace Home. Lees docs/live/README.md.
+   Kleuren en lettertype van forerunner.info; de kop en de kaarten zoals op de
+   flyer, met "Doe jij mee?" in een schrijfletter. Wat maar op één pagina
+   nodig is, staat in die pagina. */
 :root {
   --accent: hsl(18.84, 67.6%, 35.1%);
   --accent-donker: hsl(18.84, 67.6%, 28%);
@@ -27,17 +28,97 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
-.pagina { max-width: 760px; margin: 0 auto; padding: 0 1.25rem 2rem; }
+.pagina { max-width: 760px; margin: 0 auto; padding: 1.25rem 1.25rem 2rem; }
 .icoon { width: 1.5em; height: 1.5em; flex: none; }
 
-.doe-mee {
-  font-family: "Great Vibes", cursive;
-  color: var(--accent);
-  font-size: clamp(2.2rem, 9vw, 3.2rem);
-  line-height: 1;
-  margin: .4rem 0 0;
-  font-weight: 400;
+/* Kop zoals de flyer */
+.kop { background: var(--flyer-wit); border-radius: var(--radius); overflow: hidden; }
+.kop h1 {
+  margin: 0; padding: 1.4rem 1.25rem .4rem;
+  color: var(--accent); font-weight: 600;
+  font-size: clamp(1.6rem, 6vw, 2.3rem); line-height: 1.15;
 }
+.kop-raster { display: grid; padding: 0 1.25rem 1.25rem; }
+.intro p { margin: .5rem 0 0; font-size: 1rem; }
+.kinderen { display: block; width: 100%; height: auto; margin-bottom: -31.5%; position: relative; z-index: 1; }
+
+/* De gele band; de kinderen lopen erin door */
+.band {
+  background: var(--flyer-geel);
+  padding: 26% 1.25rem 1rem;
+  display: flex; flex-direction: column; flex-wrap: wrap; align-items: flex-start; gap: .1rem;
+}
+.doe-mee {
+  margin: 0;
+  font-family: "Great Vibes", cursive; font-weight: 400;
+  color: var(--accent);
+  font-size: clamp(2.4rem, 9vw, 3.4rem); line-height: 1;
+}
+.band h2 {
+  margin: 0; padding-left: 2.5rem;
+  color: var(--accent); font-weight: 500;
+  font-size: clamp(1.4rem, 5vw, 1.9rem);
+}
+
+/* Desktop: de kinderen staan rechts en lopen door tot in de gele band */
+@media (min-width: 640px) {
+  .kop { position: relative; }
+  .kop-raster { padding-right: 50%; }
+  .kinderen { position: absolute; right: .5rem; bottom: 0; width: 48%; margin: 0; }
+  .band { padding: 1.5rem 50% 1.25rem 1.25rem; min-height: 9rem; justify-content: flex-end; }
+  .band h2 { padding-left: 4.5rem; }
+}
+
+/* Kaarten op salie; elke kaart is een verborgen radioknop met een label */
+.flyer-blok { margin-top: 1rem; border-radius: var(--radius); overflow: hidden; }
+.cadeaus { background: var(--flyer-salie); padding: 1.1rem; }
+.opties { display: grid; gap: .9rem; grid-template-columns: 1fr; }
+@media (min-width: 560px) { .opties { grid-template-columns: 1fr 1fr; } }
+.optie input { position: absolute; opacity: 0; pointer-events: none; }
+.optie label {
+  height: 100%;
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1.1rem 1.1rem;
+  background: #fff;
+  border: 2px solid rgb(150, 178, 172);
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(30, 60, 55, .22);
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+.optie label:hover { border-color: var(--flyer-icoon); }
+.optie input:focus-visible + label { outline: 3px solid var(--salie); outline-offset: 2px; }
+.optie input:checked + label { border-color: var(--accent); background: var(--accent-licht); }
+.optie .icoon { width: 3.4rem; height: 3.4rem; color: var(--flyer-icoon); stroke-width: 1.4; }
+.optie input:checked + label .icoon { color: var(--accent); }
+.optie .prijs { display: block; color: var(--accent); font-weight: 600; font-size: 1.7rem; line-height: 1.1; }
+.optie .prijs small { font-weight: 500; font-size: .9rem; }
+.optie .titel { display: block; font-size: 1rem; line-height: 1.35; margin-top: .25rem; }
+.optie .uitleg { display: block; color: var(--grijs); font-size: .82rem; margin-top: .1rem; }
+#fout-keuze { margin: .6rem 0 0; }
+
+/* Tegel naar de andere pagina: een link in een eigen kleur */
+.maand {
+  grid-column: 1 / -1;
+  display: flex; align-items: center; gap: 1rem;
+  min-height: 44px; padding: 1rem 1.1rem;
+  background: var(--flyer-wit);
+  border: 2px solid var(--petrol);
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(30, 60, 55, .22);
+  color: var(--petrol); text-decoration: none;
+  transition: background .15s;
+}
+.maand:hover { background: #fff; }
+.maand:focus-visible { outline: 3px solid var(--salie); outline-offset: 2px; }
+.maand .icoon { width: 2.6rem; height: 2.6rem; flex: none; stroke-width: 1.6; }
+.maand .wat { flex: 1; min-width: 0; }
+.maand strong { display: block; font-size: 1.05rem; }
+.maand .sub { display: block; font-size: .9rem; }
+.maand .pijl { flex: none; font-size: 1.3rem; }
+
+.sponsor-noot { font-size: .85rem; color: var(--grijs); margin: .9rem 0 0; }
+.sponsor-noot a { color: var(--petrol); }
 
 /* Gegevens, gevuld door startFormulier() in formulier.js */
 .stap { margin-top: 1.75rem; scroll-margin-top: 1rem; }
@@ -59,7 +140,6 @@ body {
   flex: none; width: 2.6rem; height: 2.6rem; border-radius: 50%;
   display: grid; place-items: center; background: #fff; color: var(--accent);
 }
-.keuze-samenvatting .beeld:empty { display: none; }
 .keuze-samenvatting .beeld .icoon { width: 1.5rem; height: 1.5rem; }
 
 .velden { display: grid; gap: .75rem; }
@@ -105,14 +185,6 @@ body {
 }
 .vertrouwen li { display: flex; gap: .5rem; }
 .vertrouwen li::before { content: "✓"; color: var(--salie); font-weight: 700; }
-
-.sponsor-noot { font-size: .85rem; color: var(--grijs); margin: .9rem 0 0; }
-.sponsor-noot a { color: var(--petrol); }
-
-/* Een verborgen radioknop met een label als kaart */
-.optie input { position: absolute; opacity: 0; pointer-events: none; }
-.optie label { cursor: pointer; }
-.optie input:focus-visible + label { outline: 3px solid var(--salie); outline-offset: 2px; }
 
 /* Melding in de testmodus (?test) */
 dialog { border: 0; border-radius: var(--radius); padding: 1.25rem; max-width: min(90vw, 520px); box-shadow: 0 10px 40px rgba(0,0,0,.25); font: inherit; }
