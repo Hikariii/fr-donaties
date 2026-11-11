@@ -8,8 +8,10 @@
 <!--
   Prototype: echte HTML van https://forerunner.info/ondersteunen (opgehaald 2026-11-09).
   Wijzigingen: <base href> naar forerunner.info, de iframe van het donatieformulier
-  vervangen door de iframe van de actiepagina (b-flyer-precies.html), en een klein
-  script onderaan dat de hoogte van de iframe bijwerkt.
+  vervangen door de iframe van de live pagina (docs/live/grace-home/, met ?test zodat
+  er niets verstuurd wordt), en een klein script onderaan dat de hoogte van de iframe
+  bijwerkt. Deze replica deelt geen code met docs/live: ze laadt de pagina alleen in
+  een iframe, net als forerunner.info.
 -->
 <meta charset="utf-8" />
 <title>Ondersteunen &mdash; Forerunner</title>
@@ -3240,9 +3242,10 @@
   
 <!-- Prototype: hoort niet bij de echte pagina -->
 <script>
-  // <base href> wijst naar forerunner.info; de actiepagina staat naast dit bestand.
+  // <base href> wijst naar forerunner.info; de live pagina staat in ../live/grace-home/.
+  // ?test: de pagina verstuurt niets.
   const iframe = document.getElementById('actie');
-  iframe.src = new URL('b-flyer-precies.html', location.href).href;
+  iframe.src = new URL('../live/grace-home/?test', location.href).href;
 
   // De actiepagina meldt haar hoogte, zodat de iframe geen eigen schuifbalk krijgt.
   window.addEventListener('message', (e) => {

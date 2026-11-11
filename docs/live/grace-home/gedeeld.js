@@ -15,13 +15,16 @@
     andere is eenmalig. De eerste betaling maakt het mandaat; Mollie schrijft
     daarna elke maand hetzelfde bedrag af.
   - projectcode: FR230 (Grace Home India - kindsponsoring), actief in de database
-    (bevestigd 2026-11-11). Zet PROTOTYPE op true om te testen zonder te
-    betalen: de pagina verstuurt dan niets en toont wat ze zou sturen.
+    (bevestigd 2026-11-11).
+
+  Testmodus: open de pagina met ?test (bijvoorbeeld index.html?test). De pagina
+  verstuurt dan niets en toont wat ze zou sturen. De tegel naar de andere pagina
+  houdt ?test vast.
 
   Iconen: paden van Lucide (lucide.dev, ISC-licentie).
 */
 (function () {
-  const PROTOTYPE = false;
+  const TESTMODUS = new URLSearchParams(location.search).has('test');
   const PROJECTCODE = 'FR230';
   const ACTIE = 'https://forerunner-info.appspot.com/donate';
   const SPONSOR_URL = 'https://forerunner.info/projecten/grace-home';
@@ -96,8 +99,8 @@
 
   const DIALOOG = `
     <dialog id="prototype-melding">
-      <h2>Prototype</h2>
-      <p>Deze pagina verstuurt nog niets. Dit zou naar de backend gaan:</p>
+      <h2>Testmodus</h2>
+      <p>De pagina verstuurt niets, omdat het adres ?test bevat. Dit zou naar de backend gaan:</p>
       <pre id="prototype-data"></pre>
       <form method="dialog"><button>Sluiten</button></form>
     </dialog>`;
@@ -209,7 +212,7 @@
       document.getElementById('periodiek').value = r.dataset.periodiek;
       document.getElementById('bedrag').value = r.dataset.bedrag;
 
-      if (PROTOTYPE) {
+      if (TESTMODUS) {
         e.preventDefault();
         const data = new FormData(form);
         data.delete('keuze');
@@ -249,6 +252,11 @@
       const meld = () => window.parent.postMessage(
         { type: 'forerunner-actie-hoogte', hoogte: document.body.getBoundingClientRect().height }, '*');
       new ResizeObserver(meld).observe(document.body);
+    }
+
+    // In de testmodus blijft ?test staan op de links naar de andere pagina.
+    if (TESTMODUS) {
+      for (const a of document.querySelectorAll('a.maand')) a.search = location.search;
     }
 
     toon();
