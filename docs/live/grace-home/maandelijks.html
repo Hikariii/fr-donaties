@@ -102,9 +102,6 @@
   .maand .pijl { flex: none; font-size: 1.3rem; }
   /* Drie maandopties: de tegel naar eenmalig vult het vierde vak (2×2) */
   @media (min-width: 560px) { .maand { grid-column: auto; } }
-  .raster .maand { grid-column: auto; flex-direction: column; align-items: flex-start; justify-content: center; text-align: left; }
-  .raster .maand .pijl { align-self: flex-end; }
-  @media (min-width: 640px) { .raster .maand { flex-direction: row; align-items: center; } .raster .maand .pijl { align-self: center; } }
 </style>
 </head>
 <body>
@@ -133,7 +130,7 @@
     </section>
     <div data-sponsor></div>
 
-    <section class="stap" id="stap-gegevens" data-gh-gegevens>
+    <section class="stap" id="stap-gegevens">
       <h2>Je gegevens</h2>
     </section>
   </form>
