@@ -115,7 +115,13 @@
   <form id="donatie">
     <section id="stap-keuze" class="flyer-blok" aria-label="Kies je cadeau">
       <div class="cadeaus">
-        <div class="opties"></div>
+        <div class="opties">
+          <a class="maand" href="maandelijks.html">
+            <span data-icoon="hart"></span>
+            <span class="wat"><strong>Wil je structureel helpen?</strong><span class="sub">Steun maandelijks of sponsor een kind</span></span>
+            <span class="pijl" aria-hidden="true">→</span>
+          </a>
+        </div>
         <p class="fout" id="fout-keuze" aria-live="polite"></p>
       </div>
     </section>
@@ -128,24 +134,9 @@
 
 <script src="gedeeld.js"></script>
 <script>
-  // Het startpakket staat in één zin, zoals op de flyer.
-  document.querySelector('.opties').innerHTML = GH.OPTIES.eenmalig.map((o) => `
-    <div class="optie">
-      ${GH.radio(o, 'eenmalig')}
-      <label for="k-${o.id}">
-        ${GH.icoon(o.icoon)}
-        <span class="wat">
-          <span class="prijs">€ ${GH.euro(o.bedrag)}</span>
-          <span class="titel">${o.id === 'startpakket' ? `${o.titel}: ${o.uitleg.charAt(0).toLowerCase()}${o.uitleg.slice(1)}` : o.titel}</span>
-        </span>
-      </label>
-    </div>`).join('') + `
-    <a class="maand" href="maandelijks.html">
-      ${GH.icoon('hart')}
-      <span class="wat"><strong>Wil je structureel helpen?</strong><span class="sub">Steun maandelijks of sponsor een kind</span></span>
-      <span class="pijl" aria-hidden="true">→</span>
-    </a>`;
-  GH.start();
+  GH.toonKaarten(document.querySelector('.opties'), GH.EENMALIG);
+  GH.toonIconen();
+  GH.start(GH.EENMALIG);
 </script>
 </body>
 </html>

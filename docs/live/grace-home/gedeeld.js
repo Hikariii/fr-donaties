@@ -3,11 +3,13 @@
   Lees docs/live/README.md voordat je iets wijzigt.
 
   Elke pagina heeft:
-  - <form id="donatie"> met radioknoppen name="keuze" (maak ze met GH.radio)
+  - <form id="donatie"> met een <div class="opties">; GH.toonKaarten zet de
+    kaarten van de opties vooraan in die div
   - <section id="stap-gegevens"></section>; GH.start vult die met de velden
     voor naam en e-mailadres, de foutmeldingen en de knop
   - een <p class="fout" id="fout-keuze"></p> bij de keuzes
-  Roep daarna GH.start() aan.
+  - <span data-icoon="naam"></span> voor een vast icoon; GH.toonIconen vult het in
+  Roep daarna GH.start(opties) aan.
 
   De backend (POST /donate):
   - bedrag: "12.50" of "150". Minimaal 5. Geen centen, geen duizendtallen.
@@ -27,22 +29,32 @@
   const TESTMODUS = new URLSearchParams(location.search).has('test');
   const PROJECTCODE = 'FR230';
   const ACTIE = 'https://forerunner-info.appspot.com/donate';
-  const SPONSOR_URL = 'https://forerunner.info/projecten/grace-home';
 
-  // De opties in de volgorde van de pagina: aflopend op bedrag.
-  const OPTIES = {
-    eenmalig: [
-      { id: 'schoolgeld-jaar', bedrag: '150', titel: 'Schoolgeld voor een heel jaar', uitleg: 'Een kind gaat een heel jaar naar school.', icoon: 'boek' },
-      { id: 'startpakket', bedrag: '50', titel: 'Startpakket school', uitleg: 'Uniform, schooltas, schoolboeken e.a.', icoon: 'rugzak' },
-      { id: 'kleding', bedrag: '25', titel: 'Set nieuwe kleding voor een kind', uitleg: 'Nieuwe kleren die passen.', icoon: 'shirt' },
-      { id: 'menstruatieset', bedrag: '15', titel: 'Menstruatieset tienermeisje', uitleg: 'Maandverband en verzorging.', icoon: 'cadeau' },
-    ],
-    maandelijks: [
-      { id: 'sponsor', bedrag: '38.50', titel: 'Sponsor een kind of student', uitleg: 'Zorg, voedsel, een liefdevol thuis en onderwijs.', icoon: 'persoon' },
-      { id: 'eten-2', bedrag: '25', titel: 'Eten voor twee kinderen', uitleg: 'Elke dag een gezonde maaltijd.', icoon: 'soep' },
-      { id: 'scholing-1', bedrag: '12.50', titel: 'Schoolgeld voor een kind', uitleg: 'Elk jaar naar school, zolang je geeft.', icoon: 'hoed' },
-    ],
-  };
+  /*
+    Een optie:
+    - id: uniek; de radioknop heet k-<id>
+    - periodiek: 'eenmalig' of 'maandelijks'
+    - bedrag: zoals de backend het wil, bijvoorbeeld '12.50'
+    - titel: in de samenvatting, en op de kaart als er geen kaarttitel is
+    - kaarttitel (niet verplicht): langere titel op de kaart
+    - uitleg (niet verplicht): kleine regel onder de titel op de kaart
+    - icoon: naam in ICONEN
+    In de volgorde van de pagina: aflopend op bedrag.
+  */
+  const EENMALIG = [
+    { id: 'schoolgeld-jaar', periodiek: 'eenmalig', bedrag: '150', titel: 'Schoolgeld voor een heel jaar', icoon: 'boek' },
+    { id: 'startpakket', periodiek: 'eenmalig', bedrag: '50', titel: 'Startpakket school', kaarttitel: 'Startpakket school: uniform, schooltas, schoolboeken e.a.', icoon: 'rugzak' },
+    { id: 'kleding', periodiek: 'eenmalig', bedrag: '25', titel: 'Set nieuwe kleding voor een kind', icoon: 'shirt' },
+    { id: 'menstruatieset', periodiek: 'eenmalig', bedrag: '15', titel: 'Menstruatieset tienermeisje', icoon: 'cadeau' },
+  ];
+  const MAANDELIJKS = [
+    { id: 'sponsor', periodiek: 'maandelijks', bedrag: '38.50', titel: 'Sponsor een kind of student', uitleg: 'Zorg, voedsel, een liefdevol thuis en onderwijs.', icoon: 'persoon' },
+    { id: 'eten-2', periodiek: 'maandelijks', bedrag: '25', titel: 'Eten voor twee kinderen', uitleg: 'Elke dag een gezonde maaltijd.', icoon: 'soep' },
+    { id: 'scholing-1', periodiek: 'maandelijks', bedrag: '12.50', titel: 'Schoolgeld voor een kind', uitleg: 'Elk jaar naar school, zolang je geeft.', icoon: 'hoed' },
+  ];
+
+  // De backend kent alleen "maandelijks"; al het andere is eenmalig.
+  const PERIODIEK_VOOR_BACKEND = { eenmalig: 'once', maandelijks: 'maandelijks' };
 
   const PADEN = {
     boek: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
@@ -64,14 +76,32 @@
     return Number.isInteger(n) ? String(n) : n.toFixed(2).replace('.', ',');
   };
 
-  const periodiekVan = (soort) => (soort === 'maandelijks' ? 'maandelijks' : 'once');
+  // "€ 12,50", met " per maand" (of kort " p/m") bij een maandelijkse optie.
+  const prijsTekst = (optie, { kort = false } = {}) =>
+    `€ ${euro(optie.bedrag)}` +
+    (optie.periodiek === 'maandelijks' ? (kort ? ' p/m' : ' per maand') : '');
 
-  // De radioknop voor een optie. Zet het label er zelf achter: <label for="k-…">.
-  const radio = (o, soort) =>
-    `<input type="radio" name="keuze" id="k-${o.id}" value="${o.id}" data-bedrag="${o.bedrag}" data-periodiek="${periodiekVan(soort)}" data-titel="${o.titel}" data-icoon="${o.icoon}">`;
+  const kaart = (optie) => `
+    <div class="optie">
+      <input type="radio" name="keuze" id="k-${optie.id}" value="${optie.id}">
+      <label for="k-${optie.id}">
+        ${icoon(optie.icoon)}
+        <span class="wat">
+          <span class="prijs">€ ${euro(optie.bedrag)}${optie.periodiek === 'maandelijks' ? ' <small>per maand</small>' : ''}</span>
+          <span class="titel">${optie.kaarttitel || optie.titel}</span>${optie.uitleg ? `
+          <span class="uitleg">${optie.uitleg}</span>` : ''}
+        </span>
+      </label>
+    </div>`;
 
-  const sponsorNoot = () =>
-    `<p class="sponsor-noot">Wil je meer geven of een vast kind volgen? <a href="${SPONSOR_URL}" target="_top">Lees meer over sponsoren bij Grace Home</a>.</p>`;
+  // Zet de kaarten vooraan in de container, voor wat er al in staat.
+  const toonKaarten = (container, opties) =>
+    container.insertAdjacentHTML('afterbegin', opties.map(kaart).join(''));
+
+  // Vervang elk <span data-icoon="naam"> door het icoon.
+  const toonIconen = () => {
+    for (const plek of document.querySelectorAll('[data-icoon]')) plek.outerHTML = icoon(plek.dataset.icoon);
+  };
 
   const GEGEVENS = `
     <div class="keuze-samenvatting leeg" id="keuze-samenvatting">Je hebt nog niets gekozen.</div>
@@ -103,7 +133,7 @@
       <form method="dialog"><button>Sluiten</button></form>
     </dialog>`;
 
-  function start() {
+  function start(opties) {
     const form = document.getElementById('donatie');
     form.method = 'post';
     form.action = ACTIE;
@@ -129,35 +159,31 @@
       email: document.getElementById('fout-email'),
     };
     const radios = () => form.querySelectorAll('input[name="keuze"]');
-    const gekozen = () => form.querySelector('input[name="keuze"]:checked');
-
-    const knoptekst = (r) =>
-      r ? `Geef € ${euro(r.dataset.bedrag)}${r.dataset.periodiek === 'maandelijks' ? ' per maand' : ''}` : 'Geef';
+    const gekozen = () => opties.find((o) => o.id === form.elements.keuze.value);
 
     function toon() {
       const r = gekozen();
-      geef.textContent = knoptekst(r);
+      geef.textContent = r ? `Geef ${prijsTekst(r)}` : 'Geef';
       if (!r) {
         samenvatting.className = 'keuze-samenvatting leeg';
         samenvatting.textContent = 'Je hebt nog niets gekozen.';
         return;
       }
-      const maand = r.dataset.periodiek === 'maandelijks';
       samenvatting.className = 'keuze-samenvatting';
       samenvatting.innerHTML = '';
       const wat = document.createElement('span');
       wat.className = 'wat';
       const titel = document.createElement('strong');
-      titel.textContent = r.dataset.titel;
+      titel.textContent = r.titel;
       const soort = document.createElement('span');
-      soort.textContent = maand ? 'Maandelijks' : 'Eenmalig';
+      soort.textContent = r.periodiek === 'maandelijks' ? 'Maandelijks' : 'Eenmalig';
       wat.append(titel, soort);
       const bedrag = document.createElement('span');
       bedrag.className = 'bedrag';
-      bedrag.textContent = `€ ${euro(r.dataset.bedrag)}` + (maand ? ' p/m' : '');
+      bedrag.textContent = prijsTekst(r, { kort: true });
       const beeld = document.createElement('span');
       beeld.className = 'beeld';
-      beeld.innerHTML = PADEN[r.dataset.icoon] ? icoon(r.dataset.icoon) : '';
+      beeld.innerHTML = icoon(r.icoon);
       samenvatting.append(beeld, wat, bedrag);
     }
 
@@ -200,15 +226,15 @@
         return toonFout('email', 'Vul een geldig e-mailadres in.', email);
       }
 
-      document.getElementById('periodiek').value = r.dataset.periodiek;
-      document.getElementById('bedrag').value = r.dataset.bedrag;
+      document.getElementById('periodiek').value = PERIODIEK_VOOR_BACKEND[r.periodiek];
+      document.getElementById('bedrag').value = r.bedrag;
 
       if (TESTMODUS) {
         e.preventDefault();
         const data = new FormData(form);
         data.delete('keuze');
         document.getElementById('prototype-data').textContent =
-          `Keuze: ${r.dataset.titel} (${r.dataset.periodiek === 'maandelijks' ? 'maandelijks' : 'eenmalig'})\n\n` +
+          `Keuze: ${r.titel} (${r.periodiek})\n\n` +
           `POST ${form.action}\n\n` +
           [...data].map(([k, v]) => `${k} = ${v}`).join('\n');
         document.getElementById('prototype-melding').showModal();
@@ -254,5 +280,5 @@
     return { form, gekozen, toon };
   }
 
-  window.GH = { OPTIES, icoon, euro, radio, sponsorNoot, start };
+  window.GH = { EENMALIG, MAANDELIJKS, toonKaarten, toonIconen, start };
 })();
