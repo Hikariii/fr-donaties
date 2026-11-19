@@ -74,6 +74,8 @@ body {
 .opties { display: grid; gap: .9rem; grid-template-columns: 1fr; }
 @media (min-width: 560px) { .opties { grid-template-columns: 1fr 1fr; } }
 .optie input { position: absolute; opacity: 0; pointer-events: none; }
+/* Klikken en slepen op een kaart of tegel kiest die, zonder tekst te selecteren */
+.optie label, .maand { -webkit-user-select: none; user-select: none; }
 .optie label {
   height: 100%;
   display: flex; align-items: center; gap: 1rem;

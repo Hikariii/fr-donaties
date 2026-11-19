@@ -19,6 +19,42 @@ const kaartHtml = (optie) => `
 // naar de andere pagina).
 export function toonKaarten(container, opties) {
   container.insertAdjacentHTML('afterbegin', opties.map(kaartHtml).join(''));
+  kiesOokNaSlepen(container);
+}
+
+// Indrukken en loslaten op dezelfde kaart of tegel kiest die, ook als de muis
+// tussendoor bewoog. Firefox (en Waterfox) geeft dan soms geen klik, omdat
+// indrukken en loslaten op verschillende delen van de kaart vallen.
+function kiesOokNaSlepen(container) {
+  const KAART_OF_TEGEL = '.optie label, a.maand';
+  let begin = null;
+  let netGekozen = false;
+
+  container.addEventListener('pointerdown', (e) => {
+    begin = e.button === 0 ? e.target.closest(KAART_OF_TEGEL) : null;
+  });
+  container.addEventListener('pointerup', (e) => {
+    const doel = e.target.closest(KAART_OF_TEGEL);
+    const zelfde = begin && doel === begin;
+    begin = null;
+    if (!zelfde || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+    netGekozen = true;
+    setTimeout(() => { netGekozen = false; });
+    if (doel.matches('a.maand')) {
+      location.assign(doel.href);
+    } else {
+      const radio = document.getElementById(doel.htmlFor);
+      if (!radio.checked) {
+        radio.checked = true;
+        radio.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    }
+  });
+  container.addEventListener('pointercancel', () => { begin = null; });
+  // De klik die de browser eventueel nog stuurt, is dan al afgehandeld.
+  container.addEventListener('click', (e) => {
+    if (netGekozen && e.target.closest(KAART_OF_TEGEL)) e.preventDefault();
+  }, true);
 }
 
 // Vervang elk <span data-icoon="naam"> door het icoon.
