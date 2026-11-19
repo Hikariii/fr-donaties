@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Steun maandelijks — Paraguay — Forerunner</title>
+<!--
+  LIVE: deze pagina draait in productie op forerunner.info (in een iframe) en
+  ontvangt echte donaties voor Geef hoop Paraguay (FR430). Lees
+  docs/live/README.md voordat je iets wijzigt.
+
+  Geef hoop Paraguay, maandelijks: de maandopties en de verwijzing naar sponsoren. De tegel onderaan opent index.html.
+  De opties staan in opties.js, het formulier en het versturen in formulier.js.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="gedeeld.css">
+<style>
+  /* Alleen deze pagina; de rest staat in gedeeld.css. */
+  /* De maandopties staan op een licht vlak, met de iconen in een cirkel, zoals op de flyer */
+  .cadeaus { background: var(--flyer-wit); padding: 1.1rem; }
+  .optie .icoon { width: 3.6rem; height: 3.6rem; padding: .75rem; border-radius: 50%; background: var(--flyer-cirkel); color: #fff; stroke-width: 1.8; }
+  .optie input:checked + label .icoon { background: var(--accent); color: #fff; }
+  /* Op mobiel past "€ 38,50 per maand" zo op één regel */
+  @media (max-width: 559px) { .optie .prijs { font-size: 1.45rem; white-space: nowrap; } .optie .prijs small { font-size: .8rem; } }
+  /* Drie maandopties: de tegel naar eenmalig vult het vierde vak (2×2) */
+  @media (min-width: 560px) { .maand { grid-column: auto; } }
+</style>
+</head>
+<body>
+<div class="pagina">
+  <header class="kop">
+    <div class="kop-boven">
+      <h1>Geef kansarme kinderen hoop!</h1>
+      <div class="logos">
+        <img src="img/gebed-en-zending.svg" alt="Gebed &amp; Zending" width="237" height="165">
+        <img src="img/forerunner.png" alt="Forerunner" width="400" height="229">
+      </div>
+    </div>
+    <div class="kop-raster">
+      <div class="intro">
+        <p>In de sloppenwijken van Ciudad del Este ondersteunen Jacob en Nathaly meer dan 20 gezinnen.</p>
+        <p>Kinderen krijgen voedsel, schoolspullen, persoonlijke aandacht en waar nodig medische of praktische hulp.</p>
+        <p class="doe-mee">Doe jij mee?</p>
+      </div>
+      <img class="kinderen" src="img/kinderen.png" alt="Drie lachende kinderen leunen op een houten balk" width="900" height="650">
+    </div>
+    <div class="band oranje">
+      <h2>Structureel helpen? Steun maandelijks</h2>
+    </div>
+  </header>
+
+  <form id="donatie">
+    <section id="stap-keuze" class="flyer-blok" aria-label="Kies je maandelijkse steun">
+      <div class="cadeaus">
+        <div class="opties">
+          <a class="maand geel" href="index.html">
+            <span data-icoon="cadeau"></span>
+            <span class="wat"><strong>Liever eenmalig een cadeau geven?</strong><span class="sub">Schoolgeld, een doktersbezoek, een voedselpakket of kleding</span></span>
+            <span class="pijl" aria-hidden="true">→</span>
+          </a>
+        </div>
+        <p class="fout" id="fout-keuze" aria-live="polite"></p>
+      </div>
+    </section>
+    <p class="sponsor-noot">Wil je een vast kind volgen? <a href="https://gebedenzending.nl/sponsor-een-kind-in-paraguay/" target="_blank" rel="noopener">Lees hoe je sponsor wordt bij Gebed &amp; Zending</a>.</p>
+
+    <section class="stap" id="stap-gegevens">
+      <h2>Je gegevens</h2>
+    </section>
+  </form>
+</div>
+
+<script type="module">
+  import { MAANDELIJKS } from './opties.js';
+  import { toonKaarten, toonIconen } from './kaarten.js';
+  import { startFormulier } from './formulier.js';
+  import { meldHoogteAanOuder } from './inbedding.js';
+
+  toonKaarten(document.querySelector('.opties'), MAANDELIJKS);
+  toonIconen();
+  startFormulier(document.getElementById('donatie'), MAANDELIJKS);
+  meldHoogteAanOuder();
+</script>
+</body>
+</html>

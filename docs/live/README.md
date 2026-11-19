@@ -29,8 +29,16 @@ afbeeldingen.
 | --- | --- | --- | --- |
 | Grace Home, eenmalig | `grace-home/index.html` | `https://hikariii.github.io/fr-donaties/live/grace-home/` | FR230 |
 | Grace Home, maandelijks | `grace-home/maandelijks.html` | `https://hikariii.github.io/fr-donaties/live/grace-home/maandelijks.html` | FR230 |
+| Geef hoop Paraguay, eenmalig | `geef-hoop-paraguay/index.html` | `https://hikariii.github.io/fr-donaties/live/geef-hoop-paraguay/` | FR430 |
+| Geef hoop Paraguay, maandelijks | `geef-hoop-paraguay/maandelijks.html` | `https://hikariii.github.io/fr-donaties/live/geef-hoop-paraguay/maandelijks.html` | FR430 |
 
-## De bestanden van Grace Home
+Elke actie heeft een eigen map, en de mappen delen ook onderling geen code.
+Geef hoop Paraguay is begonnen als kopie van Grace Home. Een fix in de ene map
+moet je dus ook in de andere doen, als die daar nodig is.
+
+## De bestanden van een actie
+
+Grace Home en Geef hoop Paraguay hebben dezelfde bestanden:
 
 | Bestand | Wat |
 | --- | --- |
@@ -40,6 +48,7 @@ afbeeldingen.
 | `kaarten.js` | De kaarten van de opties. |
 | `opmaak.js` | Bedragen als tekst (`€ 12,50 per maand`). |
 | `iconen.js` | De iconen (Lucide). |
+| `img/` | De foto en, bij Paraguay, de logo's van Gebed & Zending en Forerunner. |
 | `inbedding.js` | Meldt de hoogte aan forerunner.info, zodat de iframe meegroeit. |
 | `gedeeld.css` | De stijl van beide pagina's. Wat maar op één pagina nodig is, staat in die pagina. |
 
@@ -59,7 +68,7 @@ de code te veranderen.
 1. Maak een branch en wijzig de pagina in deze map.
 2. Test lokaal, met een server in `docs/`
    (`python3 -m http.server 8765`), op
-   `http://localhost:8765/live/grace-home/?test`:
+   `http://localhost:8765/live/<map>/?test`:
    - op mobiel en desktop, los en in een iframe
      (`http://localhost:8765/grace-home-actie/`);
    - wat het formulier verstuurt, voor eenmalig en maandelijks;
@@ -84,7 +93,8 @@ de code te veranderen.
 ## Inbouwen op forerunner.info
 
 Zet op de pagina in Squarespace een Code Block met de iframe en een klein
-script dat de hoogte van de iframe aanpast:
+script dat de hoogte van de iframe aanpast. Dit is het blok van Grace Home, op
+<https://forerunner.info/doneer-grace-home>:
 
 ```html
 <iframe id="grace-home-actie"
@@ -97,6 +107,28 @@ script dat de hoogte van de iframe aanpast:
   window.addEventListener('message', function (e) {
     if (e.origin !== 'https://hikariii.github.io') return;
     var f = document.getElementById('grace-home-actie');
+    if (!f || e.source !== f.contentWindow) return;
+    if (e.data && e.data.type === 'forerunner-actie-hoogte') {
+      f.style.height = Math.ceil(e.data.hoogte) + 'px';
+    }
+  });
+</script>
+```
+
+Voor Geef hoop Paraguay, op <https://forerunner.info/geef-hoop-paraguay>, is het
+hetzelfde blok met een eigen `id`, `src` en `title`:
+
+```html
+<iframe id="geef-hoop-paraguay"
+        src="https://hikariii.github.io/fr-donaties/live/geef-hoop-paraguay/"
+        title="Geef kansarme kinderen hoop: Paraguay"
+        scrolling="no"
+        style="display:block;width:100%;border:0;height:600px;"></iframe>
+<script>
+  // De pagina in de iframe meldt haar hoogte; pas de iframe daarop aan.
+  window.addEventListener('message', function (e) {
+    if (e.origin !== 'https://hikariii.github.io') return;
+    var f = document.getElementById('geef-hoop-paraguay');
     if (!f || e.source !== f.contentWindow) return;
     if (e.data && e.data.type === 'forerunner-actie-hoogte') {
       f.style.height = Math.ceil(e.data.hoogte) + 'px';

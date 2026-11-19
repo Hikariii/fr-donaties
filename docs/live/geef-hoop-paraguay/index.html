@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Geef kansarme kinderen hoop — Paraguay — Forerunner</title>
+<!--
+  LIVE: deze pagina draait in productie op forerunner.info (in een iframe) en
+  ontvangt echte donaties voor Geef hoop Paraguay (FR430). Lees
+  docs/live/README.md voordat je iets wijzigt.
+
+  Geef hoop Paraguay, eenmalig: de cadeaus van de flyer. De tegel onderaan opent maandelijks.html.
+  De opties staan in opties.js, het formulier en het versturen in formulier.js.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="gedeeld.css">
+</head>
+<body>
+<div class="pagina">
+  <header class="kop">
+    <div class="kop-boven">
+      <h1>Geef kansarme kinderen hoop!</h1>
+      <div class="logos">
+        <img src="img/gebed-en-zending.svg" alt="Gebed &amp; Zending" width="237" height="165">
+        <img src="img/forerunner.png" alt="Forerunner" width="400" height="229">
+      </div>
+    </div>
+    <div class="kop-raster">
+      <div class="intro">
+        <p>In de sloppenwijken van Ciudad del Este ondersteunen Jacob en Nathaly meer dan 20 gezinnen.</p>
+        <p>Kinderen krijgen voedsel, schoolspullen, persoonlijke aandacht en waar nodig medische of praktische hulp.</p>
+        <p class="doe-mee">Doe jij mee?</p>
+      </div>
+      <img class="kinderen" src="img/kinderen.png" alt="Drie lachende kinderen leunen op een houten balk" width="900" height="650">
+    </div>
+    <div class="band">
+      <h2>Geef een cadeau</h2>
+    </div>
+  </header>
+
+  <form id="donatie">
+    <section id="stap-keuze" class="flyer-blok" aria-label="Kies je cadeau">
+      <div class="cadeaus">
+        <div class="opties">
+          <a class="maand" href="maandelijks.html">
+            <span data-icoon="hart"></span>
+            <span class="wat"><strong>Structureel helpen?</strong><span class="sub">Steun maandelijks of sponsor een kind</span></span>
+            <span class="pijl" aria-hidden="true">→</span>
+          </a>
+        </div>
+        <p class="fout" id="fout-keuze" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="stap" id="stap-gegevens">
+      <h2>Je gegevens</h2>
+    </section>
+  </form>
+</div>
+
+<script type="module">
+  import { EENMALIG } from './opties.js';
+  import { toonKaarten, toonIconen } from './kaarten.js';
+  import { startFormulier } from './formulier.js';
+  import { meldHoogteAanOuder } from './inbedding.js';
+
+  toonKaarten(document.querySelector('.opties'), EENMALIG);
+  toonIconen();
+  startFormulier(document.getElementById('donatie'), EENMALIG);
+  meldHoogteAanOuder();
+</script>
+</body>
+</html>
