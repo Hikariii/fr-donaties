@@ -48,7 +48,7 @@ Grace Home en Geef hoop Paraguay hebben dezelfde bestanden:
 | `kaarten.js` | De kaarten van de opties. |
 | `opmaak.js` | Bedragen als tekst (`€ 12,50 per maand`). |
 | `iconen.js` | De iconen (Lucide). |
-| `img/` | De foto en, bij Paraguay, de logo's van Gebed & Zending en Forerunner. |
+| `img/` | De foto in de kop. |
 | `inbedding.js` | Meldt de hoogte aan forerunner.info, zodat de iframe meegroeit. |
 | `gedeeld.css` | De stijl van beide pagina's. Wat maar op één pagina nodig is, staat in die pagina. |
 
