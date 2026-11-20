@@ -1,2 +1,9 @@
 .idea
-.plan/
+
+# Worktrees van een agent
+.claude/worktrees/
+
+# De gedeelde map voor plannen. De hook worktree-link maakt de map aan in de
+# hoofdmap, en koppelt de map aan elke worktree.
+# Het patroon heeft geen slash, want een slash laat een symbolische koppeling staan.
+.plan

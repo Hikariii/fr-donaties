@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# SessionStart-hook: koppel de gedeelde map .plan van de hoofdmap aan de worktree.
+# Een plan, een onderzoek of een aantekening blijft zo staan als de worktree verdwijnt.
+# De koppeling is relatief, zodat het pad ook in een container klopt.
+
+INPUT=$(cat)
+# Zonder jq valt de hook terug op de map van het project. Claude Code geeft die map aan elke hook mee.
+CWD=$(echo "$INPUT" | jq -r '.cwd // empty' 2>/dev/null)
+CWD="${CWD:-$CLAUDE_PROJECT_DIR}"
+[ -n "$CWD" ] || exit 0
+
+worktree_root=$(git -C "$CWD" rev-parse --show-toplevel 2>/dev/null) || exit 0
+main_root=$(dirname "$(git -C "$CWD" rev-parse --path-format=absolute --git-common-dir 2>/dev/null)")
+
+# De map .plan staat niet in git, dus een verse kloon heeft de map niet.
+# Maak de map altijd aan, ook in de hoofdmap zonder worktree.
+mkdir -p "$main_root/.plan"
+
+# In de hoofdmap valt er verder niets te koppelen.
+[ "$worktree_root" = "$main_root" ] && exit 0
+
+# Het relatieve pad van map $1 naar pad $2. Beide paden zijn absoluut.
+# De realpath van macOS kent geen --relative-to, dus de hook rekent zelf.
+relative_to() {
+	local from="${1#/}" to="${2#/}" up=''
+	# Laat de delen weg die de twee paden delen.
+	while [ -n "$from" ] && [ -n "$to" ] && [ "${from%%/*}" = "${to%%/*}" ]; do
+		case "$from" in */*) from="${from#*/}" ;; *) from='' ;; esac
+		case "$to" in */*) to="${to#*/}" ;; *) to='' ;; esac
+	done
+	# Eén ../ per deel dat in $from overblijft.
+	while [ -n "$from" ]; do
+		up="../$up"
+		case "$from" in */*) from="${from#*/}" ;; *) from='' ;; esac
+	done
+	_relpath="$up${to:-.}"
+}
+
+plan_dest="$worktree_root/.plan"
+
+# Een worktree van voor deze hook heeft een eigen map .plan met alleen .gitkeep erin.
+# Ruim die map op, want anders blijft de koppeling achterwege.
+if [ -d "$plan_dest" ] && [ ! -L "$plan_dest" ]; then
+	rm -f "$plan_dest/.gitkeep"
+	rmdir "$plan_dest" 2>/dev/null
+fi
+
+# Een echte map met werk erin blijft staan. De hook overschrijft geen werk.
+if [ ! -e "$plan_dest" ] || [ -L "$plan_dest" ]; then
+	relative_to "$worktree_root" "$main_root/.plan"
+	ln -sfn "$_relpath" "$plan_dest"
+else
+	echo "worktree-link: $plan_dest bestaat en bevat bestanden. Verplaats de inhoud naar $main_root/.plan en start de sessie opnieuw." >&2
+fi
+
+exit 0
