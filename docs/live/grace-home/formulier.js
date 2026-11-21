@@ -140,7 +140,7 @@ export function startFormulier(form, opties) {
     email: form.querySelector('#fout-email'),
   };
   const radios = () => form.querySelectorAll('input[name="keuze"]');
-  const gekozenOptie = () => opties.find((o) => o.id === form.elements.keuze.value);
+  const gekozenOptie = () => opties.find((o) => !o.link && o.id === form.elements.keuze.value);
 
   function werkKeuzeBij() {
     const optie = gekozenOptie();

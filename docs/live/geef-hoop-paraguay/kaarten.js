@@ -2,13 +2,32 @@
 import { icoon } from './iconen.js';
 import { bedragTekst } from './opmaak.js';
 
-const kaartHtml = (optie) => `
+// Een optie met een link is geen gift: de kaart opent het aanmeldformulier in
+// een nieuw tabblad. Zo'n kaart heeft geen radioknop, dus het formulier kan
+// haar nooit versturen.
+const prijsHtml = (optie) =>
+  `${optie.link ? '<small class="vanaf">vanaf</small> ' : ''}€ ${bedragTekst(optie.bedrag)}${optie.periodiek === 'maandelijks' ? ' <small>per maand</small>' : ''}`;
+
+const linkKaartHtml = (optie) => `
+    <div class="optie">
+      <a class="aanmelden" href="${optie.link}" target="_blank" rel="noopener" draggable="false">
+        ${icoon(optie.icoon)}
+        <span class="wat">
+          <span class="prijs">${prijsHtml(optie)}</span>
+          <span class="titel">${optie.kaarttitel || optie.titel}</span>${optie.uitleg ? `
+          <span class="uitleg">${optie.uitleg}</span>` : ''}
+          <span class="meld-aan">Meld je aan als sponsor <span aria-hidden="true">↗</span></span>
+        </span>
+      </a>
+    </div>`;
+
+const kaartHtml = (optie) => optie.link ? linkKaartHtml(optie) : `
     <div class="optie">
       <input type="radio" name="keuze" id="k-${optie.id}" value="${optie.id}">
       <label for="k-${optie.id}">
         ${icoon(optie.icoon)}
         <span class="wat">
-          <span class="prijs">€ ${bedragTekst(optie.bedrag)}${optie.periodiek === 'maandelijks' ? ' <small>per maand</small>' : ''}</span>
+          <span class="prijs">${prijsHtml(optie)}</span>
           <span class="titel">${optie.kaarttitel || optie.titel}</span>${optie.uitleg ? `
           <span class="uitleg">${optie.uitleg}</span>` : ''}
         </span>
@@ -26,7 +45,7 @@ export function toonKaarten(container, opties) {
 // tussendoor bewoog. Firefox (en Waterfox) geeft dan soms geen klik, omdat
 // indrukken en loslaten op verschillende delen van de kaart vallen.
 function kiesOokNaSlepen(container) {
-  const KAART_OF_TEGEL = '.optie label, a.maand';
+  const KAART_OF_TEGEL = '.optie label, a.maand, a.aanmelden';
   let begin = null;
   let netGekozen = false;
 
@@ -40,7 +59,10 @@ function kiesOokNaSlepen(container) {
     if (!zelfde || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
     netGekozen = true;
     setTimeout(() => { netGekozen = false; });
-    if (doel.matches('a.maand')) {
+    if (doel.matches('a.aanmelden')) {
+      // Het aanmeldformulier opent in een nieuw tabblad, zoals target="_blank".
+      window.open(doel.href, '_blank', 'noopener');
+    } else if (doel.matches('a.maand')) {
       location.assign(doel.href);
     } else {
       const radio = document.getElementById(doel.htmlFor);
