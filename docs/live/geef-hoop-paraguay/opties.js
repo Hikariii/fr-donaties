@@ -8,6 +8,10 @@
 //   kaarttitel  (optioneel) een langere titel op de kaart
 //   uitleg      (optioneel) een regel onder de titel
 //   icoon       een naam uit iconen.js
+//   link        (optioneel) de kaart is geen gift, maar opent dit adres in een
+//               nieuw tabblad (het aanmeldformulier voor sponsors). Het bedrag
+//               staat er dan als "vanaf"-bedrag op. Zo'n kaart komt nooit in
+//               een betaling.
 //
 // De titels volgen de flyer. Elke lijst staat aflopend op bedrag.
 
@@ -19,7 +23,7 @@ export const EENMALIG = [
 ];
 
 export const MAANDELIJKS = [
-  { id: 'sponsor', periodiek: 'maandelijks', bedrag: '38.50', titel: 'Sponsor een kind of student', uitleg: 'Voedsel, scholing en medische zorg.', icoon: 'persoon' },
+  { id: 'sponsor', periodiek: 'maandelijks', bedrag: '38.50', titel: 'Sponsor een kind of student', link: 'https://docs.google.com/forms/d/e/1FAIpQLSfLauWbS1FDccovM7nZ_vbNq_LulbYU0hX1z8O8wdp8YmC4ZA/viewform', uitleg: 'Voedsel, scholing en medische zorg.', icoon: 'persoon' },
   { id: 'voedselpakket-maand', periodiek: 'maandelijks', bedrag: '30', titel: 'Voedselpakket voor een gezin', uitleg: 'Elke maand eten op tafel voor een gezin.', icoon: 'mand' },
   { id: 'scholing-1', periodiek: 'maandelijks', bedrag: '12.50', titel: 'Schoolgeld voor een kind', uitleg: 'Een kind gaat naar school, zolang jij geeft.', icoon: 'hoed' },
 ];

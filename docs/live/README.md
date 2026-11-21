@@ -43,7 +43,7 @@ Grace Home en Geef hoop Paraguay hebben dezelfde bestanden:
 | Bestand | Wat |
 | --- | --- |
 | `index.html`, `maandelijks.html` | De twee pagina's: de kop, de tegel naar de andere pagina en een klein script dat de modules start. |
-| `opties.js` | De opties: bedrag, periodiek, titel en icoon. Een optie toevoegen of wijzigen doe je hier. |
+| `opties.js` | De opties: bedrag, periodiek, titel en icoon. Een optie toevoegen of wijzigen doe je hier. Een optie met `link` is geen gift: die kaart opent het aanmeldformulier voor sponsors in een nieuw tabblad. |
 | `formulier.js` | Het formulier: de velden, de controle, het versturen naar de backend en de testmodus. Hier staan `PROJECTCODE` en `DONATIE_URL`. |
 | `kaarten.js` | De kaarten van de opties. |
 | `opmaak.js` | Bedragen als tekst (`€ 12,50 per maand`). |
@@ -93,8 +93,11 @@ de code te veranderen.
 ## Inbouwen op forerunner.info
 
 Zet op de pagina in Squarespace een Code Block met de iframe en een klein
-script dat de hoogte van de iframe aanpast. Dit is het blok van Grace Home, op
-<https://forerunner.info/doneer-grace-home>:
+script. Het script past de hoogte van de iframe aan. Met `?maandelijks` achter
+het adres van de pagina start de iframe op de maandelijkse pagina, bijvoorbeeld
+`https://www.forerunner.nl/geef-hoop-grace-home?maandelijks`. Zonder die
+parameter start de iframe op de eenmalige pagina. Dit is het blok van Grace Home, op
+<https://www.forerunner.nl/geef-hoop-grace-home>:
 
 ```html
 <iframe id="grace-home-actie"
@@ -103,19 +106,29 @@ script dat de hoogte van de iframe aanpast. Dit is het blok van Grace Home, op
         scrolling="no"
         style="display:block;width:100%;border:0;height:600px;"></iframe>
 <script>
-  // De pagina in de iframe meldt haar hoogte; pas de iframe daarop aan.
-  window.addEventListener('message', function (e) {
-    if (e.origin !== 'https://hikariii.github.io') return;
+  (function () {
     var f = document.getElementById('grace-home-actie');
-    if (!f || e.source !== f.contentWindow) return;
-    if (e.data && e.data.type === 'forerunner-actie-hoogte') {
-      f.style.height = Math.ceil(e.data.hoogte) + 'px';
+
+    // Met ?maandelijks achter het adres van deze pagina start de iframe op de
+    // maandelijkse pagina. Het script leest alleen deze ene parameter, en geeft
+    // niets door aan de iframe.
+    if (new URLSearchParams(window.location.search).has('maandelijks')) {
+      f.src = 'https://hikariii.github.io/fr-donaties/live/grace-home/maandelijks.html';
     }
-  });
+
+    // De pagina in de iframe meldt haar hoogte; pas de iframe daarop aan.
+    window.addEventListener('message', function (e) {
+      if (e.origin !== 'https://hikariii.github.io') return;
+      if (e.source !== f.contentWindow) return;
+      if (e.data && e.data.type === 'forerunner-actie-hoogte') {
+        f.style.height = Math.ceil(e.data.hoogte) + 'px';
+      }
+    });
+  })();
 </script>
 ```
 
-Voor Geef hoop Paraguay, op <https://forerunner.info/geef-hoop-paraguay>, is het
+Voor Geef hoop Paraguay, op <https://www.forerunner.nl/geef-hoop-paraguay>, is het
 hetzelfde blok met een eigen `id`, `src` en `title`:
 
 ```html
@@ -125,15 +138,25 @@ hetzelfde blok met een eigen `id`, `src` en `title`:
         scrolling="no"
         style="display:block;width:100%;border:0;height:600px;"></iframe>
 <script>
-  // De pagina in de iframe meldt haar hoogte; pas de iframe daarop aan.
-  window.addEventListener('message', function (e) {
-    if (e.origin !== 'https://hikariii.github.io') return;
+  (function () {
     var f = document.getElementById('geef-hoop-paraguay');
-    if (!f || e.source !== f.contentWindow) return;
-    if (e.data && e.data.type === 'forerunner-actie-hoogte') {
-      f.style.height = Math.ceil(e.data.hoogte) + 'px';
+
+    // Met ?maandelijks achter het adres van deze pagina start de iframe op de
+    // maandelijkse pagina. Het script leest alleen deze ene parameter, en geeft
+    // niets door aan de iframe.
+    if (new URLSearchParams(window.location.search).has('maandelijks')) {
+      f.src = 'https://hikariii.github.io/fr-donaties/live/geef-hoop-paraguay/maandelijks.html';
     }
-  });
+
+    // De pagina in de iframe meldt haar hoogte; pas de iframe daarop aan.
+    window.addEventListener('message', function (e) {
+      if (e.origin !== 'https://hikariii.github.io') return;
+      if (e.source !== f.contentWindow) return;
+      if (e.data && e.data.type === 'forerunner-actie-hoogte') {
+        f.style.height = Math.ceil(e.data.hoogte) + 'px';
+      }
+    });
+  })();
 </script>
 ```
 
