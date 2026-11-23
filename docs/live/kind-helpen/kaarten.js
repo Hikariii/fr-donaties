@@ -16,13 +16,13 @@ const kaartHtml = (optie) => `
           </label>
         </div>`;
 
-// De link om zelf een bedrag te kiezen opent in het hele venster, niet in de iframe.
+// De link om zelf een bedrag te kiezen opent in een nieuw tabblad.
 const groepHtml = ({ kop, projectcode, opties, zelfKiezen }) => `
     <section class="groep" aria-labelledby="kop-${projectcode}">
       <h3 id="kop-${projectcode}">${kop}</h3>
       <div class="opties">${opties.map(kaartHtml).join('')}
       </div>
-      <p class="zelf-kiezen"><a href="${zelfKiezen.link}" target="_top">${zelfKiezen.tekst}</a>.</p>
+      <p class="zelf-kiezen"><a href="${zelfKiezen.link}" target="_blank" rel="noopener">${zelfKiezen.tekst}</a>.</p>
     </section>`;
 
 // Zet een groep per land in de container.

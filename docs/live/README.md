@@ -207,5 +207,10 @@ met een `sandbox`-attribuut moet daarom `allow-top-navigation` toestaan.
 - Maak het blok in de editor klein (rond 600px) en zet de Row Count van de
   sectie zo laag als kan, op desktop en op mobiel. De rijen groeien op de
   live site mee met het formulier.
+- Blijft er toch witruimte onder het formulier, zet de starthoogte dan nog
+  lager, bijvoorbeeld `height:100px`, en trek de sectie in de editor omlaag
+  tot het blok. Op /kind-sponsoren is dat nodig. De pagina in de iframe meldt
+  haar hoogte na het laden een paar keer opnieuw (`inbedding.js`), dus de
+  iframe krijgt op de live site toch de goede hoogte.
 - Zet niets onder het blok in dezelfde sectie, en zet "Fill Screen" uit.
 - Bekijk het resultaat op de live site, niet in de editor.
