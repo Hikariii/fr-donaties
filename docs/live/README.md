@@ -31,8 +31,14 @@ afbeeldingen.
 | Grace Home, maandelijks | `grace-home/maandelijks.html` | `https://hikariii.github.io/fr-donaties/live/grace-home/maandelijks.html` | FR230 |
 | Geef hoop Paraguay, eenmalig | `geef-hoop-paraguay/index.html` | `https://hikariii.github.io/fr-donaties/live/geef-hoop-paraguay/` | FR430 |
 | Geef hoop Paraguay, maandelijks | `geef-hoop-paraguay/maandelijks.html` | `https://hikariii.github.io/fr-donaties/live/geef-hoop-paraguay/maandelijks.html` | FR430 |
+| Een kind helpen, eenmalig | `kind-helpen/index.html` | `https://hikariii.github.io/fr-donaties/live/kind-helpen/` | FR230 en FR430 |
 
 Elke actie heeft een eigen map, en de mappen delen ook onderling geen code.
+`kind-helpen/` staat op <https://www.forerunner.nl/kind-sponsoren>: één
+formulier met de eenmalige giften van Grace Home (links) en Paraguay
+(rechts). De donateur kiest één gift; de projectcode volgt die gift. De giften
+staan in `kind-helpen/opties.js`, overgenomen van de twee acties. Wijzig je
+daar een gift, kijk dan ook in `kind-helpen/`.
 Geef hoop Paraguay is begonnen als kopie van Grace Home. Een fix in de ene map
 moet je dus ook in de andere doen, als die daar nodig is.
 
@@ -148,6 +154,35 @@ hetzelfde blok met een eigen `id`, `src` en `title`:
       f.src = 'https://hikariii.github.io/fr-donaties/live/geef-hoop-paraguay/maandelijks.html';
     }
 
+    // De pagina in de iframe meldt haar hoogte; pas de iframe daarop aan.
+    window.addEventListener('message', function (e) {
+      if (e.origin !== 'https://hikariii.github.io') return;
+      if (e.source !== f.contentWindow) return;
+      if (e.data && e.data.type === 'forerunner-actie-hoogte') {
+        f.style.height = Math.ceil(e.data.hoogte) + 'px';
+      }
+    });
+  })();
+</script>
+```
+
+Voor "Een kind helpen", op <https://www.forerunner.nl/kind-sponsoren>, in de
+sectie "Een kind helpen zonder sponsor te worden": één Code Block op de plek
+van de twee prijslijsten. Zet het blok in de Fluid Engine op de volle
+contentbreedte (raster 2/26), even breed als de blokken in de secties erboven;
+de H2 en de intro mogen smaller blijven. De regels "Of kies zelf een
+bedrag" staan in het formulier, onder elke kolom. De pagina heeft een
+doorzichtige achtergrond, dus de kleur van de sectie blijft zichtbaar.
+
+```html
+<iframe id="kind-helpen"
+        src="https://hikariii.github.io/fr-donaties/live/kind-helpen/"
+        title="Een kind helpen: Grace Home of Paraguay"
+        scrolling="no"
+        style="display:block;width:100%;border:0;height:600px;"></iframe>
+<script>
+  (function () {
+    var f = document.getElementById('kind-helpen');
     // De pagina in de iframe meldt haar hoogte; pas de iframe daarop aan.
     window.addEventListener('message', function (e) {
       if (e.origin !== 'https://hikariii.github.io') return;
