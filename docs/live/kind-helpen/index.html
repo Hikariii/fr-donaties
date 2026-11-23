@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Een kind helpen — Forerunner</title>
+<!--
+  LIVE: deze pagina draait in productie op forerunner.nl/kind-sponsoren (in een
+  iframe) en ontvangt echte donaties voor Grace Home (FR230) en Paraguay
+  (FR430). Lees docs/live/README.md voordat je iets wijzigt.
+
+  Een kind helpen: eenmalige giften voor India (links) en Paraguay (rechts),
+  één keuze en één formulier. De giften staan in opties.js, het formulier en het versturen
+  in formulier.js.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="gedeeld.css">
+</head>
+<body>
+<div class="pagina">
+  <form id="donatie">
+    <div class="groepen kolommen" aria-label="Kies een gift"></div>
+    <p class="fout" id="fout-keuze" aria-live="polite"></p>
+    <p class="elke-maand">Liever elke maand geven? Kies een maandelijkse gift voor <a href="https://www.forerunner.nl/geef-hoop-grace-home?maandelijks" target="_top">Grace Home</a> of voor <a href="https://www.forerunner.nl/geef-hoop-paraguay?maandelijks" target="_top">Paraguay</a>.</p>
+
+    <section class="stap" id="stap-gegevens">
+      <h2>Je gegevens</h2>
+    </section>
+  </form>
+</div>
+
+<script type="module">
+  import { LANDEN, GIFTEN } from './opties.js';
+  import { toonGroepen } from './kaarten.js';
+  import { startFormulier } from './formulier.js';
+  import { meldHoogteAanOuder } from './inbedding.js';
+
+  toonGroepen(document.querySelector('.groepen'), LANDEN);
+  startFormulier(document.getElementById('donatie'), GIFTEN);
+  meldHoogteAanOuder();
+</script>
+</body>
+</html>
